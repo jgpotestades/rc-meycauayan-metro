@@ -20,20 +20,23 @@ const initialActivities = [
 
 export default function Home() {
   // Navigation Trackers
-  const [activeTab, setActiveTab] = useState<'public' | 'officers-tab'>('public');
   const [activeForm, setActiveForm] = useState<'inquiry' | 'member' | 'donate'>('inquiry');
   const [activityFilter, setActivityFilter] = useState<'All' | 'Project' | 'News'>('All');
   const [showScrollButton, setShowScrollButton] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  // Staging vs Production States
+  // -------------------------------------------------------------
+  // TWO-TRACK ENVIRONMENT ARCHITECTURE: PRODUCTION VS STAGING
+  // -------------------------------------------------------------
+  // Live State (What public web users view natively)
   const [prodUsers, setProdUsers] = useState(initialUsers);
   const [prodActivities, setProdActivities] = useState(initialActivities);
   const [prodHeroTitle, setProdHeroTitle] = useState("Making a Lasting Impact in Meycauayan");
   const [prodHeroSub, setProdHeroSub] = useState("We are community leaders, neighbors, and problem solvers coming together to create positive, sustainable change across Bulacan through hands-on service.");
   const [prodHeroBgUrl, setProdHeroBgUrl] = useState("https://images.unsplash.com/photo-1593113598332-cd288d649433?auto=format&fit=crop&q=80&w=1920");
 
+  // Sandbox Staging State (Safe editing canvas)
   const [stageUsers, setStageUsers] = useState(initialUsers);
   const [stageActivities, setStageActivities] = useState(initialActivities);
   const [stageHeroTitle, setStageHeroTitle] = useState("Making a Lasting Impact in Meycauayan");
@@ -57,19 +60,6 @@ export default function Home() {
     window.addEventListener('scroll', handleScrollToggle);
     return () => window.removeEventListener('scroll', handleScrollToggle);
   }, []);
-
-  // Interceptor function to route anchor jumps back to public layout smoothly if clicked from another tab view
-  const handleAnchorNavigation = (targetId: string) => {
-    setMobileMenuOpen(false);
-    if (activeTab !== 'public') {
-      setActiveTab('public');
-      // Timeout lets the layout state repaint back to public before triggering the scrolling anchor axis positioning calculation
-      setTimeout(() => {
-        const targetElement = document.getElementById(targetId);
-        if (targetElement) targetElement.scrollIntoView({ behavior: 'smooth' });
-      }, 100);
-    }
-  };
 
   const handleAuthSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -98,9 +88,13 @@ export default function Home() {
     }
   };
 
+  const handleLinkClick = () => {
+    setMobileMenuOpen(false);
+  };
+
   const clearAuthFields = () => { setUsernameInput(''); setPasswordInput(''); };
 
-  // CRUD Sandbox Mutations
+  // CRUD Mutations
   const saveUserEditToStage = (e: React.FormEvent) => {
     e.preventDefault();
     if (!editingUser) return;
@@ -167,22 +161,20 @@ export default function Home() {
       {/* 1. HEADER NAVIGATION BAR */}
       <header className="sticky top-0 z-50 bg-sky-900 text-white shadow-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex justify-between items-center">
-          <button onClick={() => { setActiveTab('public'); setMobileMenuOpen(false); }} className="group block bg-transparent border-none outline-none cursor-pointer text-left">
+          <a href="#top" onClick={handleLinkClick} className="group block bg-transparent border-none outline-none cursor-pointer text-left no-underline">
             <span className="text-lg sm:text-xl font-bold tracking-wide text-white group-hover:text-amber-400 transition block">ROTARY CLUB OF</span>
             <span className="block text-xs sm:text-sm font-semibold text-amber-500 group-hover:text-amber-300 tracking-wider transition">MEYCAUAYAN METRO</span>
-          </button>
+          </a>
           
-          {/* Desktop Navigation Links - ALWAYS Persistent */}
-          <nav className="hidden md:flex gap-6 lg:gap-8 text-sm font-medium items-center">
-            <button onClick={() => setActiveTab('public')} className={`hover:text-amber-500 transition bg-transparent border-none outline-none cursor-pointer text-xs uppercase tracking-wider font-bold ${activeTab === 'public' ? 'text-amber-400 font-black underline' : ''}`}>Home</button>
-            <button onClick={() => setActiveTab('officers-tab')} className={`hover:text-amber-500 transition bg-transparent border-none outline-none cursor-pointer text-xs uppercase tracking-wider font-bold ${activeTab === 'officers-tab' ? 'text-amber-400 font-black underline' : ''}`}>Roster Officers</button>
-            
-            <a href="#about" onClick={() => handleAnchorNavigation('about')} className="hover:text-amber-500 transition text-xs uppercase tracking-wider">Who We Are</a>
-            <a href="#pillars" onClick={() => handleAnchorNavigation('pillars')} className="hover:text-amber-500 transition text-xs uppercase tracking-wider">Our Focus</a>
-            <a href="#portfolio" onClick={() => handleAnchorNavigation('portfolio')} className="hover:text-amber-500 transition text-xs uppercase tracking-wider">Projects & News</a>
-            <a href="#contact" onClick={() => handleAnchorNavigation('contact')} className="hover:text-amber-500 transition text-xs uppercase tracking-wider">Get Involved</a>
-            
-            {userSession && <a href="#control-center" className="text-emerald-400 font-black text-xs uppercase tracking-wider hover:underline">CMS Panel</a>}
+          {/* Desktop Navbar Menu */}
+          <nav className="hidden md:flex gap-5 lg:gap-7 text-xs uppercase tracking-wider font-bold items-center">
+            <a href="#top" className="hover:text-amber-400 transition text-amber-400">Home</a>
+            <a href="#about" className="hover:text-amber-400 transition">Who We Are</a>
+            <a href="#officers" className="hover:text-amber-400 transition">Roster Officers</a>
+            <a href="#pillars" className="hover:text-amber-400 transition">Our Focus</a>
+            <a href="#portfolio" className="hover:text-amber-400 transition">Projects & News</a>
+            <a href="#contact" className="hover:text-amber-400 transition">Get Involved</a>
+            {userSession && <a href="#control-center" className="text-emerald-400 font-black hover:underline normal-case">CMS Panel</a>}
           </nav>
           
           <div className="hidden md:flex items-center gap-4">
@@ -192,39 +184,37 @@ export default function Home() {
                 <button onClick={() => { setUserSession(null); setMobileMenuOpen(false); }} className="bg-red-600 hover:bg-red-700 text-white font-bold px-4 py-2 rounded-full text-xs transition border-none cursor-pointer">Logout</button>
               </div>
             ) : (
-              <button onClick={() => { setShowLoginModal(true); setMobileMenuOpen(false); }} className="bg-transparent border border-amber-500 text-amber-500 hover:bg-amber-500 hover:text-sky-950 font-bold px-5 py-2 rounded-full text-sm transition cursor-pointer">Portal Access</button>
+              <button onClick={() => { setShowLoginModal(true); setMobileMenuOpen(false); }} className="bg-transparent border border-amber-500 text-amber-500 hover:bg-amber-500 hover:text-sky-950 font-bold px-5 py-2 rounded-full text-xs uppercase tracking-wider transition cursor-pointer">Portal Access</button>
             )}
           </div>
 
-          {/* Mobile Hamburger menu toggle click target */}
           <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="md:hidden text-white hover:text-amber-400 font-bold focus:outline-none text-2xl bg-transparent border-none cursor-pointer">
             {mobileMenuOpen ? '✕' : '☰'}
           </button>
         </div>
 
-        {/* 100% PERSISTENT MOBILE NAVIGATION OVERLAY BAR DRAWER */}
+        {/* Mobile Navigation Dropdown Menu */}
         {mobileMenuOpen && (
-          <div className="md:hidden bg-sky-950 border-t border-sky-800 p-4 space-y-2.5 flex flex-col text-xs font-bold tracking-wider uppercase text-gray-200 animate-fadeIn">
-            <button onClick={() => { setActiveTab('public'); setMobileMenuOpen(false); }} className={`text-left py-2 hover:text-amber-400 bg-transparent border-none font-bold ${activeTab === 'public' ? 'text-amber-400' : ''}`}>Home</button>
-            <button onClick={() => { setActiveTab('officers-tab'); setMobileMenuOpen(false); }} className={`text-left py-2 hover:text-amber-400 bg-transparent border-none font-bold ${activeTab === 'officers-tab' ? 'text-amber-400' : ''}`}>Roster Officers</button>
-            <hr className="border-sky-800 my-1"/>
-            <a href="#about" onClick={() => handleAnchorNavigation('about')} className="hover:text-amber-400 py-1.5">Who We Are</a>
-            <a href="#pillars" onClick={() => handleAnchorNavigation('pillars')} className="hover:text-amber-400 py-1.5">Our Focus</a>
-            <a href="#portfolio" onClick={() => handleAnchorNavigation('portfolio')} className="hover:text-amber-400 py-1.5">Projects & News</a>
-            <a href="#contact" onClick={() => handleAnchorNavigation('contact')} className="hover:text-amber-400 py-1.5">Get Involved</a>
-            {userSession && <a href="#control-center" onClick={() => setMobileMenuOpen(false)} className="text-emerald-400 py-1.5 font-bold border-t border-sky-800/40">CMS Panel Workspace</a>}
-            <div className="pt-3 border-t border-sky-800">
+          <div className="md:hidden bg-sky-950 border-t border-sky-800 p-4 space-y-3 flex flex-col text-xs font-bold tracking-wider uppercase text-gray-200 animate-fadeIn">
+            <a href="#top" onClick={handleLinkClick} className="hover:text-amber-400 py-1">Home</a>
+            <a href="#about" onClick={handleLinkClick} className="hover:text-amber-400 py-1">Who We Are</a>
+            <a href="#officers" onClick={handleLinkClick} className="hover:text-amber-400 py-1">Roster Officers</a>
+            <a href="#pillars" onClick={handleLinkClick} className="hover:text-amber-400 py-1">Our Focus</a>
+            <a href="#portfolio" onClick={handleLinkClick} className="hover:text-amber-400 py-1">Projects & News</a>
+            <a href="#contact" onClick={handleLinkClick} className="hover:text-amber-400 py-1">Get Involved</a>
+            {userSession && <a href="#control-center" onClick={handleLinkClick} className="text-emerald-400 py-1 font-bold border-t border-sky-800/40 normal-case">CMS Panel Workspace</a>}
+            <div className="pt-2 border-t border-sky-800">
               {userSession ? (
-                <button onClick={() => { setUserSession(null); setMobileMenuOpen(false); }} className="w-full bg-red-600 text-white text-center font-bold py-2.5 rounded-lg border-none text-xs tracking-widest uppercase">Logout</button>
+                <button onClick={() => { setUserSession(null); setMobileMenuOpen(false); }} className="w-full bg-red-600 text-white text-center font-bold py-2.5 rounded-lg border-none text-xs tracking-widest">Logout</button>
               ) : (
-                <button onClick={() => { setShowLoginModal(true); setMobileMenuOpen(false); }} className="w-full border border-amber-500 text-amber-500 text-center font-bold py-2.5 rounded-lg bg-transparent text-xs tracking-widest uppercase">Portal Access Login</button>
+                <button onClick={() => { setShowLoginModal(true); setMobileMenuOpen(false); }} className="w-full border border-amber-500 text-amber-500 text-center font-bold py-2.5 rounded-lg bg-transparent text-xs tracking-widest">Portal Access Login</button>
               )}
             </div>
           </div>
         )}
       </header>
 
-      {/* PORTAL AUTH MODAL WINDOW */}
+      {/* SECURE PORTAL ACCESS LOGIN MODAL */}
       {showLoginModal && (
         <div className="fixed inset-0 bg-sky-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-2xl shadow-2xl border border-gray-100 max-w-md w-full p-6 sm:p-8 relative text-gray-800">
@@ -249,7 +239,9 @@ export default function Home() {
         </div>
       )}
 
-      {/* CMS CONTROL MATRIX DASHBOARD WORKSPACE CONTAINER */}
+      {/* =============================================================
+          ADMINISTRATOR CONTROL MATRIX (100% RESPONSIVE STAGING CMS)
+          ============================================================= */}
       {userSession && (
         <section id="control-center" className="bg-slate-900 text-white py-12 px-4 sm:px-6 border-b-4 border-amber-500 scroll-mt-16">
           <div className="max-w-7xl mx-auto space-y-8">
@@ -370,7 +362,7 @@ export default function Home() {
                     <div className="grid sm:grid-cols-2 gap-4 text-xs text-gray-800">
                       <div>
                         <label className="block text-gray-400 font-bold mb-1">Full Name</label>
-                        <input type="text" name="name" mountaineer="name" required value={newUser.name} onChange={(e) => setNewUser({...newUser, name: e.target.value})} className="w-full p-2 rounded border border-gray-300 text-xs focus:outline-none" placeholder="Rot. John Doe" />
+                        <input type="text" name="name" required value={newUser.name} onChange={(e) => setNewUser({...newUser, name: e.target.value})} className="w-full p-2 rounded border border-gray-300 text-xs focus:outline-none" placeholder="Rot. John Doe" />
                       </div>
                       <div>
                         <label className="block text-gray-400 font-bold mb-1">Email Interface</label>
@@ -436,88 +428,86 @@ export default function Home() {
       )}
 
       {/* =============================================================
-          TABBED COMPONENT DISPLAY ROUTER (100% RESPONSIVE PUBLIC LAYER)
+          100% RESPONSIVE DYNAMIC SINGLE-PAGE PUBLIC LAYOUT TIMELINE
           ============================================================= */}
       
-      {/* ----------------- TAB A: DEDICATED OFFICERS VIEW MODULE ----------------- */}
-      {activeTab === 'officers-tab' ? (
-        <section className="py-16 px-4 sm:px-6 bg-gray-50 min-h-[70vh] animate-fadeIn">
-          <div className="max-w-7xl mx-auto">
-            <div className="text-center max-w-2xl mx-auto mb-12 sm:mb-16">
-              <span className="text-amber-500 font-bold uppercase tracking-wider text-xs block">Our Leadership</span>
-              <h2 className="text-3xl sm:text-4xl font-extrabold text-sky-950 mt-1">Club Administration & Officers</h2>
-              <p className="text-sm text-gray-600 mt-2">Duly certified administrative registry of executives presiding over local operational developments.</p>
-            </div>
-
-            <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 sm:gap-8">
-              {displayProdOfficers.map((officer) => (
-                <div key={officer.id} className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 text-center transition duration-300 transform hover:-translate-y-1">
-                  <div className="w-16 h-16 bg-sky-100 rounded-full flex items-center justify-center mx-auto mb-4 text-sky-900 font-black text-xl shadow-inner">⚙️</div>
-                  <h3 className="text-base sm:text-lg font-black text-sky-950">{officer.name}</h3>
-                  <p className="text-xs text-amber-600 font-bold mt-1 uppercase tracking-wider">{officer.position}</p>
-                  <div className="mt-4 pt-3 border-t border-gray-100 text-xs text-gray-400 font-mono overflow-hidden text-ellipsis select-all text-center">{officer.email}</div>
-                </div>
-              ))}
+      {/* 2. DYNAMIC HERO BRAND SHOWCASE */}
+      <section 
+        className="relative min-h-[80vh] sm:min-h-[85vh] flex items-center bg-fixed bg-cover bg-center text-white px-4 sm:px-6"
+        style={{ backgroundImage: `linear-gradient(rgba(1, 58, 99, 0.85), rgba(1, 42, 74, 0.9)), url('${prodHeroBgUrl}')` }}
+      >
+        <div className="max-w-7xl mx-auto w-full grid md:grid-cols-2 gap-12 items-center relative z-10 py-12 sm:py-16">
+          <div className="text-center md:text-left">
+            <span className="bg-sky-950 text-amber-500 text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-widest">District 3770 • Service Above Self</span>
+            <h1 className="text-3xl sm:text-4xl md:text-6xl font-extrabold tracking-tight text-white mt-4 mb-6 leading-tight">{prodHeroTitle}</h1>
+            <p className="text-sm sm:text-lg text-gray-200 mb-8 max-w-xl mx-auto md:mx-0">{prodHeroSub}</p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start max-w-md mx-auto md:max-w-none">
+              <a href="#portfolio" className="bg-white text-sky-900 font-bold px-6 py-3 rounded-lg hover:bg-amber-500 hover:text-sky-950 transition shadow-md text-center text-sm">Explore Initiatives</a>
+              <a href="#about" className="border-2 border-white text-white font-bold px-6 py-3 rounded-lg hover:bg-white/10 transition text-center text-sm">Learn More</a>
             </div>
           </div>
-        </section>
-      ) : (
-        /* ----------------- TAB B: PRODUCTION LIVE SYSTEM MAIN PAGE ----------------- */
-        <>
-          {/* PARALLAX HERO BLOCK */}
-          <section 
-            className="relative min-h-[80vh] sm:min-h-[85vh] flex items-center bg-fixed bg-cover bg-center text-white px-4 sm:px-6"
-            style={{ backgroundImage: `linear-gradient(rgba(1, 58, 99, 0.85), rgba(1, 42, 74, 0.9)), url('${prodHeroBgUrl}')` }}
-          >
-            <div className="max-w-7xl mx-auto w-full grid md:grid-cols-2 gap-12 items-center relative z-10 py-12 sm:py-16">
-              <div className="text-center md:text-left">
-                <span className="bg-sky-950 text-amber-500 text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-widest">District 3770 • Service Above Self</span>
-                <h1 className="text-3xl sm:text-4xl md:text-6xl font-extrabold tracking-tight text-white mt-4 mb-6 leading-tight">{prodHeroTitle}</h1>
-                <p className="text-sm sm:text-lg text-gray-200 mb-8 max-w-xl mx-auto md:mx-0">{prodHeroSub}</p>
-                <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start max-w-md mx-auto md:max-w-none">
-                  <a href="#portfolio" className="bg-white text-sky-900 font-bold px-6 py-3 rounded-lg hover:bg-amber-500 hover:text-sky-950 transition shadow-md text-center text-sm">Explore Initiatives</a>
-                  <a href="#about" className="border-2 border-white text-white font-bold px-6 py-3 rounded-lg hover:bg-white/10 transition text-center text-sm">Learn More</a>
-                </div>
-              </div>
-              <div className="bg-white/5 backdrop-blur-sm border border-white/10 p-6 sm:p-8 rounded-2xl shadow-2xl text-center md:text-left hidden sm:block">
-                <h3 className="text-lg sm:text-xl font-bold text-amber-500 mb-2">Fellowship Through Service</h3>
-                <p className="text-xs sm:text-sm text-gray-300 leading-relaxed">Every week, our members meet to orchestrate critical field actions. Scroll down to see our live historical impacts and explore ongoing projects.</p>
-              </div>
-            </div>
-          </section>
+          <div className="bg-white/5 backdrop-blur-sm border border-white/10 p-6 sm:p-8 rounded-2xl shadow-2xl text-center md:text-left hidden sm:block">
+            <h3 className="text-lg sm:text-xl font-bold text-amber-500 mb-2">Fellowship Through Service</h3>
+            <p className="text-xs sm:text-sm text-gray-300 leading-relaxed">Every week, our members meet to orchestrate critical field actions. Scroll down to see our live historical impacts and explore ongoing projects.</p>
+          </div>
+        </div>
+      </section>
 
-          {/* ABOUT US FRAGMENT */}
-          <section id="about" className="py-16 sm:py-20 px-4 sm:px-6 bg-white border-b border-gray-100 scroll-mt-16">
-            <div className="max-w-7xl mx-auto">
-              <div className="grid md:grid-cols-2 gap-10 sm:grid-cols-2 lg:gap-12 items-center">
+      {/* 3. ABOUT US SECTION */}
+      <section id="about" className="py-16 sm:py-20 px-4 sm:px-6 bg-white border-b border-gray-100 scroll-mt-16">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid md:grid-cols-2 gap-10 lg:gap-12 items-center">
+            <div>
+              <span className="text-amber-500 font-bold uppercase tracking-wider text-xs block">Our Heritage</span>
+              <h2 className="text-2xl sm:text-3xl font-bold text-sky-950 mt-2 mb-4">About Us & Rotary International</h2>
+              <p className="text-sm text-gray-600 leading-relaxed mb-4">Rotary International is a global network of 1.4 million neighbors, friends, leaders, and problem-solvers who see a world where people unite and take action to create lasting change — across the globe, in our communities, and in ourselves.</p>
+              <p className="text-sm text-gray-600 leading-relaxed">The **Rotary Club of Meycauayan Metro**, operating under **District 3770**, carries out this global mission locally. Our members pool professional expertise to champion civic development, health solutions, and youth literacy programs here in Meycauayan City, Bulacan.</p>
+            </div>
+            
+            <div className="bg-gray-50 p-6 sm:p-8 rounded-xl border border-gray-200 shadow-sm">
+              <h3 className="text-lg sm:text-xl font-bold text-sky-900 mb-4">Core Club History & Vision</h3>
+              <div className="border-l-4 border-amber-500 pl-4 space-y-4">
                 <div>
-                  <span className="text-amber-500 font-bold uppercase tracking-wider text-xs">Our Heritage</span>
-                  <h2 className="text-2xl sm:text-3xl font-bold text-sky-950 mt-2 mb-4">About Us & Rotary International</h2>
-                  <p className="text-sm text-gray-600 leading-relaxed mb-4">Rotary International is a global network of 1.4 million neighbors, friends, leaders, and problem-solvers who see a world where people unite and take action to create lasting change — across the globe, in our communities, and in ourselves.</p>
-                  <p className="text-sm text-gray-600 leading-relaxed">The **Rotary Club of Meycauayan Metro**, operating under **District 3770**, carries out this global mission locally. Our members pool professional expertise to champion civic development, health solutions, and youth literacy programs here in Meycauayan City, Bulacan.</p>
+                  <h4 className="font-bold text-sky-950 text-sm">The Rotary Motto</h4>
+                  <p className="text-xs text-gray-500 mt-0.5">"Service Above Self" directs every humanitarian blueprint, local donation, and fellowship project we authorize.</p>
                 </div>
-                <div className="bg-gray-50 p-6 sm:p-8 rounded-xl border border-gray-200 shadow-sm">
-                  <h3 className="text-lg sm:text-xl font-bold text-sky-900 mb-4">Core Club History & Vision</h3>
-                  <div className="border-l-4 border-amber-500 pl-4 space-y-4">
-                    <div>
-                      <h4 className="font-bold text-sky-950 text-sm">The Rotary Motto</h4>
-                      <p className="text-xs text-gray-500 mt-0.5">"Service Above Self" directs every humanitarian blueprint, local donation, and fellowship project we authorize.</p>
-                    </div>
-                    <div>
-                      <h4 className="font-bold text-sky-950 text-sm">Community Partners</h4>
-                      <p className="text-xs text-gray-500 mt-0.5">We collaborate natively with local public schools, barangay health centers, and municipal bodies to pinpoint high-need civic operations.</p>
-                    </div>
-                  </div>
+                <div>
+                  <h4 className="font-bold text-sky-950 text-sm">Community Partners</h4>
+                  <p className="text-xs text-gray-500 mt-0.5">We collaborate natively with local public schools, barangay health centers, and municipal bodies to pinpoint high-need civic operations.</p>
                 </div>
               </div>
             </div>
-          </section>
+          </div>
+        </div>
+      </section>
 
-          {/* SERVICE FOCUS PILLARS */}
-          <section id="pillars" className="py-16 sm:py-20 px-4 sm:px-6 max-w-7xl mx-auto scroll-mt-16">
-            <div className="text-center max-w-2xl mx-auto mb-12 sm:mb-16">
-              <h2 className="text-2xl sm:text-3xl font-bold text-sky-950">Areas of Service Focus</h2>
-              <p className="text-sm text-gray-600 mt-3">How the Rotary Club of Meycauayan Metro channels resources to empower our communities.</p>
+      {/* 4. DEDICATED ROSTER OFFICERS SHOWCASE (NOW INTEGRATED ON MAIN TIMELINE) */}
+      <section id="officers" className="py-16 px-4 sm:px-6 bg-gray-50 border-b border-gray-200 scroll-mt-16">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center max-w-2xl mx-auto mb-12">
+            <span className="text-amber-500 font-bold uppercase tracking-wider text-xs block">Club Leadership</span>
+            <h2 className="text-3xl font-extrabold text-sky-950 mt-1">Club Administration & Officers</h2>
+            <p className="text-sm text-gray-600 mt-2">Duly certified administrative registry of executives presiding over local operational developments.</p>
+          </div>
+
+          <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {displayProdOfficers.map((officer) => (
+              <div key={officer.id} className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 text-center hover:shadow-md transition">
+                <div className="w-16 h-16 bg-sky-100 rounded-full flex items-center justify-center mx-auto mb-4 text-sky-900 font-black text-xl shadow-inner">⚙️</div>
+                <h3 className="text-base font-black text-sky-950">{officer.name}</h3>
+                <p className="text-xs text-amber-600 font-bold mt-1 uppercase tracking-wider">{officer.position}</p>
+                <div className="mt-4 pt-3 border-t border-gray-100 text-xs text-gray-400 font-mono overflow-hidden text-ellipsis text-center select-all">{officer.email}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 5. STRATEGIC OBJECTIVE FOCUS PILLARS */}
+      <section id="pillars" className="py-16 sm:py-20 px-4 sm:px-6 max-w-7xl mx-auto scroll-mt-16">
+        <div className="text-center max-w-2xl mx-auto mb-12 sm:mb-16">
+          <h2 className="text-2xl sm:text-3xl font-bold text-sky-950">Areas of Service Focus</h2>
+          <p className="text-sm text-gray-600 mt-3">How the Rotary Club of Meycauayan Metro channels resources to empower our communities.</p>
             </div>
             <div className="grid md:grid-cols-3 gap-6 sm:gap-8">
               <div className="border border-gray-100 p-6 sm:p-8 rounded-xl bg-gray-50 hover:shadow-md transition">
@@ -536,149 +526,148 @@ export default function Home() {
                 <p className="text-xs sm:text-sm text-gray-600 leading-relaxed">Spearheading regional tree-planting programs and localized cleanup activities to preserve natural basins.</p>
               </div>
             </div>
-          </section>
+      </section>
 
-          {/* PARALLAX SEPARATOR */}
-          <section className="relative py-24 sm:py-32 bg-fixed bg-cover bg-center text-center text-white px-4 sm:px-6" style={{ backgroundImage: `linear-gradient(rgba(1, 42, 74, 0.8), rgba(1, 42, 74, 0.8)), url('https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?auto=format&fit=crop&q=80&w=1920')` }}>
-            <div className="max-w-3xl mx-auto relative z-10">
-              <h2 className="text-2xl sm:text-4xl font-extrabold mb-4 text-amber-500">One Million Saplings, Clean Waters, Bright Minds</h2>
-              <p className="text-sm sm:text-base text-gray-200">"We do not just build frameworks; we deliver immediate, transparent field resources where they matter most."</p>
+      {/* 6. PARALLAX SEPARATOR BANNER */}
+      <section className="relative py-24 sm:py-32 bg-fixed bg-cover bg-center text-center text-white px-4 sm:px-6" style={{ backgroundImage: `linear-gradient(rgba(1, 42, 74, 0.8), rgba(1, 42, 74, 0.8)), url('https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?auto=format&fit=crop&q=80&w=1920')` }}>
+        <div className="max-w-3xl mx-auto relative z-10">
+          <h2 className="text-2xl sm:text-4xl font-extrabold mb-4 text-amber-500">One Million Saplings, Clean Waters, Bright Minds</h2>
+          <p className="text-sm sm:text-base text-gray-200">"We do not just build frameworks; we deliver immediate, transparent field resources where they matter most."</p>
+        </div>
+      </section>
+
+      {/* 7. DYNAMIC CONTENT PORTFOLIO HUB */}
+      <section id="portfolio" className="py-16 sm:py-20 bg-gray-50 px-4 sm:px-6 border-b border-gray-100 scroll-mt-16">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+            <div>
+              <h2 className="text-2xl sm:text-3xl font-bold text-sky-950">Club Projects & News Feed</h2>
+              <p className="text-xs sm:text-sm text-gray-600 mt-1">Real-time content matrix showing field outcomes (Protected by staging deployment approvals).</p>
             </div>
-          </section>
+            <div className="flex bg-white rounded-lg border border-gray-200 p-1 shadow-sm w-full md:w-auto overflow-x-auto">
+              {(['All', 'Project', 'News'] as const).map((filterOpt) => (
+                <button key={filterOpt} onClick={() => setActivityFilter(filterOpt)} className={`flex-1 md:flex-initial px-4 py-1.5 rounded-md text-xs font-bold transition-all border-none cursor-pointer text-center ${activityFilter === filterOpt ? 'bg-sky-900 text-white' : 'text-gray-600 hover:text-sky-900 bg-transparent'}`}>{filterOpt === 'All' ? 'View All' : `${filterOpt}s`}</button>
+              ))}
+            </div>
+          </div>
 
-          {/* DATA FEED COMPONENT CARD HUB */}
-          <section id="portfolio" className="py-16 sm:py-20 bg-gray-50 px-4 sm:px-6 border-b border-gray-100 scroll-mt-16">
-            <div className="max-w-7xl mx-auto">
-              <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredProdActivities.map((activity) => (
+              <div key={activity.id} className="bg-white rounded-xl shadow-sm border border-gray-100 p-5 sm:p-6 flex flex-col justify-between hover:shadow-md transition relative group">
                 <div>
-                  <h2 className="text-2xl sm:text-3xl font-bold text-sky-950">Club Projects & News Feed</h2>
-                  <p className="text-xs sm:text-sm text-gray-600 mt-1">Real-time content matrix showing field outcomes (Protected by staging deployment approvals).</p>
+                  <div className="flex justify-between items-start mb-3">
+                    <span className={`text-[10px] uppercase font-extrabold tracking-wider px-2.5 py-1 rounded-full ${activity.type === 'Project' ? 'bg-emerald-50 text-emerald-700 border border-emerald-100' : 'bg-sky-50 text-sky-700 border border-sky-100'}`}>{activity.type}</span>
+                    <span className="text-xs text-gray-400 font-medium">{activity.status}</span>
+                  </div>
+                  <h3 className="text-base sm:text-lg font-bold text-sky-900 mb-1">{activity.title}</h3>
+                  <p className="text-xs font-semibold text-amber-600 mb-3">{activity.category}</p>
+                  <p className="text-xs sm:text-sm text-gray-600 leading-relaxed">{activity.description}</p>
                 </div>
-                <div className="flex bg-white rounded-lg border border-gray-200 p-1 shadow-sm w-full md:w-auto overflow-x-auto">
-                  {(['All', 'Project', 'News'] as const).map((filterOpt) => (
-                    <button key={filterOpt} onClick={() => setActivityFilter(filterOpt)} className={`flex-1 md:flex-initial px-4 py-1.5 rounded-md text-xs font-bold transition-all border-none cursor-pointer text-center ${activityFilter === filterOpt ? 'bg-sky-900 text-white' : 'text-gray-600 hover:text-sky-900 bg-transparent'}`}>{filterOpt === 'All' ? 'View All' : `${filterOpt}s`}</button>
-                  ))}
+                <div className="mt-6 pt-4 border-t border-gray-50 flex justify-between items-end">
+                  <div>
+                    <span className="text-[10px] uppercase tracking-wider font-bold text-gray-400 block mb-0.5">Recorded Impact / Date</span>
+                    <p className="text-sky-950 font-medium text-xs">{activity.detail}</p>
+                  </div>
+                  {userSession?.role === 'Super Admin' && (
+                    <button onClick={() => deleteActivityFromStage(activity.id)} className="bg-red-50 text-red-600 border border-red-100 text-[10px] px-2 py-1 rounded font-bold hover:bg-red-100 transition cursor-pointer">Delete Stage Node</button>
+                  )}
                 </div>
               </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {filteredProdActivities.map((activity) => (
-                  <div key={activity.id} className="bg-white rounded-xl shadow-sm border border-gray-100 p-5 sm:p-6 flex flex-col justify-between hover:shadow-md transition relative group">
-                    <div>
-                      <div className="flex justify-between items-start mb-3">
-                        <span className={`text-[10px] uppercase font-extrabold tracking-wider px-2.5 py-1 rounded-full ${activity.type === 'Project' ? 'bg-emerald-50 text-emerald-700 border border-emerald-100' : 'bg-sky-50 text-sky-700 border border-sky-100'}`}>{activity.type}</span>
-                        <span className="text-xs text-gray-400 font-medium">{activity.status}</span>
-                      </div>
-                      <h3 className="text-base sm:text-lg font-bold text-sky-900 mb-1">{activity.title}</h3>
-                      <p className="text-xs font-semibold text-amber-600 mb-3">{activity.category}</p>
-                      <p className="text-xs sm:text-sm text-gray-600 leading-relaxed">{activity.description}</p>
-                    </div>
-                    <div className="mt-6 pt-4 border-t border-gray-50 flex justify-between items-end">
-                      <div>
-                        <span className="text-[10px] uppercase tracking-wider font-bold text-gray-400 block mb-0.5">Recorded Impact / Date</span>
-                        <p className="text-sky-950 font-medium text-xs">{activity.detail}</p>
-                      </div>
-                      {userSession?.role === 'Super Admin' && (
-                        <button onClick={() => deleteActivityFromStage(activity.id)} className="bg-red-50 text-red-600 border border-red-100 text-[10px] px-2 py-1 rounded font-bold hover:bg-red-100 transition cursor-pointer">Delete Stage Node</button>
-                      )}
-                    </div>
-                  </div>
-                ))}
+      {/* 8. CONTACT US HUB (Integrated Netlify Forms) */}
+      <section id="contact" className="py-16 sm:py-20 px-4 sm:px-6 max-w-4xl mx-auto scroll-mt-16">
+        <div className="text-center mb-8 sm:mb-12">
+          <span className="text-amber-500 font-bold uppercase tracking-wider text-xs block">Connect With Us</span>
+          <h2 className="text-2xl sm:text-3xl font-bold text-sky-950 mt-1">Get Involved Today</h2>
+          <p className="text-xs sm:text-sm text-gray-600 mt-2">Select an option below to submit your secure data vector.</p>
+          
+          <div className="flex gap-1 mt-6 max-w-md mx-auto border-b border-gray-200">
+            <button onClick={() => setActiveForm('inquiry')} className={`flex-1 pb-3 text-xs sm:text-sm font-bold border-b-2 transition-all cursor-pointer border-none bg-transparent ${activeForm === 'inquiry' ? 'border-sky-900 text-sky-900' : 'border-transparent text-gray-400 hover:text-gray-600'}`}>Inquiry</button>
+            <button onClick={() => setActiveForm('member')} className={`flex-1 pb-3 text-xs sm:text-sm font-bold border-b-2 transition-all cursor-pointer border-none bg-transparent ${activeForm === 'member' ? 'border-sky-900 text-sky-900' : 'border-transparent text-gray-400 hover:text-gray-600'}`}>Join Us</button>
+            <button onClick={() => setActiveForm('donate')} className={`flex-1 pb-3 text-xs sm:text-sm font-bold border-b-2 transition-all cursor-pointer border-none bg-transparent ${activeForm === 'donate' ? 'border-sky-900 text-sky-900' : 'border-transparent text-gray-400 hover:text-gray-600'}`}>Donate</button>
+          </div>
+        </div>
+
+        {activeForm === 'inquiry' && (
+          <form name="general-inquiries" method="POST" data-netlify="true" className="space-y-4 bg-white p-6 sm:p-8 rounded-xl border border-gray-200 shadow-sm text-xs sm:text-sm">
+            <input type="hidden" name="form-name" value="general-inquiries" />
+            <div className="grid sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Full Name</label>
+                <input type="text" name="name" required className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-xs focus:outline-none focus:border-sky-900" placeholder="Juan dela Cruz" />
+              </div>
+              <div>
+                <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Email Address</label>
+                <input type="email" name="email" required className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-xs focus:outline-none focus:border-sky-900" placeholder="juan@example.com" />
               </div>
             </div>
-          </section>
+            <div>
+              <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Message or Question</label>
+              <textarea name="message" rows={4} required className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-xs focus:outline-none focus:border-sky-900" placeholder="How can our organization collaborate with the club?"></textarea>
+            </div>
+            <button type="submit" className="w-full bg-sky-900 hover:bg-sky-950 text-white font-bold py-3 rounded-lg shadow transition border-none cursor-pointer text-xs">Submit General Inquiry</button>
+          </form>
+        )}
 
-          {/* CONTACT FORM ACTIONS CONTAINER HUB */}
-          <section id="contact" className="py-16 sm:py-20 px-4 sm:px-6 max-w-4xl mx-auto scroll-mt-16">
-            <div className="text-center mb-8 sm:mb-12">
-              <span className="text-amber-500 font-bold uppercase tracking-wider text-xs block">Connect With Us</span>
-              <h2 className="text-2xl sm:text-3xl font-bold text-sky-950 mt-1">Get Involved Today</h2>
-              <p className="text-xs sm:text-sm text-gray-600 mt-2">Select an option below to submit your secure data vector.</p>
-              <div className="flex gap-1 mt-6 max-w-md mx-auto border-b border-gray-200">
-                <button onClick={() => setActiveForm('inquiry')} className={`flex-1 pb-3 text-xs sm:text-sm font-bold border-b-2 transition-all cursor-pointer border-none bg-transparent ${activeForm === 'inquiry' ? 'border-sky-900 text-sky-900' : 'border-transparent text-gray-400 hover:text-gray-600'}`}>Inquiry</button>
-                <button onClick={() => setActiveForm('member')} className={`flex-1 pb-3 text-xs sm:text-sm font-bold border-b-2 transition-all cursor-pointer border-none bg-transparent ${activeForm === 'member' ? 'border-sky-900 text-sky-900' : 'border-transparent text-gray-400 hover:text-gray-600'}`}>Join Us</button>
-                <button onClick={() => setActiveForm('donate')} className={`flex-1 pb-3 text-xs sm:text-sm font-bold border-b-2 transition-all cursor-pointer border-none bg-transparent ${activeForm === 'donate' ? 'border-sky-900 text-sky-900' : 'border-transparent text-gray-400 hover:text-gray-600'}`}>Donate</button>
+        {activeForm === 'member' && (
+          <form name="membership-applications" method="POST" data-netlify="true" className="space-y-4 bg-white p-6 sm:p-8 rounded-xl border border-gray-200 shadow-sm text-xs sm:text-sm">
+            <input type="hidden" name="form-name" value="membership-applications" />
+            <div className="grid sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Full Name</label>
+                <input type="text" name="name" required className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-xs focus:outline-none focus:border-sky-900" placeholder="Juan dela Cruz" />
+              </div>
+              <div>
+                <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Contact Number</label>
+                <input type="tel" name="phone" required className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-xs focus:outline-none focus:border-sky-900" placeholder="+63 947 467 5516" />
               </div>
             </div>
+            <div className="grid sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Email Address</label>
+                <input type="email" name="email" required className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-xs focus:outline-none focus:border-sky-900" placeholder="juan@example.com" />
+              </div>
+              <div>
+                <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Profession / Occupation</label>
+                <input type="text" name="occupation" required className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-xs focus:outline-none focus:border-sky-900" placeholder="Business Owner" />
+              </div>
+            </div>
+            <button type="submit" className="w-full bg-amber-500 hover:bg-amber-600 text-sky-950 font-bold py-3 rounded-lg shadow transition border-none cursor-pointer text-xs">Submit Membership Request</button>
+          </form>
+        )}
 
-            {activeForm === 'inquiry' && (
-              <form name="general-inquiries" method="POST" data-netlify="true" className="space-y-4 bg-white p-6 sm:p-8 rounded-xl border border-gray-200 shadow-sm text-xs sm:text-sm">
-                <input type="hidden" name="form-name" value="general-inquiries" />
-                <div className="grid sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Full Name</label>
-                    <input type="text" name="name" required className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-xs focus:outline-none focus:border-sky-900" placeholder="Juan dela Cruz" />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Email Address</label>
-                    <input type="email" name="email" required className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-xs focus:outline-none focus:border-sky-900" placeholder="juan@example.com" />
-                  </div>
-                </div>
-                <div>
-                  <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Message or Question</label>
-                  <textarea name="message" rows={4} required className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-xs focus:outline-none focus:border-sky-900" placeholder="How can our organization collaborate with the club?"></textarea>
-                </div>
-                <button type="submit" className="w-full bg-sky-900 hover:bg-sky-950 text-white font-bold py-3 rounded-lg shadow transition border-none cursor-pointer text-xs">Submit General Inquiry</button>
-              </form>
-            )}
+        {activeForm === 'donate' && (
+          <form name="donation-pledges" method="POST" data-netlify="true" className="space-y-4 bg-white p-6 sm:p-8 rounded-xl border border-gray-200 shadow-sm text-xs sm:text-sm">
+            <input type="hidden" name="form-name" value="donation-pledges" />
+            <div className="grid sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Donor Name / Organization</label>
+                <input type="text" name="donor" required className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-xs focus:outline-none focus:border-sky-900" placeholder="Anonymous" />
+              </div>
+              <div>
+                <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Target Project Cause</label>
+                <select name="cause" className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-xs focus:outline-none focus:border-sky-900 bg-white">
+                  <option value="maternal-health">Maternal & Child Health</option>
+                  <option value="education">Supporting Education</option>
+                  <option value="environment">Environmental Action</option>
+                  <option value="general">General Community Fund</option>
+                </select>
+              </div>
+            </div>
+            <div>
+              <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Pledge or Support Description</label>
+              <textarea name="pledge_details" rows={3} required className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-xs focus:outline-none focus:border-sky-900" placeholder="Detail your pledge here..."></textarea>
+            </div>
+            <button type="submit" className="w-full bg-sky-900 hover:bg-sky-950 text-white font-bold py-3 rounded-lg shadow transition border-none cursor-pointer text-xs">Submit Donation Pledge</button>
+          </form>
+        )}
+      </section>
 
-            {activeForm === 'member' && (
-              <form name="membership-applications" method="POST" data-netlify="true" className="space-y-4 bg-white p-6 sm:p-8 rounded-xl border border-gray-200 shadow-sm text-xs sm:text-sm">
-                <input type="hidden" name="form-name" value="membership-applications" />
-                <div className="grid sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Full Name</label>
-                    <input type="text" name="name" required className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-xs focus:outline-none focus:border-sky-900" placeholder="Juan dela Cruz" />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Contact Number</label>
-                    <input type="tel" name="phone" required className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-xs focus:outline-none focus:border-sky-900" placeholder="+63 947 467 5516" />
-                  </div>
-                </div>
-                <div className="grid sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Email Address</label>
-                    <input type="email" name="email" required className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-xs focus:outline-none focus:border-sky-900" placeholder="juan@example.com" />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Profession / Occupation</label>
-                    <input type="text" name="occupation" required className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-xs focus:outline-none focus:border-sky-900" placeholder="Business Owner" />
-                  </div>
-                </div>
-                <button type="submit" className="w-full bg-amber-500 hover:bg-amber-600 text-sky-950 font-bold py-3 rounded-lg shadow transition border-none cursor-pointer text-xs">Submit Membership Request</button>
-              </form>
-            )}
-
-            {activeForm === 'donate' && (
-              <form name="donation-pledges" method="POST" data-netlify="true" className="space-y-4 bg-white p-6 sm:p-8 rounded-xl border border-gray-200 shadow-sm text-xs sm:text-sm">
-                <input type="hidden" name="form-name" value="donation-pledges" />
-                <div className="grid sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Donor Name / Organization</label>
-                    <input type="text" name="donor" required className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-xs focus:outline-none focus:border-sky-900" placeholder="Anonymous" />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Target Project Cause</label>
-                    <select name="cause" className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-xs focus:outline-none focus:border-sky-900 bg-white">
-                      <option value="maternal-health">Maternal & Child Health</option>
-                      <option value="education">Supporting Education</option>
-                      <option value="environment">Environmental Action</option>
-                      <option value="general">General Community Fund</option>
-                    </select>
-                  </div>
-                </div>
-                <div>
-                  <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Pledge or Support Description</label>
-                  <textarea name="pledge_details" rows={3} required className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-xs focus:outline-none focus:border-sky-900" placeholder="Detail your pledge here..."></textarea>
-                </div>
-                <button type="submit" className="w-full bg-sky-900 hover:bg-sky-950 text-white font-bold py-3 rounded-lg shadow transition border-none cursor-pointer text-xs">Submit Donation Pledge</button>
-              </form>
-            )}
-          </section>
-        </>
-      )}
-
-      {/* FOOTER BAR CONTAINER */}
+      {/* 9. FOOTER SECTION */}
       <footer className="bg-sky-950 text-white py-12 px-6 border-t border-white/10 text-xs sm:text-sm">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6 text-center md:text-left">
           <div>
@@ -689,7 +678,7 @@ export default function Home() {
         </div>
       </footer>
 
-      {/* FLOATING SCROLL TO TOP BUTTON */}
+      {/* 10. FLOATING SCROLL TO TOP BUTTON */}
       <a href="#top" className={`fixed bottom-4 right-4 sm:bottom-6 sm:right-6 bg-amber-500 hover:bg-amber-600 text-sky-950 w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center shadow-xl z-50 transition-all duration-300 transform font-bold text-lg sm:text-xl select-none ${showScrollButton ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-4 scale-75 pointer-events-none'}`} title="Scroll to Top">↑</a>
 
     </main>
