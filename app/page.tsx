@@ -1,9 +1,7 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 
-// ==========================================
-// INITIAL PRODUCTION DATABASES (LIVE SOURCE)
-// ==========================================
+// Initial Source Production Datastore Mock Layers
 const initialUsers = [
   { id: 1, name: "Rot. Rosemarie P. Valencia", role: "Super Admin", position: "Club President", username: "superadmin", email: "president@rcmm.org" },
   { id: 2, name: "Rot. Janno Potestades", role: "Officer", position: "Secretary", username: "officer1", email: "secretary@rcmm.org" },
@@ -19,7 +17,7 @@ const initialActivities = [
 ];
 
 export default function Home() {
-  // Navigation Trackers
+  // Navigation & Menu States
   const [activeTab, setActiveTab] = useState<'public' | 'officers-tab'>('public');
   const [activeForm, setActiveForm] = useState<'inquiry' | 'member' | 'donate'>('inquiry');
   const [activityFilter, setActivityFilter] = useState<'All' | 'Project' | 'News'>('All');
@@ -27,17 +25,13 @@ export default function Home() {
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  // -------------------------------------------------------------
-  // TWO-TRACK ENVIRONMENT ARCHITECTURE: PRODUCTION VS STAGING
-  // -------------------------------------------------------------
-  // Live State (What the public web users see)
+  // Staging vs Production State Arrays
   const [prodUsers, setProdUsers] = useState(initialUsers);
   const [prodActivities, setProdActivities] = useState(initialActivities);
   const [prodHeroTitle, setProdHeroTitle] = useState("Making a Lasting Impact in Meycauayan");
   const [prodHeroSub, setProdHeroSub] = useState("We are community leaders, neighbors, and problem solvers coming together to create positive, sustainable change across Bulacan through hands-on service.");
   const [prodHeroBgUrl, setProdHeroBgUrl] = useState("https://images.unsplash.com/photo-1593113598332-cd288d649433?auto=format&fit=crop&q=80&w=1920");
 
-  // Sandbox Staging State (Where edits go safely without affecting production view)
   const [stageUsers, setStageUsers] = useState(initialUsers);
   const [stageActivities, setStageActivities] = useState(initialActivities);
   const [stageHeroTitle, setStageHeroTitle] = useState("Making a Lasting Impact in Meycauayan");
@@ -45,13 +39,13 @@ export default function Home() {
   const [stageHeroBgUrl, setStageHeroBgUrl] = useState("https://images.unsplash.com/photo-1593113598332-cd288d649433?auto=format&fit=crop&q=80&w=1920");
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
 
-  // Auth States
+  // Credentials Verification Inputs
   const [usernameInput, setUsernameInput] = useState('');
   const [passwordInput, setPasswordInput] = useState('');
   const [loginError, setLoginError] = useState('');
   const [userSession, setUserSession] = useState<typeof initialUsers[0] | null>(null);
 
-  // Local Form Controls
+  // Structural CRUD Action Modifiers
   const [editingUser, setEditingUser] = useState<typeof initialUsers[0] | null>(null);
   const [newUser, setNewUser] = useState({ name: '', role: 'Member', position: 'Active Member', username: '', email: '' });
   const [newActivity, setNewActivity] = useState({ type: 'Project', title: '', category: '', description: '', status: 'Ongoing', detail: '' });
@@ -67,8 +61,9 @@ export default function Home() {
     setLoginError('');
     const targetUser = stageUsers.find(u => u.username === usernameInput.trim().toLowerCase());
 
+    // Fallback error messaging condition
     if (!targetUser) {
-      setLoginError('User identification access key not found.');
+      setLoginError('Contact your admin to give him/her access to the portal.');
       return;
     }
 
@@ -91,9 +86,7 @@ export default function Home() {
 
   const clearAuthFields = () => { setUsernameInput(''); setPasswordInput(''); };
 
-  // =============================================================
-  // CRUD MUTATIONS (SAVES ONLY TO THE LOCAL SANDBOX/STAGE TRACK)
-  // =============================================================
+  // CRUD Functions targeting local Staging Sandbox State
   const saveUserEditToStage = (e: React.FormEvent) => {
     e.preventDefault();
     if (!editingUser) return;
@@ -136,18 +129,15 @@ export default function Home() {
     }
   };
 
-  // =============================================================
-  // CRITICAL: GATE ACTION TO REPLICATE STAGING DATA INTO PRODUCTION
-  // =============================================================
   const handleDeployToProduction = () => {
-    if (confirm("Are you sure you want to push all staged changes live to production? This updates the public homepage metrics.")) {
+    if (confirm("Push all staged sandbox data live to public view channels?")) {
       setProdUsers([...stageUsers]);
       setProdActivities([...stageActivities]);
       setProdHeroTitle(stageHeroTitle);
       setProdHeroSub(stageHeroSub);
       setProdHeroBgUrl(stageHeroBgUrl);
       setHasUnsavedChanges(false);
-      alert("Deployment successful! Staging environment successfully pushed live.");
+      alert("Deployment successful! Website production tracking nodes updated.");
     }
   };
 
@@ -163,12 +153,11 @@ export default function Home() {
       {/* 1. HEADER NAVIGATION BAR */}
       <header className="sticky top-0 z-50 bg-sky-900 text-white shadow-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex justify-between items-center">
-          <button onClick={() => { setActiveTab('public'); setMobileMenuOpen(false); }} className="group block text-left bg-transparent border-none outline-none cursor-pointer">
+          <button onClick={() => { setActiveTab('public'); setMobileMenuOpen(false); }} className="group block bg-transparent border-none outline-none cursor-pointer text-left">
             <span className="text-lg sm:text-xl font-bold tracking-wide text-white group-hover:text-amber-400 transition block">ROTARY CLUB OF</span>
             <span className="block text-xs sm:text-sm font-semibold text-amber-500 group-hover:text-amber-300 tracking-wider transition">MEYCAUAYAN METRO</span>
           </button>
           
-          {/* Desktop Nav links */}
           <nav className="hidden md:flex gap-6 lg:gap-8 text-sm font-medium items-center">
             <button onClick={() => setActiveTab('public')} className={`hover:text-amber-500 transition bg-transparent border-none outline-none cursor-pointer ${activeTab === 'public' ? 'text-amber-400 font-bold underline' : ''}`}>Home Framework</button>
             <button onClick={() => setActiveTab('officers-tab')} className={`hover:text-amber-500 transition bg-transparent border-none outline-none cursor-pointer ${activeTab === 'officers-tab' ? 'text-amber-400 font-bold underline' : ''}`}>Roster Officers</button>
@@ -196,13 +185,11 @@ export default function Home() {
             )}
           </div>
 
-          {/* Mobile Hamburger toggle link */}
           <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="md:hidden text-white hover:text-amber-400 font-bold focus:outline-none text-2xl bg-transparent border-none cursor-pointer">
             {mobileMenuOpen ? '✕' : '☰'}
           </button>
         </div>
 
-        {/* Mobile Submenu overlay dropdown */}
         {mobileMenuOpen && (
           <div className="md:hidden bg-sky-950 border-t border-sky-800 p-4 space-y-3 flex flex-col text-sm font-semibold text-gray-200 animate-fadeIn">
             <button onClick={() => { setActiveTab('public'); setMobileMenuOpen(false); }} className="text-left py-2 hover:text-amber-400 bg-transparent border-none">Home Framework</button>
@@ -227,26 +214,33 @@ export default function Home() {
         )}
       </header>
 
-      {/* MODAL: IDENTIFICATION AUTH BAR */}
+      {/* MODAL WINDOW GATEWAY AUTH INTERCEPT */}
       {showLoginModal && (
         <div className="fixed inset-0 bg-sky-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-2xl shadow-2xl border border-gray-100 max-w-md w-full p-6 sm:p-8 relative text-gray-800">
             <button onClick={() => { setShowLoginModal(false); setLoginError(''); }} className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 font-bold text-lg bg-transparent border-none cursor-pointer">✕</button>
             <div className="text-center mb-6">
-              <h3 className="text-xl sm:text-2xl font-bold text-sky-950">RCMM Secure Role Gateway</h3>
-              <p className="text-xs text-gray-500 mt-1">Simulate secure management rows below.</p>
+              <h3 className="text-xl sm:text-2xl font-bold text-sky-950">RCMM Role Identity Verification</h3>
+              <p className="text-xs text-gray-500 mt-1">Provide credentials matching your club clearance level.</p>
             </div>
             
             <form onSubmit={handleAuthSubmit} className="space-y-4">
               <div>
-                <label className="block text-xs font-bold text-gray-500 uppercase mb-1">User Token Key</label>
-                <input type="text" required value={usernameInput} onChange={(e) => setUsernameInput(e.target.value)} className="w-full border border-gray-300 rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-sky-900" placeholder="superadmin, officer1, or member1" />
+                <label className="block text-xs font-bold text-gray-500 uppercase mb-1">User Authorization ID</label>
+                <input type="text" required value={usernameInput} onChange={(e) => setUsernameInput(e.target.value)} className="w-full border border-gray-300 rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-sky-900" placeholder="Username" />
               </div>
               <div>
                 <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Clearance Password</label>
                 <input type="password" required value={passwordInput} onChange={(e) => setPasswordInput(e.target.value)} className="w-full border border-gray-300 rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-sky-900" placeholder="••••••••" />
               </div>
-              {loginError && <p className="text-xs text-red-600 font-semibold bg-red-50 p-2.5 rounded border border-red-100">{loginError}</p>}
+              
+              {/* Contextual fallbacks render strictly on identity error matches */}
+              {loginError && (
+                <p className="text-xs text-red-600 font-semibold bg-red-50 p-3 rounded border border-red-200 leading-relaxed">
+                  ⚠️ {loginError}
+                </p>
+              )}
+              
               <button type="submit" className="w-full bg-sky-900 hover:bg-sky-950 text-white font-bold py-2.5 rounded-lg text-sm transition shadow border-none cursor-pointer">Authorize Session</button>
             </form>
           </div>
@@ -260,31 +254,25 @@ export default function Home() {
         <section id="control-center" className="bg-slate-900 text-white py-12 px-4 sm:px-6 border-b-4 border-amber-500 scroll-mt-16">
           <div className="max-w-7xl mx-auto space-y-8">
             
-            {/* STAGING PIPELINE GATE CONTROLLER SUMMARY TOOLBAR */}
             <div className="bg-slate-950 rounded-xl p-4 sm:p-6 border border-gray-800 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 shadow-inner">
               <div>
                 <h3 className="text-base sm:text-lg font-bold text-white flex items-center gap-2">
                   <span className="w-2.5 h-2.5 rounded-full bg-amber-500 animate-pulse block"></span> 
                   Staging Sandbox Working Mode
                 </h3>
-                <p className="text-xs text-gray-400 mt-1">
-                  All changes made below are saved securely in staging. They will **NOT** go live to public users until you deploy.
-                </p>
+                <p className="text-xs text-gray-400 mt-1">All changes made below are saved securely in staging. They will NOT go live to public users until you deploy.</p>
               </div>
               <div>
                 {hasUnsavedChanges ? (
-                  <button onClick={handleDeployToProduction} className="w-full sm:w-auto bg-amber-500 hover:bg-amber-600 text-sky-950 font-black px-5 py-2.5 rounded-lg text-xs tracking-wider uppercase shadow-md transition border-none cursor-pointer animate-pulse">
+                  <button onClick={handleDeployToProduction} className="w-full sm:w-auto bg-amber-500 hover:bg-amber-600 text-sky-950 font-black px-5 py-2.5 rounded-lg text-xs tracking-wider uppercase shadow-md transition border-none cursor-pointer">
                     🚀 Publish to Live Production
                   </button>
                 ) : (
-                  <span className="text-xs bg-slate-800 border border-gray-700 text-gray-400 font-semibold px-4 py-2 rounded-lg block text-center">
-                    ✓ Production Synced & Fresh
-                  </span>
+                  <span className="text-xs bg-slate-800 border border-gray-700 text-gray-400 font-semibold px-4 py-2 rounded-lg block text-center">✓ Production Synced & Fresh</span>
                 )}
               </div>
             </div>
 
-            {/* SUPER ADMIN COMPONENT CONTEXT MANIPULATOR OVERRIDES */}
             {userSession.role === 'Super Admin' && (
               <div className="bg-slate-800 border border-gray-700 p-4 sm:p-6 rounded-xl space-y-4">
                 <h3 className="text-sm sm:text-base font-bold text-amber-400">🛠️ Real-Time Layout Content Editor (Super Admin Sandbox)</h3>
@@ -305,14 +293,10 @@ export default function Home() {
               </div>
             )}
 
-            {/* CRUD MANAGEMENT SPLIT HUB Layout */}
             <div className="grid lg:grid-cols-3 gap-8 items-start">
-              
-              {/* MEMBER CRUD DIRECTORY (MOBILE-RESPONSIVE CARD STACK CONVERSION) */}
               <div className="bg-slate-800 border border-gray-700 p-4 sm:p-6 rounded-xl lg:col-span-2 space-y-6">
                 <h3 className="font-bold text-base sm:text-lg text-white border-b border-gray-700 pb-2">👥 Roster Database Sandbox Registry</h3>
                 
-                {/* Responsive table wrapper converting rows to blocks on mobile screens */}
                 <div className="overflow-x-auto rounded-lg">
                   <table className="w-full text-xs text-left text-gray-300 block md:table">
                     <thead className="text-gray-400 uppercase bg-slate-900/50 text-[10px] hidden md:table-header-group">
@@ -357,34 +341,33 @@ export default function Home() {
                   </table>
                 </div>
 
-                {/* CRUD FORM LAYOUT DETACHMENT UPDATE BOX */}
                 {editingUser && (
                   <form onSubmit={saveUserEditToStage} className="bg-slate-900 p-4 rounded-lg border border-amber-500/30 grid sm:grid-cols-2 gap-4 text-xs text-gray-800">
                     <div className="sm:col-span-2 flex justify-between items-center text-white border-b border-gray-700 pb-1.5">
-                      <span className="font-bold">Edit Staging User properties</span>
+                      <span className="font-bold">Edit Staging User Properties</span>
                       <button type="button" onClick={() => setEditingUser(null)} className="text-gray-400 hover:text-white bg-transparent border-none cursor-pointer">✕ Cancel</button>
                     </div>
                     <div>
                       <label className="block text-gray-400 uppercase font-bold text-[10px] mb-1">Full Name</label>
-                      <input type="text" value={editingUser.name} onChange={(e) => setEditingUser({...editingUser, name: e.target.value})} className="w-full p-2 rounded.5 border border-gray-300 focus:outline-none" required />
+                      <input type="text" value={editingUser.name} onChange={(e) => setEditingUser({...editingUser, name: e.target.value})} className="w-full p-2 rounded border border-gray-300 focus:outline-none text-xs" required />
                     </div>
                     <div>
                       <label className="block text-gray-400 uppercase font-bold text-[10px] mb-1">Email Interface</label>
-                      <input type="email" value={editingUser.email} onChange={(e) => setEditingUser({...editingUser, email: e.target.value})} className="w-full p-2 rounded border border-gray-300 focus:outline-none" required />
+                      <input type="email" value={editingUser.email} onChange={(e) => setEditingUser({...editingUser, email: e.target.value})} className="w-full p-2 rounded border border-gray-300 focus:outline-none text-xs" required />
                     </div>
                     {userSession.role === 'Super Admin' && (
                       <>
                         <div>
-                          <label className="block text-gray-400 uppercase font-bold text-[10px] mb-1">Authorization Clearance Role</label>
-                          <select value={editingUser.role} onChange={(e) => setEditingUser({...editingUser, role: e.target.value as any})} className="w-full p-2 rounded border border-gray-300 bg-white focus:outline-none">
+                          <label className="block text-gray-400 uppercase font-bold text-[10px] mb-1">Authorization Level</label>
+                          <select value={editingUser.role} onChange={(e) => setEditingUser({...editingUser, role: e.target.value as any})} className="w-full p-2 rounded border border-gray-300 bg-white focus:outline-none text-xs">
                             <option value="Member">Member</option>
                             <option value="Officer">Officer</option>
                             <option value="Super Admin">Super Admin</option>
                           </select>
                         </div>
                         <div>
-                          <label className="block text-gray-400 uppercase font-bold text-[10px] mb-1">Assignment Assignment Designation</label>
-                          <input type="text" value={editingUser.position} onChange={(e) => setEditingUser({...editingUser, position: e.target.value})} className="w-full p-2 rounded border border-gray-300 focus:outline-none" required />
+                          <label className="block text-gray-400 uppercase font-bold text-[10px] mb-1">Club Assignment Designation</label>
+                          <input type="text" value={editingUser.position} onChange={(e) => setEditingUser({...editingUser, position: e.target.value})} className="w-full p-2 rounded border border-gray-300 focus:outline-none text-xs" required />
                         </div>
                       </>
                     )}
@@ -392,18 +375,17 @@ export default function Home() {
                   </form>
                 )}
 
-                {/* CRUD CREATE BOX: MEMBER INDUCTION ACTION */}
                 {userSession.role === 'Super Admin' ? (
                   <form onSubmit={createMemberInStage} className="bg-slate-900/60 p-4 sm:p-5 rounded-xl border border-gray-700 space-y-4">
                     <h4 className="text-xs sm:text-sm font-bold text-amber-500">➕ Super Admin Proxy Action: Enroll New Member / Officer</h4>
                     <div className="grid sm:grid-cols-2 gap-4 text-xs text-gray-800">
                       <div>
                         <label className="block text-gray-400 font-bold mb-1">Full Name</label>
-                        <input type="text" mountaineer="name" required value={newUser.name} onChange={(e) => setNewUser({...newUser, name: e.target.value})} className="w-full p-2 rounded border border-gray-300 text-xs focus:outline-none" placeholder="Rot. Jane Doe" />
+                        <input type="text" name="name" required value={newUser.name} onChange={(e) => setNewUser({...newUser, name: e.target.value})} className="w-full p-2 rounded border border-gray-300 text-xs focus:outline-none" placeholder="Rot. John Doe" />
                       </div>
                       <div>
                         <label className="block text-gray-400 font-bold mb-1">Email Interface</label>
-                        <input type="email" required value={newUser.email} onChange={(e) => setNewUser({...newUser, email: e.target.value})} className="w-full p-2 rounded border border-gray-300 text-xs focus:outline-none" placeholder="jane@rcmm.org" />
+                        <input type="email" required value={newUser.email} onChange={(e) => setNewUser({...newUser, email: e.target.value})} className="w-full p-2 rounded border border-gray-300 text-xs focus:outline-none" placeholder="john@rcmm.org" />
                       </div>
                       <div>
                         <label className="block text-gray-400 font-bold mb-1">System Authorization Clearance</label>
@@ -415,7 +397,7 @@ export default function Home() {
                       </div>
                       <div>
                         <label className="block text-gray-400 font-bold mb-1">Designation Title</label>
-                        <input type="text" required value={newUser.position} onChange={(e) => setNewUser({...newUser, position: e.target.value})} className="w-full p-2 rounded border border-gray-300 text-xs focus:outline-none" placeholder="Committee Member, Chair, etc." />
+                        <input type="text" required value={newUser.position} onChange={(e) => setNewUser({...newUser, position: e.target.value})} className="w-full p-2 rounded border border-gray-300 text-xs focus:outline-none" placeholder="Active Member" />
                       </div>
                     </div>
                     <button type="submit" className="bg-sky-600 hover:bg-sky-700 text-white font-bold text-xs px-4 py-2 rounded transition border-none cursor-pointer">Stage Account Creation</button>
@@ -425,12 +407,10 @@ export default function Home() {
                 )}
               </div>
 
-              {/* CRUD CONTENT GENERATOR NODE BLOCK (SAVES TO STAGING) */}
               <div className="bg-slate-800 border border-gray-700 p-4 sm:p-6 rounded-xl space-y-6">
                 <h3 className="font-bold text-base sm:text-lg text-white border-b border-gray-700 pb-2">📢 Content Engine Operations</h3>
-                
                 {userSession.role === 'Super Admin' ? (
-                  <form onSubmit={createActivityRecord} className="space-y-4 text-xs text-gray-800">
+                  <form onSubmit={(e) => e.preventDefault()} className="space-y-4 text-xs text-gray-800">
                     <h4 className="font-bold text-amber-500 text-xs">➕ Add New Project Portfolio or News Event</h4>
                     <div>
                       <label className="block text-gray-400 font-bold mb-1">Content Record Entry Type</label>
@@ -453,7 +433,7 @@ export default function Home() {
                     </div>
                     <div>
                       <label className="block text-gray-400 font-bold mb-1">Metric Output / Date Tag</label>
-                      <input type="text" required value={newActivity.detail} onChange={(e) => setNewActivity({...newActivity, detail: e.target.value})} className="w-full p-2 rounded border border-gray-300 text-xs focus:outline-none" placeholder="300 kits distributed / June 2026" />
+                      <input type="text" required value={newActivity.detail} onChange={(e) => setNewActivity({...newActivity, detail: e.target.value})} className="w-full p-2 rounded border border-gray-300 text-xs focus:outline-none" placeholder="300 kits distributed" />
                     </div>
                     <button type="button" onClick={createActivityInStage} className="w-full bg-amber-500 text-sky-950 font-black py-2.5 rounded hover:bg-amber-600 transition border-none cursor-pointer text-xs">Stage Content Component</button>
                   </form>
@@ -461,8 +441,8 @@ export default function Home() {
                   <p className="text-xs text-gray-400 italic bg-slate-900 p-4 rounded border border-gray-700 text-center">🔒 Content publishing configurations are locked under Super Admin clearances.</p>
                 )}
               </div>
-
             </div>
+
           </div>
         </section>
       )}
@@ -471,7 +451,6 @@ export default function Home() {
           TABBED COMPONENT DISPLAY ROUTER (100% RESPONSIVE PUBLIC LAYER)
           ============================================================= */}
       
-      {/* ----------------- TAB A: DEDICATED ROSTER OFFICERS VIEW ----------------- */}
       {activeTab === 'officers-tab' ? (
         <section className="py-16 px-4 sm:px-6 bg-gray-50 min-h-[70vh] animate-fadeIn">
           <div className="max-w-7xl mx-auto">
@@ -487,16 +466,14 @@ export default function Home() {
                   <div className="w-16 h-16 bg-sky-100 rounded-full flex items-center justify-center mx-auto mb-4 text-sky-900 font-black text-xl shadow-inner">⚙️</div>
                   <h3 className="text-base sm:text-lg font-black text-sky-950">{officer.name}</h3>
                   <p className="text-xs text-amber-600 font-bold mt-1 uppercase tracking-wider">{officer.position}</p>
-                  <div className="mt-4 pt-3 border-t border-gray-100 text-xs text-gray-400 font-mono overflow-hidden text-ellipsis select-all">{officer.email}</div>
+                  <div className="mt-4 pt-3 border-t border-gray-100 text-xs text-gray-400 font-mono overflow-hidden text-ellipsis select-all text-center">{officer.email}</div>
                 </div>
               ))}
             </div>
           </div>
         </section>
       ) : (
-        /* ----------------- TAB B: PRODUCTION LIVE SYSTEM MAIN PAGE ----------------- */
         <>
-          {/* PARALLAX HERO BLOCK (PULLS FROM PRODUCTION LIVE ENVIRONMENT STATE ONLY) */}
           <section 
             className="relative min-h-[80vh] sm:min-h-[85vh] flex items-center bg-fixed bg-cover bg-center text-white px-4 sm:px-6"
             style={{ backgroundImage: `linear-gradient(rgba(1, 58, 99, 0.85), rgba(1, 42, 74, 0.9)), url('${prodHeroBgUrl}')` }}
@@ -518,7 +495,6 @@ export default function Home() {
             </div>
           </section>
 
-          {/* ABOUT US FRAGMENT */}
           <section id="about" className="py-16 sm:py-20 px-4 sm:px-6 bg-white border-b border-gray-100 scroll-mt-16">
             <div className="max-w-7xl mx-auto">
               <div className="grid md:grid-cols-2 gap-10 sm:grid-cols-2 lg:gap-12 items-center">
@@ -546,7 +522,6 @@ export default function Home() {
             </div>
           </section>
 
-          {/* STRATEGIC OBJECTIVE FOCUS PILLARS */}
           <section id="pillars" className="py-16 sm:py-20 px-4 sm:px-6 max-w-7xl mx-auto scroll-mt-16">
             <div className="text-center max-w-2xl mx-auto mb-12 sm:mb-16">
               <h2 className="text-2xl sm:text-3xl font-bold text-sky-950">Areas of Service Focus</h2>
@@ -571,7 +546,6 @@ export default function Home() {
             </div>
           </section>
 
-          {/* PARALLAX SEPARATOR */}
           <section className="relative py-24 sm:py-32 bg-fixed bg-cover bg-center text-center text-white px-4 sm:px-6" style={{ backgroundImage: `linear-gradient(rgba(1, 42, 74, 0.8), rgba(1, 42, 74, 0.8)), url('https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?auto=format&fit=crop&q=80&w=1920')` }}>
             <div className="max-w-3xl mx-auto relative z-10">
               <h2 className="text-2xl sm:text-4xl font-extrabold mb-4 text-amber-500">One Million Saplings, Clean Waters, Bright Minds</h2>
@@ -579,7 +553,6 @@ export default function Home() {
             </div>
           </section>
 
-          {/* DATAGRID DISPLAY MATRIX (PULLS PURITY OF PRODUCTION DATA ONLY) */}
           <section id="portfolio" className="py-16 sm:py-20 bg-gray-50 px-4 sm:px-6 border-b border-gray-100 scroll-mt-16">
             <div className="max-w-7xl mx-auto">
               <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
@@ -622,7 +595,6 @@ export default function Home() {
             </div>
           </section>
 
-          {/* CONTACT ACTIONS CONTAINER HUB */}
           <section id="contact" className="py-16 sm:py-20 px-4 sm:px-6 max-w-4xl mx-auto scroll-mt-16">
             <div className="text-center mb-8 sm:mb-12">
               <span className="text-amber-500 font-bold uppercase tracking-wider text-xs block">Connect With Us</span>
@@ -677,7 +649,7 @@ export default function Home() {
                   </div>
                   <div>
                     <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Profession / Occupation</label>
-                    <input type="text" name="occupation" required className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-xs focus:outline-none focus:border-sky-900" placeholder="Civil Engineer / Business Owner" />
+                    <input type="text" name="occupation" required className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-xs focus:outline-none focus:border-sky-900" placeholder="Business Owner" />
                   </div>
                 </div>
                 <button type="submit" className="w-full bg-amber-500 hover:bg-amber-600 text-sky-950 font-bold py-3 rounded-lg shadow transition border-none cursor-pointer text-xs">Submit Membership Request</button>
@@ -690,7 +662,7 @@ export default function Home() {
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Donor Name / Organization</label>
-                    <input type="text" name="donor" required className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-xs focus:outline-none focus:border-sky-900" placeholder="Anonymous or Company Name" />
+                    <input type="text" name="donor" required className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-xs focus:outline-none focus:border-sky-900" placeholder="Anonymous" />
                   </div>
                   <div>
                     <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Target Project Cause</label>
@@ -713,7 +685,6 @@ export default function Home() {
         </>
       )}
 
-      {/* FOOTER BLOCK CONTAINER */}
       <footer className="bg-sky-950 text-white py-12 px-6 border-t border-white/10 text-xs sm:text-sm">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6 text-center md:text-left">
           <div>
@@ -724,7 +695,6 @@ export default function Home() {
         </div>
       </footer>
 
-      {/* SCROLL TARGET AXIS OVERLAY NODE */}
       <a href="#top" className={`fixed bottom-4 right-4 sm:bottom-6 sm:right-6 bg-amber-500 hover:bg-amber-600 text-sky-950 w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center shadow-xl z-50 transition-all duration-300 transform font-bold text-lg sm:text-xl select-none ${showScrollButton ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-4 scale-75 pointer-events-none'}`} title="Scroll to Top">↑</a>
 
     </main>
