@@ -5,15 +5,14 @@ import React, { useState, useEffect, useRef } from 'react';
 // MAGAZINE VALIDATED DATABASES (RY 2026-2027)
 // ==========================================
 const initialUsers = [
-  { id: 1, name: "Rot. Arvin Jayson Andaya", role: "Super Admin", position: "Club President", username: "superadmin", email: "president@rcmm.org" },
-  { id: 2, name: "Rot. Angelito Ferrer", role: "Officer", position: "Immediate Past President", username: "pastpresident", email: "ipp@rcmm.org" },
-  { id: 3, name: "Rot. Jayson Fernandez", role: "Officer", position: "Assistant Governor / Protocol Officer", username: "agfernandez", email: "ag@rcmm.org" },
-  { id: 4, name: "Rot. Diosdado Alvarado", role: "Officer", position: "Vice President", username: "vicepresident", email: "vp@rcmm.org" },
-  { id: 5, name: "Rot. Rosemarie Valencia", role: "Officer", position: "Club Secretary & Admin Director", username: "secretary", email: "secretary@rcmm.org" },
-  { id: 6, name: "Rot. Adrian Go", role: "Officer", position: "Executive Secretary & Public Image Director", username: "execsec", email: "publicimage@rcmm.org" },
-  { id: 7, name: "Rot. Mark Christian Aloran", role: "Officer", position: "Club Treasurer", username: "treasurer", email: "treasurer@rcmm.org" },
-  { id: 8, name: "Rot. April Homoroc", role: "Officer", position: "Club Auditor", username: "auditor", email: "auditor@rcmm.org" },
-  { id: 9, name: "Rot. Eric Homoroc", role: "Officer", position: "Club PRO", username: "pro", email: "pro@rcmm.org" }
+  { id: 1, name: "Arvin Jayson Andaya", role: "Super Admin", position: "Club President", username: "superadmin", email: "president@rcmm.org" },
+  { id: 2, name: "Angelito Ferrer", role: "Officer", position: "Immediate Past President", username: "pastpresident", email: "ipp@rcmm.org" },
+  { id: 3, name: "Jayson Fernandez", role: "Officer", position: "Assistant Governor / Protocol Officer", username: "agfernandez", email: "ag@rcmm.org" },
+  { id: 4, name: "Diosdado Alvarado", role: "Officer", position: "Vice President", username: "vicepresident", email: "vp@rcmm.org" },
+  { id: 5, name: "Rosemarie Valencia", role: "Officer", position: "Club Secretary & Admin Director", username: "secretary", email: "secretary@rcmm.org" },
+  { id: 6, name: "Adrian Go", role: "Officer", position: "Executive Secretary & Public Image Director", username: "execsec", email: "publicimage@rcmm.org" },
+  { id: 7, name: "Mark Christian Aloran", role: "Officer", position: "Club Treasurer", username: "treasurer", email: "treasurer@rcmm.org" },
+  { id: 8, name: "April Homoroc", role: "Officer", position: "Club Auditor", username: "auditor", email: "auditor@rcmm.org" }
 ];
 
 const initialActivities = [
@@ -258,7 +257,7 @@ export default function Home() {
         }
       `}</style>
 
-      {/* 1. SMART STICKY NAVIGATION BAR */}
+      /* 1. SMART STICKY NAVIGATION BAR */
       <header className={`sticky top-0 z-50 bg-black text-white shadow-md border-b border-neutral-800 transition-transform duration-300 transform ${
         navVisible ? 'translate-y-0' : '-translate-y-full'
       }`}>
@@ -447,10 +446,6 @@ export default function Home() {
             }}
           />
         ))}
-
-        <div className="absolute bottom-4 left-4 z-10 bg-black/40 backdrop-blur-md border border-neutral-800 px-3 py-1.5 rounded-md text-[10px] text-neutral-400 font-mono tracking-wider max-w-xs hidden sm:block">
-          📷 {carouselSlides[currentSlideIndex].caption} {isHovered && <span className="text-amber-500 ml-1 font-bold">(Paused)</span>}
-        </div>
 
         <button onClick={handlePrevSlide} className="absolute left-4 top-1/2 -translate-y-1/2 w-9 h-9 items-center justify-center rounded-full bg-black/30 border border-neutral-800 hover:border-amber-500 hover:text-amber-500 text-white transition z-20 cursor-pointer hidden sm:flex select-none">‹</button>
         <button onClick={handleNextSlide} className="absolute right-4 top-1/2 -translate-y-1/2 w-9 h-9 items-center justify-center rounded-full bg-black/30 border border-neutral-800 hover:border-amber-500 hover:text-amber-500 text-white transition z-20 cursor-pointer hidden sm:flex select-none">›</button>
@@ -685,77 +680,85 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 7. CONTACT FORM HUB (Integrated Netlify Forms Framework) */}
-      <section id="contact" className="py-16 sm:py-20 px-4 sm:px-6 max-w-4xl mx-auto scroll-mt-16">
-        <div className="text-center mb-8 sm:mb-12">
-          <span className="text-blue-600 font-bold uppercase tracking-widest text-xs block">Connect With Us</span>
-          <h2 className="text-2xl sm:text-3xl font-black text-neutral-900 mt-1 tracking-tight">Get Involved Today</h2>
-          
-          <div className="flex gap-2 mt-6 max-w-md mx-auto border-b border-neutral-200">
-            <button suppressHydrationWarning onClick={() => setActiveForm('inquiry')} className={`flex-1 pb-3 text-xs sm:text-sm font-bold border-b-2 transition-all cursor-pointer border-none bg-transparent ${activeForm === 'inquiry' ? 'border-black text-black' : 'border-transparent text-neutral-400 hover:text-amber-500'}`}>Inquiry</button>
-            <button suppressHydrationWarning onClick={() => setActiveForm('member')} className={`flex-1 pb-3 text-xs sm:text-sm font-bold border-b-2 transition-all cursor-pointer border-none bg-transparent ${activeForm === 'member' ? 'border-black text-black' : 'border-transparent text-neutral-400 hover:text-amber-500'}`}>Join Us</button>
-            <button suppressHydrationWarning onClick={() => setActiveForm('donate')} className={`flex-1 pb-3 text-xs sm:text-sm font-bold border-b-2 transition-all cursor-pointer border-none bg-transparent ${activeForm === 'donate' ? 'border-black text-black' : 'border-transparent text-neutral-400 hover:text-amber-500'}`}>Donate</button>
+      {/* =============================================================
+          7. REVIZED CONTACT FORM HUB WITH HIGH CONTRAST DARK STYLING
+          ============================================================= */}
+      <section id="contact" className="py-20 sm:py-28 bg-slate-950 px-4 sm:px-6 scroll-mt-16 border-t border-slate-900 relative">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-8 sm:mb-12 space-y-1">
+            <span className="text-amber-500 font-bold uppercase tracking-widest text-xs block">Connect With Us</span>
+            <h2 className="text-3xl font-black text-white tracking-tight uppercase">Get Involved Today</h2>
+            
+            <div className="flex gap-2 mt-8 max-w-md mx-auto bg-slate-900 p-1 rounded-xl border border-slate-800 shadow-inner">
+              <button suppressHydrationWarning onClick={() => setActiveForm('inquiry')} className={`flex-1 py-2.5 text-xs sm:text-sm font-bold rounded-lg transition-all cursor-pointer border-none ${activeForm === 'inquiry' ? 'bg-amber-500 text-black shadow-md' : 'text-neutral-400 hover:text-amber-500 bg-transparent'}`}>Inquiry</button>
+              <button suppressHydrationWarning onClick={() => setActiveForm('member')} className={`flex-1 py-2.5 text-xs sm:text-sm font-bold rounded-lg transition-all cursor-pointer border-none ${activeForm === 'member' ? 'bg-amber-500 text-black shadow-md' : 'text-neutral-400 hover:text-amber-500 bg-transparent'}`}>Join Us</button>
+              <button suppressHydrationWarning onClick={() => setActiveForm('donate')} className={`flex-1 py-2.5 text-xs sm:text-sm font-bold rounded-lg transition-all cursor-pointer border-none ${activeForm === 'donate' ? 'bg-amber-500 text-black shadow-md' : 'text-neutral-400 hover:text-amber-500 bg-transparent'}`}>Donate</button>
+            </div>
+          </div>
+
+          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-10 shadow-2xl relative overflow-hidden transition-all duration-500 hover:border-amber-500/30 transform hover:scale-[1.01]">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-amber-500/5 rounded-full blur-2xl pointer-events-none" />
+            
+            {activeForm === 'inquiry' && (
+              <form name="general-inquiries" method="POST" data-netlify="true" className="space-y-5 text-neutral-200 animate-fadeIn">
+                <input type="hidden" name="form-name" value="general-inquiries" />
+                <div className="grid sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs font-bold text-slate-400 uppercase mb-1.5 tracking-wider">Full Name</label>
+                    <input suppressHydrationWarning type="text" name="name" required className="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-3 text-xs text-white focus:outline-none focus:border-amber-500 transition" placeholder="Juan dela Cruz" />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold text-slate-400 uppercase mb-1.5 tracking-wider">Email Address</label>
+                    <input suppressHydrationWarning type="email" name="email" required className="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-3 text-xs text-white focus:outline-none focus:border-amber-500 transition" placeholder="juan@example.com" />
+                  </div>
+                </div>
+                <div>
+                  <label className="block text-xs font-bold text-slate-400 uppercase mb-1.5 tracking-wider">Message or Question</label>
+                  <textarea name="message" rows={4} required className="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-3 text-xs text-white focus:outline-none focus:border-amber-500 transition" placeholder="How can our organization collaborate with the club?"></textarea>
+                </div>
+                <button suppressHydrationWarning type="submit" className="w-full bg-amber-500 hover:bg-amber-600 text-black font-black py-4 rounded-xl shadow-lg transition border-none cursor-pointer text-xs uppercase tracking-wider">Submit General Inquiry</button>
+              </form>
+            )}
+
+            {activeForm === 'member' && (
+              <form name="membership-applications" method="POST" data-netlify="true" className="space-y-5 text-neutral-200 animate-fadeIn">
+                <input type="hidden" name="form-name" value="membership-applications" />
+                <div className="grid sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs font-bold text-slate-400 uppercase mb-1.5 tracking-wider">Full Name</label>
+                    <input suppressHydrationWarning type="text" name="name" required className="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-3 text-xs text-white focus:outline-none focus:border-amber-500 transition" placeholder="Juan dela Cruz" />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold text-slate-400 uppercase mb-1.5 tracking-wider">Contact Number</label>
+                    <input suppressHydrationWarning type="tel" name="phone" required className="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-3 text-xs text-white focus:outline-none focus:border-amber-500 transition" placeholder="+63 947 467 5516" />
+                  </div>
+                </div>
+                <button suppressHydrationWarning type="submit" className="w-full bg-amber-500 hover:bg-amber-600 text-black font-black py-4 rounded-xl shadow-lg transition border-none cursor-pointer text-xs uppercase tracking-wider">Submit Membership Request</button>
+              </form>
+            )}
+
+            {activeForm === 'donate' && (
+              <form name="donation-pledges" method="POST" data-netlify="true" className="space-y-5 text-neutral-200 animate-fadeIn">
+                <input type="hidden" name="form-name" value="donation-pledges" />
+                <div className="grid sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs font-bold text-slate-400 uppercase mb-1.5 tracking-wider">Donor Name</label>
+                    <input suppressHydrationWarning type="text" name="donor" required className="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-3 text-xs text-white focus:outline-none focus:border-amber-500 transition" placeholder="Anonymous" />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold text-slate-400 uppercase mb-1.5 tracking-wider">Target Project Cause</label>
+                    <select suppressHydrationWarning name="cause" className="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-3 text-xs text-slate-300 focus:outline-none focus:border-amber-500 transition bg-transparent">
+                      <option value="maternal-health">Disease Prevention</option>
+                      <option value="education">Supporting Education</option>
+                      <option value="environment">Clean Water Facility</option>
+                    </select>
+                  </div>
+                </div>
+                <button suppressHydrationWarning type="submit" className="w-full bg-amber-500 hover:bg-amber-600 text-black font-black py-4 rounded-xl shadow-lg transition border-none cursor-pointer text-xs uppercase tracking-wider">Submit Donation Pledge</button>
+              </form>
+            )}
           </div>
         </div>
-
-        {activeForm === 'inquiry' && (
-          <form name="general-inquiries" method="POST" data-netlify="true" className="space-y-4 bg-white p-6 sm:p-8 rounded-xl border border-neutral-200 shadow-sm text-xs sm:text-sm">
-            <input type="hidden" name="form-name" value="general-inquiries" />
-            <div className="grid sm:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-xs font-bold text-neutral-500 uppercase mb-1">Full Name</label>
-                <input suppressHydrationWarning type="text" name="name" required className="w-full border border-neutral-300 rounded-lg px-4 py-2.5 text-xs focus:outline-none focus:border-blue-600" placeholder="Juan dela Cruz" />
-              </div>
-              <div>
-                <label className="block text-xs font-bold text-neutral-500 uppercase mb-1">Email Address</label>
-                <input suppressHydrationWarning type="email" name="email" required className="w-full border border-neutral-300 rounded-lg px-4 py-2.5 text-xs focus:outline-none focus:border-blue-600" placeholder="juan@example.com" />
-              </div>
-            </div>
-            <div>
-              <label className="block text-xs font-bold text-neutral-500 uppercase mb-1">Message or Question</label>
-              <textarea name="message" rows={4} required className="w-full border border-neutral-300 rounded-lg px-4 py-2.5 text-xs focus:outline-none focus:border-blue-600" placeholder="How can our organization collaborate with the club?"></textarea>
-            </div>
-            <button suppressHydrationWarning type="submit" className="w-full bg-black hover:bg-neutral-900 text-white font-bold py-3 rounded-lg shadow transition border-none cursor-pointer text-xs">Submit General Inquiry</button>
-          </form>
-        )}
-
-        {activeForm === 'member' && (
-          <form name="membership-applications" method="POST" data-netlify="true" className="space-y-4 bg-white p-6 sm:p-8 rounded-xl border border-neutral-200 shadow-sm text-xs sm:text-sm">
-            <input type="hidden" name="form-name" value="membership-applications" />
-            <div className="grid sm:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Full Name</label>
-                <input suppressHydrationWarning type="text" name="name" required className="w-full border border-neutral-300 rounded-lg px-4 py-2.5 text-xs focus:outline-none focus:border-blue-600" placeholder="Juan dela Cruz" />
-              </div>
-              <div>
-                <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Contact Number</label>
-                <input suppressHydrationWarning type="tel" name="phone" required className="w-full border border-neutral-300 rounded-lg px-4 py-2.5 text-xs focus:outline-none focus:border-blue-600" placeholder="+63 947 467 5516" />
-              </div>
-            </div>
-            <button suppressHydrationWarning type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg shadow transition border-none cursor-pointer text-xs">Submit Membership Request</button>
-          </form>
-        )}
-
-        {activeForm === 'donate' && (
-          <form name="donation-pledges" method="POST" data-netlify="true" className="space-y-4 bg-white p-6 sm:p-8 rounded-xl border border-neutral-200 shadow-sm text-xs sm:text-sm">
-            <input type="hidden" name="form-name" value="donation-pledges" />
-            <div className="grid sm:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-xs font-bold text-neutral-500 uppercase mb-1">Donor Name</label>
-                <input suppressHydrationWarning type="text" name="donor" required className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-xs focus:outline-none focus:border-blue-600" placeholder="Anonymous" />
-              </div>
-              <div>
-                <label className="block text-xs font-bold text-neutral-500 uppercase mb-1">Target Project Cause</label>
-                <select suppressHydrationWarning name="cause" className="w-full border border-neutral-300 rounded-lg px-4 py-2.5 text-xs focus:outline-none focus:border-blue-600 bg-white">
-                  <option value="maternal-health">Disease Prevention</option>
-                  <option value="education">Supporting Education</option>
-                  <option value="environment">Clean Water Facility</option>
-                </select>
-              </div>
-            </div>
-            <button suppressHydrationWarning type="submit" className="w-full bg-black hover:bg-neutral-900 text-white font-bold py-3 rounded-lg shadow transition border-none cursor-pointer text-xs">Submit Donation Pledge</button>
-          </form>
-        )}
       </section>
 
       {/* 8. FOOTER */}
