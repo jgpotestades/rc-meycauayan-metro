@@ -178,14 +178,19 @@ export default function Home() {
   return (
     <main id="top" className="min-h-screen bg-neutral-50 text-neutral-800 font-sans scroll-smooth relative overflow-x-hidden">
       
-      {/* 1. SMART STICKY NAVIGATION BAR (SOLID BLACK WITH ROTARY GOLD & BLUE HOVERS) */}
+      {/* 1. SMART STICKY NAVIGATION BAR */}
       <header className={`sticky top-0 z-50 bg-black text-white shadow-md border-b border-neutral-800 transition-transform duration-300 transform ${
         navVisible ? 'translate-y-0' : '-translate-y-full'
       }`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-2 flex justify-between items-center">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-2 flex justify-between items-center relative">
           
-          {/* BANNER LOGO ONLY CONTAINER */}
-          <a href="#top" onClick={handleLinkClick} className="flex items-center bg-transparent border-none outline-none cursor-pointer text-left no-underline select-none shrink-0">
+          {/* MOBILE TOGGLE BURGER BUTTON (NOW FIRST IN HTML LINEUP -> SITS LEFT ON MOBILE VIEWPORTS) */}
+          <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="md:hidden text-white hover:text-amber-500 font-bold focus:outline-none text-2xl bg-transparent border-none cursor-pointer z-10">
+            {mobileMenuOpen ? '✕' : '☰'}
+          </button>
+          
+          {/* BANNER LOGO ONLY CONTAINER (SITS MID/RIGHT ON MOBILE, FAR LEFT ON DESKTOP) */}
+          <a href="#top" onClick={handleLinkClick} className="flex items-center bg-transparent border-none outline-none cursor-pointer text-left no-underline select-none shrink-0 md:order-first">
             <img 
               src="/rotary-logo.png" 
               alt="Rotary Club of Meycauayan Metro" 
@@ -193,7 +198,7 @@ export default function Home() {
             />
           </a>
           
-          {/* Desktop Navbar Menu (Gold and Blue Accent Array) */}
+          {/* Desktop Navbar Menu */}
           <nav className="hidden md:flex gap-6 lg:gap-8 text-xs uppercase tracking-widest font-bold items-center">
             <a href="#top" className="text-blue-500 hover:text-amber-500 transition duration-300">Home</a>
             <a href="#about" className="text-neutral-300 hover:text-amber-500 transition duration-300">Who We Are</a>
@@ -204,6 +209,7 @@ export default function Home() {
             {userSession && <a href="#control-center" className="text-blue-400 font-black hover:underline normal-case tracking-normal">CMS Panel</a>}
           </nav>
           
+          {/* Desktop Right Hand Session Controller Context */}
           <div className="hidden md:flex items-center gap-4">
             {userSession ? (
               <div className="flex items-center gap-3">
@@ -214,10 +220,6 @@ export default function Home() {
               <button suppressHydrationWarning onClick={() => { setShowLoginModal(true); setMobileMenuOpen(false); }} className="bg-transparent border border-neutral-700 text-neutral-200 hover:border-amber-500 hover:text-amber-500 font-bold px-5 py-2 rounded-full text-xs uppercase tracking-wider transition cursor-pointer">Portal Access</button>
             )}
           </div>
-
-          <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="md:hidden text-white hover:text-amber-500 font-bold focus:outline-none text-2xl bg-transparent border-none cursor-pointer">
-            {mobileMenuOpen ? '✕' : '☰'}
-          </button>
         </div>
 
         {mobileMenuOpen && (
@@ -314,7 +316,7 @@ export default function Home() {
             )}
 
             <div className="grid lg:grid-cols-3 gap-8 items-start">
-              <div className="bg-neutral-800 border border-neutral-700 p-4 sm:p-6 rounded-xl lg:col-span-2 space-y-6">
+              <div className="bg-slate-800 border border-neutral-700 p-4 sm:p-6 rounded-xl lg:col-span-2 space-y-6">
                 <h3 className="font-bold text-base sm:text-lg text-white border-b border-neutral-700 pb-2">👥 Roster Database Registry</h3>
                 <div className="overflow-x-auto rounded-lg">
                   <table className="w-full text-xs text-left text-neutral-300 block md:table">
@@ -364,17 +366,17 @@ export default function Home() {
                     </div>
                     <div>
                       <label className="block text-neutral-400 uppercase font-bold text-[10px] mb-1">Full Name</label>
-                      <input suppressHydrationWarning type="text" value={editingUser.name} onChange={(e) => setEditingUser({...editingUser, name: e.target.value})} className="w-full p-2 rounded border border-neutral-300 focus:outline-none text-xs" required />
+                      <input suppressHydrationWarning type="text" value={editingUser.name} onChange={(e) => setEditingUser({...editingUser, name: e.target.value})} className="w-full p-2 rounded border border-gray-300 focus:outline-none text-xs" required />
                     </div>
                     <div>
                       <label className="block text-neutral-400 uppercase font-bold text-[10px] mb-1">Email Address</label>
-                      <input suppressHydrationWarning type="email" value={editingUser.email} onChange={(e) => setEditingUser({...editingUser, email: e.target.value})} className="w-full p-2 rounded border border-neutral-300 focus:outline-none text-xs" required />
+                      <input suppressHydrationWarning type="email" value={editingUser.email} onChange={(e) => setEditingUser({...editingUser, email: e.target.value})} className="w-full p-2 rounded border border-gray-300 focus:outline-none text-xs" required />
                     </div>
                     {userSession.role === 'Super Admin' && (
                       <>
                         <div>
                           <label className="block text-neutral-400 uppercase font-bold text-[10px] mb-1">Authorization Level</label>
-                          <select suppressHydrationWarning value={editingUser.role} onChange={(e) => setEditingUser({...editingUser, role: e.target.value as any})} className="w-full p-2 rounded border border-neutral-300 bg-white focus:outline-none text-xs">
+                          <select suppressHydrationWarning value={editingUser.role} onChange={(e) => setEditingUser({...editingUser, role: e.target.value as any})} className="w-full p-2 rounded border border-gray-300 bg-white focus:outline-none text-xs">
                             <option value="Member">Member</option>
                             <option value="Officer">Officer</option>
                             <option value="Super Admin">Super Admin</option>
@@ -382,7 +384,7 @@ export default function Home() {
                         </div>
                         <div>
                           <label className="block text-neutral-400 uppercase font-bold text-[10px] mb-1">Club Assignment Designation</label>
-                          <input suppressHydrationWarning type="text" value={editingUser.position} onChange={(e) => setEditingUser({...editingUser, position: e.target.value})} className="w-full p-2 rounded border border-neutral-300 focus:outline-none text-xs" required />
+                          <input suppressHydrationWarning type="text" value={editingUser.position} onChange={(e) => setEditingUser({...editingUser, position: e.target.value})} className="w-full p-2 rounded border border-gray-300 focus:outline-none text-xs" required />
                         </div>
                       </>
                     )}
@@ -396,15 +398,15 @@ export default function Home() {
                     <div className="grid sm:grid-cols-2 gap-4 text-xs text-gray-800">
                       <div>
                         <label className="block text-neutral-400 font-bold mb-1">Full Name</label>
-                        <input suppressHydrationWarning type="text" name="name" required value={newUser.name} onChange={(e) => setNewUser({...newUser, name: e.target.value})} className="w-full p-2 rounded border border-neutral-300 text-xs focus:outline-none" placeholder="Rot. John Doe" />
+                        <input suppressHydrationWarning type="text" name="name" required value={newUser.name} onChange={(e) => setNewUser({...newUser, name: e.target.value})} className="w-full p-2 rounded border border-gray-300 text-xs focus:outline-none" placeholder="Rot. John Doe" />
                       </div>
                       <div>
                         <label className="block text-neutral-400 font-bold mb-1">Email Interface</label>
-                        <input suppressHydrationWarning type="email" required value={newUser.email} onChange={(e) => setNewUser({...newUser, email: e.target.value})} className="w-full p-2 rounded border border-neutral-300 text-xs focus:outline-none" placeholder="john@rcmm.org" />
+                        <input suppressHydrationWarning type="email" required value={newUser.email} onChange={(e) => setNewUser({...newUser, email: e.target.value})} className="w-full p-2 rounded border border-gray-300 text-xs focus:outline-none" placeholder="john@rcmm.org" />
                       </div>
                       <div>
                         <label className="block text-neutral-400 font-bold mb-1">System Authorization Clearance</label>
-                        <select suppressHydrationWarning value={newUser.role} onChange={(e) => setNewUser({...newUser, role: e.target.value})} className="w-full p-2 rounded border border-neutral-300 bg-white text-xs focus:outline-none">
+                        <select suppressHydrationWarning value={newUser.role} onChange={(e) => setNewUser({...newUser, role: e.target.value})} className="w-full p-2 rounded border border-gray-300 bg-white text-xs focus:outline-none">
                           <option value="Member">Member</option>
                           <option value="Officer">Officer</option>
                           <option value="Super Admin">Super Admin</option>
@@ -412,7 +414,7 @@ export default function Home() {
                       </div>
                       <div>
                         <label className="block text-neutral-400 font-bold mb-1">Designation Title</label>
-                        <input suppressHydrationWarning type="text" required value={newUser.position} onChange={(e) => setNewUser({...newUser, position: e.target.value})} className="w-full p-2 rounded border border-neutral-300 text-xs focus:outline-none" placeholder="Active Member" />
+                        <input suppressHydrationWarning type="text" required value={newUser.position} onChange={(e) => setNewUser({...newUser, position: e.target.value})} className="w-full p-2 rounded border border-gray-300 text-xs focus:outline-none" placeholder="Active Member" />
                       </div>
                     </div>
                     <button suppressHydrationWarning type="submit" className="bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs px-4 py-2 rounded transition border-none cursor-pointer">Stage Account Creation</button>
@@ -428,7 +430,7 @@ export default function Home() {
                   <form onSubmit={(e) => e.preventDefault()} className="space-y-4 text-xs text-neutral-800">
                     <h4 className="font-bold text-blue-400 text-xs">➕ Add New Project Portfolio or News Event</h4>
                     <div>
-                      <label className="block text-gray-400 mb-1 font-bold">Content Record Entry Type</label>
+                      <label className="block text-neutral-400 mb-1 font-bold">Content Record Entry Type</label>
                       <select suppressHydrationWarning value={newActivity.type} onChange={(e) => setNewActivity({...newActivity, type: e.target.value})} className="w-full p-2 rounded border border-neutral-300 bg-white focus:outline-none text-xs">
                         <option value="Project">Project Rollout</option>
                         <option value="News">News / Bulletin Announcement</option>
@@ -465,7 +467,7 @@ export default function Home() {
           100% RESPONSIVE DYNAMIC SINGLE-PAGE PUBLIC LAYOUT TIMELINE
           ============================================================= */}
       
-      {/* 2. DYNAMIC HERO BRAND SHOWCASE (B&W Vignette Overlay) */}
+      {/* 2. DYNAMIC HERO BRAND SHOWCASE */}
       <section 
         className="relative min-h-[80vh] sm:min-h-[85vh] flex items-center bg-fixed bg-cover bg-center text-white px-4 sm:px-6"
         style={{ backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.9)), url('${prodHeroBgUrl}')` }}
@@ -487,7 +489,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 3. ABOUT US SECTION (Minimalist B&W Surface with Gold Accents) */}
+      {/* 3. ABOUT US SECTION */}
       <section id="about" className="py-16 sm:py-20 px-4 sm:px-6 bg-white border-b border-neutral-200 scroll-mt-16">
         <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-2 gap-10 lg:gap-12 items-center">
@@ -562,7 +564,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 6. PARALLAX SEPARATOR BANNER (Black Out Backdrop Overlay with Gold Text Accent) */}
+      {/* 6. PARALLAX SEPARATOR BANNER */}
       <section className="relative py-24 sm:py-32 bg-fixed bg-cover bg-center text-center text-white px-4 sm:px-6" style={{ backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.95)), url('https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?auto=format&fit=crop&q=80&w=1920')` }}>
         <div className="max-w-3xl mx-auto relative z-10">
           <h2 className="text-2xl sm:text-4xl font-black mb-4 text-amber-500 tracking-tight">One Million Saplings, Clean Waters, Bright Minds</h2>
@@ -701,7 +703,7 @@ export default function Home() {
         )}
       </section>
 
-      {/* 9. FOOTER SECTION (SOLID BLACK WITH WHITE RULES) */}
+      {/* 9. FOOTER SECTION */}
       <footer className="bg-black text-white py-12 px-6 border-t border-neutral-800 text-xs sm:text-sm">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6 text-center md:text-left">
           <div>
@@ -712,7 +714,7 @@ export default function Home() {
         </div>
       </footer>
 
-      {/* 10. FLOATING SCROLL TO TOP BUTTON (ROTARY GOLD GRAPHIC AXIS) */}
+      {/* 10. FLOATING SCROLL TO TOP BUTTON */}
       <a href="#top" className={`fixed bottom-4 right-4 sm:bottom-6 sm:right-6 bg-amber-500 border border-neutral-700 hover:bg-black hover:text-amber-500 text-black w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center shadow-xl z-50 transition-all duration-300 transform font-bold text-lg sm:text-xl select-none ${showScrollButton ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-4 scale-75 pointer-events-none'}`} title="Scroll to Top">↑</a>
 
     </main>
