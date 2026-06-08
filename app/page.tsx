@@ -178,7 +178,7 @@ export default function Home() {
   return (
     <main id="top" className="min-h-screen bg-neutral-50 text-neutral-800 font-sans scroll-smooth relative overflow-x-hidden">
       
-      {/* 1. SMART STICKY NAVIGATION BAR (PURE BLACK) */}
+      {/* 1. SMART STICKY NAVIGATION BAR (SOLID BLACK WITH ROTARY GOLD & BLUE HOVERS) */}
       <header className={`sticky top-0 z-50 bg-black text-white shadow-md border-b border-neutral-800 transition-transform duration-300 transform ${
         navVisible ? 'translate-y-0' : '-translate-y-full'
       }`}>
@@ -193,14 +193,14 @@ export default function Home() {
             />
           </a>
           
-          {/* Desktop Navbar Menu (Monochrome with Blue Accent Hover) */}
+          {/* Desktop Navbar Menu (Gold and Blue Accent Array) */}
           <nav className="hidden md:flex gap-6 lg:gap-8 text-xs uppercase tracking-widest font-bold items-center">
-            <a href="#top" className="text-blue-500 hover:text-blue-400 transition">Home</a>
-            <a href="#about" className="text-neutral-300 hover:text-blue-500 transition">Who We Are</a>
-            <a href="#officers" className="text-neutral-300 hover:text-blue-500 transition">Roster Officers</a>
-            <a href="#pillars" className="text-neutral-300 hover:text-blue-500 transition">Our Focus</a>
-            <a href="#portfolio" className="text-neutral-300 hover:text-blue-500 transition">Projects & News</a>
-            <a href="#contact" className="text-neutral-300 hover:text-blue-500 transition">Get Involved</a>
+            <a href="#top" className="text-blue-500 hover:text-amber-500 transition duration-300">Home</a>
+            <a href="#about" className="text-neutral-300 hover:text-amber-500 transition duration-300">Who We Are</a>
+            <a href="#officers" className="text-neutral-300 hover:text-amber-500 transition duration-300">Roster Officers</a>
+            <a href="#pillars" className="text-neutral-300 hover:text-amber-500 transition duration-300">Our Focus</a>
+            <a href="#portfolio" className="text-neutral-300 hover:text-amber-500 transition duration-300">Projects & News</a>
+            <a href="#contact" className="text-neutral-300 hover:text-amber-500 transition duration-300">Get Involved</a>
             {userSession && <a href="#control-center" className="text-blue-400 font-black hover:underline normal-case tracking-normal">CMS Panel</a>}
           </nav>
           
@@ -211,23 +211,23 @@ export default function Home() {
                 <button suppressHydrationWarning onClick={() => { setUserSession(null); setMobileMenuOpen(false); }} className="bg-red-600 hover:bg-red-700 text-white font-bold px-4 py-2 rounded-full text-xs transition border-none cursor-pointer">Logout</button>
               </div>
             ) : (
-              <button suppressHydrationWarning onClick={() => { setShowLoginModal(true); setMobileMenuOpen(false); }} className="bg-transparent border border-neutral-400 text-neutral-200 hover:border-blue-500 hover:text-blue-500 font-bold px-5 py-2 rounded-full text-xs uppercase tracking-wider transition cursor-pointer">Portal Access</button>
+              <button suppressHydrationWarning onClick={() => { setShowLoginModal(true); setMobileMenuOpen(false); }} className="bg-transparent border border-neutral-700 text-neutral-200 hover:border-amber-500 hover:text-amber-500 font-bold px-5 py-2 rounded-full text-xs uppercase tracking-wider transition cursor-pointer">Portal Access</button>
             )}
           </div>
 
-          <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="md:hidden text-white hover:text-blue-500 font-bold focus:outline-none text-2xl bg-transparent border-none cursor-pointer">
+          <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="md:hidden text-white hover:text-amber-500 font-bold focus:outline-none text-2xl bg-transparent border-none cursor-pointer">
             {mobileMenuOpen ? '✕' : '☰'}
           </button>
         </div>
 
         {mobileMenuOpen && (
           <div className="md:hidden bg-black border-t border-neutral-900 p-4 space-y-3 flex flex-col text-xs font-bold tracking-wider uppercase text-neutral-300 animate-fadeIn shadow-inner">
-            <a href="#top" onClick={handleLinkClick} className="hover:text-blue-500 py-1">Home</a>
-            <a href="#about" onClick={handleLinkClick} className="hover:text-blue-500 py-1">Who We Are</a>
-            <a href="#officers" onClick={handleLinkClick} className="hover:text-blue-500 py-1">Roster Officers</a>
-            <a href="#pillars" onClick={handleLinkClick} className="hover:text-blue-500 py-1">Our Focus</a>
-            <a href="#portfolio" onClick={handleLinkClick} className="hover:text-blue-500 py-1">Projects & News</a>
-            <a href="#contact" onClick={handleLinkClick} className="hover:text-blue-500 py-1">Get Involved</a>
+            <a href="#top" onClick={handleLinkClick} className="hover:text-amber-500 py-1">Home</a>
+            <a href="#about" onClick={handleLinkClick} className="hover:text-amber-500 py-1">Who We Are</a>
+            <a href="#officers" onClick={handleLinkClick} className="hover:text-amber-500 py-1">Roster Officers</a>
+            <a href="#pillars" onClick={handleLinkClick} className="hover:text-amber-500 py-1">Our Focus</a>
+            <a href="#portfolio" onClick={handleLinkClick} className="hover:text-amber-500 py-1">Projects & News</a>
+            <a href="#contact" onClick={handleLinkClick} className="hover:text-amber-500 py-1">Get Involved</a>
             {userSession && <a href="#control-center" onClick={handleLinkClick} className="text-blue-400 py-1 font-bold border-t border-neutral-800 normal-case tracking-normal">CMS Panel Workspace</a>}
             <div className="pt-2 border-t border-neutral-800">
               {userSession ? (
@@ -274,7 +274,7 @@ export default function Home() {
       )}
 
       {/* =============================================================
-          ADMINISTRATOR CONTROL MATRIX (MONOCHROME RECONFIGURED)
+          ADMINISTRATOR CONTROL MATRIX
           ============================================================= */}
       {userSession && (
         <section id="control-center" className="bg-neutral-900 text-white py-12 px-4 sm:px-6 border-b-4 border-blue-600 scroll-mt-16">
@@ -318,7 +318,7 @@ export default function Home() {
                 <h3 className="font-bold text-base sm:text-lg text-white border-b border-neutral-700 pb-2">👥 Roster Database Registry</h3>
                 <div className="overflow-x-auto rounded-lg">
                   <table className="w-full text-xs text-left text-neutral-300 block md:table">
-                    <thead className="text-neutral-400 uppercase bg-black text-[10px] hidden md:table-header-group">
+                    <thead className="text-gray-400 uppercase bg-black text-[10px] hidden md:table-header-group">
                       <tr>
                         <th className="px-4 py-3">Full Roster Name</th>
                         <th className="px-4 py-3">Security Role</th>
@@ -393,7 +393,7 @@ export default function Home() {
                 {userSession.role === 'Super Admin' ? (
                   <form onSubmit={createMemberInStage} className="bg-neutral-900/60 p-4 sm:p-5 rounded-xl border border-neutral-700 space-y-4">
                     <h4 className="text-xs sm:text-sm font-bold text-blue-400">➕ Super Admin Proxy Action: Enroll New Member / Officer</h4>
-                    <div className="grid sm:grid-cols-2 gap-4 text-xs text-neutral-800">
+                    <div className="grid sm:grid-cols-2 gap-4 text-xs text-gray-800">
                       <div>
                         <label className="block text-neutral-400 font-bold mb-1">Full Name</label>
                         <input suppressHydrationWarning type="text" name="name" required value={newUser.name} onChange={(e) => setNewUser({...newUser, name: e.target.value})} className="w-full p-2 rounded border border-neutral-300 text-xs focus:outline-none" placeholder="Rot. John Doe" />
@@ -428,26 +428,26 @@ export default function Home() {
                   <form onSubmit={(e) => e.preventDefault()} className="space-y-4 text-xs text-neutral-800">
                     <h4 className="font-bold text-blue-400 text-xs">➕ Add New Project Portfolio or News Event</h4>
                     <div>
-                      <label className="block text-neutral-400 font-bold mb-1">Content Record Entry Type</label>
+                      <label className="block text-gray-400 mb-1 font-bold">Content Record Entry Type</label>
                       <select suppressHydrationWarning value={newActivity.type} onChange={(e) => setNewActivity({...newActivity, type: e.target.value})} className="w-full p-2 rounded border border-neutral-300 bg-white focus:outline-none text-xs">
                         <option value="Project">Project Rollout</option>
                         <option value="News">News / Bulletin Announcement</option>
                       </select>
                     </div>
                     <div>
-                      <label className="block text-neutral-400 font-bold mb-1">Humanitarian Activity Title</label>
+                      <label className="block text-gray-400 mb-1 font-bold">Humanitarian Activity Title</label>
                       <input suppressHydrationWarning type="text" required value={newActivity.title} onChange={(e) => setNewActivity({...newActivity, title: e.target.value})} className="w-full p-2 rounded border border-neutral-300 text-xs focus:outline-none" placeholder="Feeding Program 2026" />
                     </div>
                     <div>
-                      <label className="block text-neutral-400 font-bold mb-1">Strategic Objective Category</label>
+                      <label className="block text-gray-400 mb-1 font-bold">Strategic Objective Category</label>
                       <input suppressHydrationWarning type="text" required value={newActivity.category} onChange={(e) => setNewActivity({...newActivity, category: e.target.value})} className="w-full p-2 rounded border border-gray-300 text-xs focus:outline-none" placeholder="Supporting Education" />
                     </div>
                     <div>
-                      <label className="block text-neutral-400 font-bold mb-1">Public Summary Description Context</label>
+                      <label className="block text-gray-400 mb-1 font-bold">Public Summary Description Context</label>
                       <textarea suppressHydrationWarning required value={newActivity.description} onChange={(e) => setNewActivity({...newActivity, description: e.target.value})} rows={3} className="w-full p-2 rounded border border-neutral-300 text-xs focus:outline-none" placeholder="Summarize field activities..." />
                     </div>
                     <div>
-                      <label className="block text-neutral-400 font-bold mb-1">Metric Output / Date Tag</label>
+                      <label className="block text-gray-400 mb-1 font-bold">Metric Output / Date Tag</label>
                       <input suppressHydrationWarning type="text" required value={newActivity.detail} onChange={(e) => setNewActivity({...newActivity, detail: e.target.value})} className="w-full p-2 rounded border border-neutral-300 text-xs focus:outline-none" placeholder="300 kits distributed" />
                     </div>
                     <button suppressHydrationWarning type="button" onClick={createActivityInStage} className="w-full bg-blue-600 text-white font-black py-2.5 rounded hover:bg-blue-700 transition border-none cursor-pointer text-xs">Stage Content Component</button>
@@ -472,35 +472,35 @@ export default function Home() {
       >
         <div className="max-w-7xl mx-auto w-full grid md:grid-cols-2 gap-12 items-center relative z-10 py-12 sm:py-16">
           <div className="text-center md:text-left">
-            <span className="bg-neutral-900 text-blue-500 text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-widest border border-neutral-800">District 3770 • Service Above Self</span>
+            <span className="bg-neutral-900 text-amber-500 text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-widest border border-neutral-800 shadow-sm">District 3770 • Service Above Self</span>
             <h1 className="text-3xl sm:text-4xl md:text-6xl font-black tracking-tight text-white mt-4 mb-6 leading-tight">{prodHeroTitle}</h1>
             <p className="text-sm sm:text-lg text-neutral-300 mb-8 max-w-xl mx-auto md:mx-0">{prodHeroSub}</p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start max-w-md mx-auto md:max-w-none">
-              <a href="#portfolio" className="bg-white text-black font-bold px-6 py-3 rounded-lg hover:bg-blue-600 hover:text-white transition shadow-md text-center text-sm">Explore Initiatives</a>
+              <a href="#portfolio" className="bg-white text-black font-bold px-6 py-3 rounded-lg hover:bg-amber-500 hover:text-black transition duration-300 shadow-md text-center text-sm">Explore Initiatives</a>
               <a href="#about" className="border-2 border-neutral-400 text-white font-bold px-6 py-3 rounded-lg hover:bg-white/10 transition text-center text-sm">Learn More</a>
             </div>
           </div>
           <div className="bg-white/5 backdrop-blur-sm border border-neutral-800 p-6 sm:p-8 rounded-2xl shadow-2xl text-center md:text-left hidden sm:block">
-            <h3 className="text-lg sm:text-xl font-bold text-blue-500 mb-2">Fellowship Through Service</h3>
+            <h3 className="text-lg sm:text-xl font-bold text-amber-500 mb-2">Fellowship Through Service</h3>
             <p className="text-xs sm:text-sm text-neutral-300 leading-relaxed">Every week, our members meet to orchestrate critical field actions. Scroll down to see our live historical impacts and explore ongoing projects.</p>
           </div>
         </div>
       </section>
 
-      {/* 3. ABOUT US SECTION (Minimalist B&W Surface) */}
+      {/* 3. ABOUT US SECTION (Minimalist B&W Surface with Gold Accents) */}
       <section id="about" className="py-16 sm:py-20 px-4 sm:px-6 bg-white border-b border-neutral-200 scroll-mt-16">
         <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-2 gap-10 lg:gap-12 items-center">
             <div>
-              <span className="text-blue-600 font-bold uppercase tracking-widest text-xs block">Our Heritage</span>
+              <span className="text-amber-500 font-extrabold uppercase tracking-widest text-xs block">Our Heritage</span>
               <h2 className="text-2xl sm:text-3xl font-black text-neutral-900 mt-2 mb-4 tracking-tight">About Us & Rotary International</h2>
               <p className="text-sm text-neutral-600 leading-relaxed mb-4">Rotary International is a global network of 1.4 million neighbors, friends, leaders, and problem-solvers who see a world where people unite and take action to create lasting change — across the globe, in our communities, and in ourselves.</p>
-              <p className="text-sm text-neutral-600 leading-relaxed">The **Rotary Club of Meycauayan Metro**, operating under **District 3770**, carries out this global mission locally. Our members pool professional expertise to champion civic development, health solutions, and youth literacy programs here in Meycauayan City, Bulacan.</p>
+              <p className="text-sm text-gray-600 leading-relaxed">The **Rotary Club of Meycauayan Metro**, operating under **District 3770**, carries out this global mission locally. Our members pool professional expertise to champion civic development, health solutions, and youth literacy programs here in Meycauayan City, Bulacan.</p>
             </div>
             
             <div className="bg-neutral-50 p-6 sm:p-8 rounded-xl border border-neutral-200 shadow-sm">
               <h3 className="text-lg sm:text-xl font-black text-neutral-900 mb-4 tracking-tight">Core Club History & Vision</h3>
-              <div className="border-l-4 border-blue-600 pl-4 space-y-4">
+              <div className="border-l-4 border-amber-500 pl-4 space-y-4">
                 <div>
                   <h4 className="font-bold text-neutral-900 text-sm">The Rotary Motto</h4>
                   <p className="text-xs text-neutral-500 mt-0.5">"Service Above Self" directs every humanitarian blueprint, local donation, and fellowship project we authorize.</p>
@@ -526,10 +526,10 @@ export default function Home() {
 
           <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {displayProdOfficers.map((officer) => (
-              <div key={officer.id} className="bg-white rounded-2xl border border-neutral-200 p-6 text-center hover:border-blue-500 hover:shadow-md transition duration-300">
+              <div key={officer.id} className="bg-white rounded-2xl border border-neutral-200 p-6 text-center hover:border-amber-500 hover:shadow-md transition duration-300">
                 <div className="w-16 h-16 bg-neutral-100 rounded-full flex items-center justify-center mx-auto mb-4 text-neutral-800 font-black text-xl shadow-inner border border-neutral-200">⚙️</div>
                 <h3 className="text-base font-black text-neutral-900">{officer.name}</h3>
-                <p className="text-xs text-blue-600 font-bold mt-1 uppercase tracking-wider">{officer.position}</p>
+                <p className="text-xs text-amber-500 font-bold mt-1 uppercase tracking-wider">{officer.position}</p>
                 <div className="mt-4 pt-3 border-t border-neutral-100 text-xs text-neutral-400 font-mono overflow-hidden text-ellipsis text-center select-all">{officer.email}</div>
               </div>
             ))}
@@ -544,28 +544,28 @@ export default function Home() {
           <p className="text-sm text-neutral-600 mt-3">How the Rotary Club of Meycauayan Metro channels resources to empower our communities.</p>
         </div>
         <div className="grid md:grid-cols-3 gap-6 sm:gap-8">
-          <div className="border border-neutral-200 p-6 sm:p-8 rounded-xl bg-white hover:border-blue-500 transition duration-300">
+          <div className="border border-neutral-200 p-6 sm:p-8 rounded-xl bg-white hover:border-amber-500 transition duration-300">
             <div className="text-2xl sm:text-3xl mb-4">🩺</div>
             <h3 className="text-lg sm:text-xl font-bold text-neutral-900 mb-2">Maternal & Child Health</h3>
             <p className="text-xs sm:text-sm text-neutral-600 leading-relaxed">Supplying diagnostic equipment, medical tools, and prenatal vitamins to local barangay health centers.</p>
           </div>
-          <div className="border border-neutral-200 p-6 sm:p-8 rounded-xl bg-white hover:border-blue-500 transition duration-300">
+          <div className="border border-neutral-200 p-6 sm:p-8 rounded-xl bg-white hover:border-amber-500 transition duration-300">
             <div className="text-2xl sm:text-3xl mb-4">📚</div>
             <h3 className="text-lg sm:text-xl font-bold text-neutral-900 mb-2">Supporting Education</h3>
             <p className="text-xs sm:text-sm text-neutral-600 leading-relaxed">Organizing book drives, school supply distributions, and supporting literacy infrastructure for public schools.</p>
           </div>
-          <div className="border border-neutral-200 p-6 sm:p-8 rounded-xl bg-white hover:border-blue-500 transition duration-300">
+          <div className="border border-neutral-200 p-6 sm:p-8 rounded-xl bg-white hover:border-amber-500 transition duration-300">
             <div className="text-2xl sm:text-3xl mb-4">🌱</div>
             <h3 className="text-lg sm:text-xl font-bold text-neutral-900 mb-2">Environmental Action</h3>
-            <p className="text-xs sm:text-sm text-gray-600 leading-relaxed">Spearheading regional tree-planting programs and localized cleanup activities to preserve natural basins.</p>
+            <p className="text-xs sm:text-sm text-neutral-600 leading-relaxed">Spearheading regional tree-planting programs and localized cleanup activities to preserve natural basins.</p>
           </div>
         </div>
       </section>
 
-      {/* 6. PARALLAX SEPARATOR BANNER (Black Out Backdrop Overlay) */}
+      {/* 6. PARALLAX SEPARATOR BANNER (Black Out Backdrop Overlay with Gold Text Accent) */}
       <section className="relative py-24 sm:py-32 bg-fixed bg-cover bg-center text-center text-white px-4 sm:px-6" style={{ backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.95)), url('https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?auto=format&fit=crop&q=80&w=1920')` }}>
         <div className="max-w-3xl mx-auto relative z-10">
-          <h2 className="text-2xl sm:text-4xl font-black mb-4 text-blue-500 tracking-tight">One Million Saplings, Clean Waters, Bright Minds</h2>
+          <h2 className="text-2xl sm:text-4xl font-black mb-4 text-amber-500 tracking-tight">One Million Saplings, Clean Waters, Bright Minds</h2>
           <p className="text-sm sm:text-base text-neutral-300">"We do not just build frameworks; we deliver immediate, transparent field resources where they matter most."</p>
         </div>
       </section>
@@ -580,7 +580,7 @@ export default function Home() {
             </div>
             <div className="flex bg-white rounded-lg border border-neutral-200 p-1 shadow-sm w-full md:w-auto overflow-x-auto">
               {(['All', 'Project', 'News'] as const).map((filterOpt) => (
-                <button suppressHydrationWarning key={filterOpt} onClick={() => setActivityFilter(filterOpt)} className={`flex-1 md:flex-initial px-4 py-1.5 rounded-md text-xs font-bold transition-all border-none cursor-pointer text-center ${activityFilter === filterOpt ? 'bg-black text-white' : 'text-neutral-500 hover:text-blue-600 bg-transparent'}`}>{filterOpt === 'All' ? 'View All' : `${filterOpt}`}</button>
+                <button suppressHydrationWarning key={filterOpt} onClick={() => setActivityFilter(filterOpt)} className={`flex-1 md:flex-initial px-4 py-1.5 rounded-md text-xs font-bold transition-all border-none cursor-pointer text-center ${activityFilter === filterOpt ? 'bg-black text-white' : 'text-neutral-500 hover:text-amber-500 bg-transparent'}`}>{filterOpt === 'All' ? 'View All' : `${filterOpt}`}</button>
               ))}
             </div>
           </div>
@@ -594,7 +594,7 @@ export default function Home() {
                     <span className="text-xs text-neutral-400 font-medium">{activity.status}</span>
                   </div>
                   <h3 className="text-base sm:text-lg font-black text-neutral-900 mb-1 leading-tight">{activity.title}</h3>
-                  <p className="text-xs font-semibold text-blue-600 mb-3">{activity.category}</p>
+                  <p className="text-xs font-bold text-amber-500 mb-3">{activity.category}</p>
                   <p className="text-xs sm:text-sm text-neutral-600 leading-relaxed">{activity.description}</p>
                 </div>
                 <div className="mt-6 pt-4 border-t border-neutral-100 flex justify-between items-end">
@@ -620,9 +620,9 @@ export default function Home() {
           <p className="text-xs sm:text-sm text-neutral-600 mt-2">Select an option below to submit your secure data vector.</p>
           
           <div className="flex gap-2 mt-6 max-w-md mx-auto border-b border-neutral-200">
-            <button suppressHydrationWarning onClick={() => setActiveForm('inquiry')} className={`flex-1 pb-3 text-xs sm:text-sm font-bold border-b-2 transition-all cursor-pointer border-none bg-transparent ${activeForm === 'inquiry' ? 'border-black text-black' : 'border-transparent text-neutral-400 hover:text-blue-600'}`}>Inquiry</button>
-            <button suppressHydrationWarning onClick={() => setActiveForm('member')} className={`flex-1 pb-3 text-xs sm:text-sm font-bold border-b-2 transition-all cursor-pointer border-none bg-transparent ${activeForm === 'member' ? 'border-black text-black' : 'border-transparent text-neutral-400 hover:text-blue-600'}`}>Join Us</button>
-            <button suppressHydrationWarning onClick={() => setActiveForm('donate')} className={`flex-1 pb-3 text-xs sm:text-sm font-bold border-b-2 transition-all cursor-pointer border-none bg-transparent ${activeForm === 'donate' ? 'border-black text-black' : 'border-transparent text-neutral-400 hover:text-blue-600'}`}>Donate</button>
+            <button suppressHydrationWarning onClick={() => setActiveForm('inquiry')} className={`flex-1 pb-3 text-xs sm:text-sm font-bold border-b-2 transition-all cursor-pointer border-none bg-transparent ${activeForm === 'inquiry' ? 'border-black text-black' : 'border-transparent text-neutral-400 hover:text-amber-500'}`}>Inquiry</button>
+            <button suppressHydrationWarning onClick={() => setActiveForm('member')} className={`flex-1 pb-3 text-xs sm:text-sm font-bold border-b-2 transition-all cursor-pointer border-none bg-transparent ${activeForm === 'member' ? 'border-black text-black' : 'border-transparent text-neutral-400 hover:text-amber-500'}`}>Join Us</button>
+            <button suppressHydrationWarning onClick={() => setActiveForm('donate')} className={`flex-1 pb-3 text-xs sm:text-sm font-bold border-b-2 transition-all cursor-pointer border-none bg-transparent ${activeForm === 'donate' ? 'border-black text-black' : 'border-transparent text-neutral-400 hover:text-amber-500'}`}>Donate</button>
           </div>
         </div>
 
@@ -652,21 +652,21 @@ export default function Home() {
             <input type="hidden" name="form-name" value="membership-applications" />
             <div className="grid sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-bold text-neutral-500 uppercase mb-1">Full Name</label>
+                <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Full Name</label>
                 <input suppressHydrationWarning type="text" name="name" required className="w-full border border-neutral-300 rounded-lg px-4 py-2.5 text-xs focus:outline-none focus:border-blue-600" placeholder="Juan dela Cruz" />
               </div>
               <div>
-                <label className="block text-xs font-bold text-neutral-500 uppercase mb-1">Contact Number</label>
+                <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Contact Number</label>
                 <input suppressHydrationWarning type="tel" name="phone" required className="w-full border border-neutral-300 rounded-lg px-4 py-2.5 text-xs focus:outline-none focus:border-blue-600" placeholder="+63 947 467 5516" />
               </div>
             </div>
             <div className="grid sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-bold text-neutral-500 uppercase mb-1">Email Address</label>
+                <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Email Address</label>
                 <input suppressHydrationWarning type="email" name="email" required className="w-full border border-neutral-300 rounded-lg px-4 py-2.5 text-xs focus:outline-none focus:border-blue-600" placeholder="juan@example.com" />
               </div>
               <div>
-                <label className="block text-xs font-bold text-neutral-500 uppercase mb-1">Profession / Occupation</label>
+                <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Profession / Occupation</label>
                 <input suppressHydrationWarning type="text" name="occupation" required className="w-full border border-neutral-300 rounded-lg px-4 py-2.5 text-xs focus:outline-none focus:border-blue-600" placeholder="Business Owner" />
               </div>
             </div>
@@ -701,7 +701,7 @@ export default function Home() {
         )}
       </section>
 
-      {/* 9. FOOTER SECTION (SOLID BLACK) */}
+      {/* 9. FOOTER SECTION (SOLID BLACK WITH WHITE RULES) */}
       <footer className="bg-black text-white py-12 px-6 border-t border-neutral-800 text-xs sm:text-sm">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6 text-center md:text-left">
           <div>
@@ -712,8 +712,8 @@ export default function Home() {
         </div>
       </footer>
 
-      {/* 10. FLOATING SCROLL TO TOP BUTTON */}
-      <a href="#top" className={`fixed bottom-4 right-4 sm:bottom-6 sm:right-6 bg-black border border-neutral-700 hover:bg-blue-600 text-white w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center shadow-xl z-50 transition-all duration-300 transform font-bold text-lg sm:text-xl select-none ${showScrollButton ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-4 scale-75 pointer-events-none'}`} title="Scroll to Top">↑</a>
+      {/* 10. FLOATING SCROLL TO TOP BUTTON (ROTARY GOLD GRAPHIC AXIS) */}
+      <a href="#top" className={`fixed bottom-4 right-4 sm:bottom-6 sm:right-6 bg-amber-500 border border-neutral-700 hover:bg-black hover:text-amber-500 text-black w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center shadow-xl z-50 transition-all duration-300 transform font-bold text-lg sm:text-xl select-none ${showScrollButton ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-4 scale-75 pointer-events-none'}`} title="Scroll to Top">↑</a>
 
     </main>
   );
