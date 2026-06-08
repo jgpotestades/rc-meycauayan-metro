@@ -18,6 +18,26 @@ const initialActivities = [
   { id: 4, type: 'Project', title: "Bulacan Watershed Tree Planting", category: "Environmental Action", description: "Reforestation efforts along crucial regional basins to prevent soil erosion and localized flash flooding.", status: "Completed", detail: "500 native saplings planted and monitored." }
 ];
 
+// High-resolution historic community service documentation images for carousel cycle
+const carouselSlides = [
+  {
+    url: "https://images.unsplash.com/photo-1593113598332-cd288d649433?auto=format&fit=crop&q=80&w=1920",
+    caption: "Meycauayan Localized Civic Health Hub Resource Operations"
+  },
+  {
+    url: "https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?auto=format&fit=crop&q=80&w=1920",
+    caption: "Textbook Allocations and Primary Youth Literacy Centers"
+  },
+  {
+    url: "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&q=80&w=1920",
+    caption: "District Regional Watershed Reforestation Campaign"
+  },
+  {
+    url: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&q=80&w=1920",
+    caption: "District 3770 Leadership Assembly Action Forums"
+  }
+];
+
 export default function Home() {
   // Navigation & Menu Trackers
   const [activeForm, setActiveForm] = useState<'inquiry' | 'member' | 'donate'>('inquiry');
@@ -25,6 +45,9 @@ export default function Home() {
   const [showScrollButton, setShowScrollButton] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
+
+  // Carousel Active Slide Tracker Coordinates
+  const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
 
   // Smart Sticky Scroll Direction Trackers
   const [navVisible, setNavVisible] = useState(true);
@@ -35,13 +58,11 @@ export default function Home() {
   const [prodActivities, setProdActivities] = useState(initialActivities);
   const [prodHeroTitle, setProdHeroTitle] = useState("Making a Lasting Impact in Meycauayan");
   const [prodHeroSub, setProdHeroSub] = useState("We are community leaders, neighbors, and problem solvers coming together to create positive, sustainable change across Bulacan through hands-on service.");
-  const [prodHeroBgUrl, setProdHeroBgUrl] = useState("https://images.unsplash.com/photo-1593113598332-cd288d649433?auto=format&fit=crop&q=80&w=1920");
 
   const [stageUsers, setStageUsers] = useState(initialUsers);
   const [stageActivities, setStageActivities] = useState(initialActivities);
   const [stageHeroTitle, setStageHeroTitle] = useState("Making a Lasting Impact in Meycauayan");
   const [stageHeroSub, setStageHeroSub] = useState("We are community leaders, neighbors, and problem solvers coming together to create positive, sustainable change across Bulacan through hands-on service.");
-  const [stageHeroBgUrl, setStageHeroBgUrl] = useState("https://images.unsplash.com/photo-1593113598332-cd288d649433?auto=format&fit=crop&q=80&w=1920");
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
 
   // Auth States
@@ -54,6 +75,22 @@ export default function Home() {
   const [editingUser, setEditingUser] = useState<typeof initialUsers[0] | null>(null);
   const [newUser, setNewUser] = useState({ name: '', role: 'Member', position: 'Active Member', username: '', email: '' });
   const [newActivity, setNewActivity] = useState({ type: 'Project', title: '', category: '', description: '', status: 'Ongoing', detail: '' });
+
+  // Carousel Auto-Cycle Hook System Loop
+  useEffect(() => {
+    const slideTimer = setInterval(() => {
+      setCurrentSlideIndex((prevIndex) => (prevIndex + 1) % carouselSlides.length);
+    }, 6000); // Transitions automatically every 6 seconds
+    return () => clearInterval(slideTimer);
+  }, []);
+
+  const handlePrevSlide = () => {
+    setCurrentSlideIndex((prev) => (prev === 0 ? carouselSlides.length - 1 : prev - 1));
+  };
+
+  const handleNextSlide = () => {
+    setCurrentSlideIndex((prev) => (prev + 1) % carouselSlides.length);
+  };
 
   // Combined Window Scroll Listener Matrix
   useEffect(() => {
@@ -163,7 +200,6 @@ export default function Home() {
       setProdActivities([...stageActivities]);
       setProdHeroTitle(stageHeroTitle);
       setProdHeroSub(stageHeroSub);
-      setProdHeroBgUrl(stageHeroBgUrl);
       setHasUnsavedChanges(false);
       alert("Deployment successful!");
     }
@@ -178,18 +214,18 @@ export default function Home() {
   return (
     <main id="top" className="min-h-screen bg-neutral-50 text-neutral-800 font-sans scroll-smooth relative overflow-x-hidden">
       
-      {/* 1. SMART STICKY NAVIGATION BAR */}
+      {/* 1. SMART STICKY NAVIGATION BAR (STYLIZED MONOCHROME WITH INVERTED MOBILE POSITIONS) */}
       <header className={`sticky top-0 z-50 bg-black text-white shadow-md border-b border-neutral-800 transition-transform duration-300 transform ${
         navVisible ? 'translate-y-0' : '-translate-y-full'
       }`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-2 flex justify-between items-center relative">
           
-          {/* MOBILE TOGGLE BURGER BUTTON (NOW FIRST IN HTML LINEUP -> SITS LEFT ON MOBILE VIEWPORTS) */}
+          {/* MOBILE TOGGLE BURGER BUTTON (SITS LEFT ON MOBILE ACCORDING TO SCHEMA) */}
           <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="md:hidden text-white hover:text-amber-500 font-bold focus:outline-none text-2xl bg-transparent border-none cursor-pointer z-10">
             {mobileMenuOpen ? '✕' : '☰'}
           </button>
           
-          {/* BANNER LOGO ONLY CONTAINER (SITS MID/RIGHT ON MOBILE, FAR LEFT ON DESKTOP) */}
+          {/* BANNER LOGO ONLY CONTAINER (FLIPPED RIGHT ON MOBILE, ABSOLUTE DECK FAR LEFT ON DESKTOP) */}
           <a href="#top" onClick={handleLinkClick} className="flex items-center bg-transparent border-none outline-none cursor-pointer text-left no-underline select-none shrink-0 md:order-first">
             <img 
               src="/rotary-logo.png" 
@@ -209,7 +245,6 @@ export default function Home() {
             {userSession && <a href="#control-center" className="text-blue-400 font-black hover:underline normal-case tracking-normal">CMS Panel</a>}
           </nav>
           
-          {/* Desktop Right Hand Session Controller Context */}
           <div className="hidden md:flex items-center gap-4">
             {userSession ? (
               <div className="flex items-center gap-3">
@@ -299,13 +334,9 @@ export default function Home() {
               <div className="bg-neutral-800 border border-neutral-700 p-4 sm:p-6 rounded-xl space-y-4">
                 <h3 className="text-sm sm:text-base font-bold text-blue-400">🛠️ Real-Time Layout Content Editor</h3>
                 <div className="grid md:grid-cols-2 gap-4 text-xs">
-                  <div>
+                  <div className="md:col-span-2">
                     <label className="block text-neutral-400 font-bold mb-1">Staging Hero Title Text</label>
                     <input suppressHydrationWarning type="text" value={stageHeroTitle} onChange={(e) => { setStageHeroTitle(e.target.value); setHasUnsavedChanges(true); }} className="w-full bg-neutral-900 text-white border border-neutral-600 rounded px-3 py-2.5 focus:border-blue-500 outline-none text-xs" />
-                  </div>
-                  <div>
-                    <label className="block text-neutral-400 font-bold mb-1">Staging Hero Background URL</label>
-                    <input suppressHydrationWarning type="text" value={stageHeroBgUrl} onChange={(e) => { setStageHeroBgUrl(e.target.value); setHasUnsavedChanges(true); }} className="w-full bg-neutral-900 text-white border border-neutral-600 rounded px-3 py-2.5 focus:border-blue-500 outline-none text-xs" />
                   </div>
                   <div className="md:col-span-2">
                     <label className="block text-neutral-400 font-bold mb-1">Staging Hero Paragraph Description Block</label>
@@ -316,7 +347,7 @@ export default function Home() {
             )}
 
             <div className="grid lg:grid-cols-3 gap-8 items-start">
-              <div className="bg-slate-800 border border-neutral-700 p-4 sm:p-6 rounded-xl lg:col-span-2 space-y-6">
+              <div className="bg-neutral-800 border border-neutral-700 p-4 sm:p-6 rounded-xl lg:col-span-2 space-y-6">
                 <h3 className="font-bold text-base sm:text-lg text-white border-b border-neutral-700 pb-2">👥 Roster Database Registry</h3>
                 <div className="overflow-x-auto rounded-lg">
                   <table className="w-full text-xs text-left text-neutral-300 block md:table">
@@ -427,10 +458,10 @@ export default function Home() {
               <div className="bg-neutral-800 border border-neutral-700 p-4 sm:p-6 rounded-xl space-y-6">
                 <h3 className="font-bold text-base sm:text-lg text-white border-b border-neutral-700 pb-2">📢 Content Engine Operations</h3>
                 {userSession.role === 'Super Admin' ? (
-                  <form onSubmit={(e) => e.preventDefault()} className="space-y-4 text-xs text-neutral-800">
+                  <form onSubmit={(e) => e.preventDefault()} className="space-y-4 text-xs text-gray-800">
                     <h4 className="font-bold text-blue-400 text-xs">➕ Add New Project Portfolio or News Event</h4>
                     <div>
-                      <label className="block text-neutral-400 mb-1 font-bold">Content Record Entry Type</label>
+                      <label className="block text-gray-400 mb-1 font-bold">Content Record Entry Type</label>
                       <select suppressHydrationWarning value={newActivity.type} onChange={(e) => setNewActivity({...newActivity, type: e.target.value})} className="w-full p-2 rounded border border-neutral-300 bg-white focus:outline-none text-xs">
                         <option value="Project">Project Rollout</option>
                         <option value="News">News / Bulletin Announcement</option>
@@ -464,28 +495,64 @@ export default function Home() {
       )}
 
       {/* =============================================================
-          100% RESPONSIVE DYNAMIC SINGLE-PAGE PUBLIC LAYOUT TIMELINE
+          2. NEW DYNAMIC LANDING HERO CAROUSEL FRAMEWORK BUILD
           ============================================================= */}
-      
-      {/* 2. DYNAMIC HERO BRAND SHOWCASE */}
-      <section 
-        className="relative min-h-[80vh] sm:min-h-[85vh] flex items-center bg-fixed bg-cover bg-center text-white px-4 sm:px-6"
-        style={{ backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.9)), url('${prodHeroBgUrl}')` }}
-      >
+      <section className="relative min-h-[85vh] sm:min-h-[85vh] flex items-center text-white px-4 sm:px-6 overflow-hidden bg-black">
+        
+        {/* CAROUSEL IMAGE LAYER SLIDES WITH SMOOTH cross-fade STEPPERS */}
+        {carouselSlides.map((slide, idx) => (
+          <div 
+            key={idx}
+            className={`absolute inset-0 w-full h-full bg-cover bg-center transition-opacity duration-1000 ease-in-out ${
+              idx === currentSlideIndex ? 'opacity-100 scale-100 z-0' : 'opacity-0 scale-105 pointer-events-none'
+            }`}
+            style={{ 
+              backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.72), rgba(0, 0, 0, 0.88)), url('${slide.url}')`,
+              transitionProperty: 'opacity, transform'
+            }}
+          />
+        ))}
+
+        {/* STATIC FLOATING HERO CAPTION CONTEXT DISPLAY PANEL */}
+        <div className="absolute bottom-4 left-4 z-10 bg-black/40 backdrop-blur-md border border-neutral-800 px-3 py-1.5 rounded-md text-[10px] text-neutral-400 font-mono tracking-wider max-w-xs hidden sm:block">
+          📷 {carouselSlides[currentSlideIndex].caption}
+        </div>
+
+        {/* CAROUSEL DIRECTION STEPPERS */}
+        <button onClick={handlePrevSlide} className="absolute left-4 top-1/2 -translate-y-1/2 w-9 h-9 items-center justify-center rounded-full bg-black/30 border border-neutral-800 hover:border-amber-500 hover:text-amber-500 text-white transition z-20 cursor-pointer hidden sm:flex select-none">‹</button>
+        <button onClick={handleNextSlide} className="absolute right-4 top-1/2 -translate-y-1/2 w-9 h-9 items-center justify-center rounded-full bg-black/30 border border-neutral-800 hover:border-amber-500 hover:text-amber-500 text-white transition z-20 cursor-pointer hidden sm:flex select-none">›</button>
+
+        {/* COMPACT CONTENT CONTAINER */}
         <div className="max-w-7xl mx-auto w-full grid md:grid-cols-2 gap-12 items-center relative z-10 py-12 sm:py-16">
           <div className="text-center md:text-left">
-            <span className="bg-neutral-900 text-amber-500 text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-widest border border-neutral-800 shadow-sm">District 3770 • Service Above Self</span>
+            <span className="bg-neutral-900 text-amber-500 text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-widest border border-neutral-800 shadow-sm inline-block">District 3770 • Service Above Self</span>
             <h1 className="text-3xl sm:text-4xl md:text-6xl font-black tracking-tight text-white mt-4 mb-6 leading-tight">{prodHeroTitle}</h1>
             <p className="text-sm sm:text-lg text-neutral-300 mb-8 max-w-xl mx-auto md:mx-0">{prodHeroSub}</p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start max-w-md mx-auto md:max-w-none">
-              <a href="#portfolio" className="bg-white text-black font-bold px-6 py-3 rounded-lg hover:bg-amber-500 hover:text-black transition duration-300 shadow-md text-center text-sm">Explore Initiatives</a>
-              <a href="#about" className="border-2 border-neutral-400 text-white font-bold px-6 py-3 rounded-lg hover:bg-white/10 transition text-center text-sm">Learn More</a>
+            
+            {/* TWO-COLUMN BUTTON MATRIX (GRID SPECIFIED FOR MOBILE HOOKS) */}
+            <div className="grid grid-cols-2 sm:flex gap-3 max-w-sm mx-auto md:max-w-none md:mx-0">
+              <a href="#portfolio" className="bg-white text-black font-black py-3 rounded-lg hover:bg-amber-500 hover:text-black transition duration-300 shadow-md text-center text-xs sm:text-sm px-4 sm:px-6">Explore Initiatives</a>
+              <a href="#about" className="border-2 border-neutral-500 text-white font-bold py-3 rounded-lg hover:bg-white/10 transition text-center text-xs sm:text-sm px-4 sm:px-6">Learn More</a>
             </div>
           </div>
+          
           <div className="bg-white/5 backdrop-blur-sm border border-neutral-800 p-6 sm:p-8 rounded-2xl shadow-2xl text-center md:text-left hidden sm:block">
             <h3 className="text-lg sm:text-xl font-bold text-amber-500 mb-2">Fellowship Through Service</h3>
             <p className="text-xs sm:text-sm text-neutral-300 leading-relaxed">Every week, our members meet to orchestrate critical field actions. Scroll down to see our live historical impacts and explore ongoing projects.</p>
           </div>
+        </div>
+
+        {/* SLIDE PAGINATION DOT INDICATORS */}
+        <div className="absolute bottom-5 left-1/2 -translate-x-1/2 flex gap-2 z-20">
+          {carouselSlides.map((_, dotIdx) => (
+            <button 
+              key={dotIdx}
+              onClick={() => setCurrentSlideIndex(dotIdx)}
+              className={`h-1.5 rounded-full transition-all cursor-pointer border-none outline-none ${
+                dotIdx === currentSlideIndex ? 'bg-amber-500 w-6' : 'bg-neutral-600 w-1.5'
+              }`}
+            />
+          ))}
         </div>
       </section>
 
@@ -710,7 +777,7 @@ export default function Home() {
             <h4 className="font-bold text-base text-white">Rotary Club of Meycauayan Metro</h4>
             <p className="text-xs text-neutral-400 mt-1">Rotary International District 3770 • Bulacan, Philippines</p>
           </div>
-          <div className="text-neutral-400">© {new Date().getFullYear()} All Rights Reserved. Service Above Self.</div>
+          <div className="text-gray-400">© {new Date().getFullYear()} All Rights Reserved. Service Above Self.</div>
         </div>
       </footer>
 
