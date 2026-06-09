@@ -24,15 +24,15 @@ const initialActivities = [
 
 const carouselSlides = [
   {
-    url: "https://images.unsplash.com/photo-1593113598332-cd288d649433?auto=format&fit=crop&q=80&w=1920",
+    url: "/carousel 1.jpg",
     caption: "24th Induction Leadership Cascade — Matrix Creation Events Venue"
   },
   {
-    url: "https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?auto=format&fit=crop&q=80&w=1920",
+    url: "/carousel 2.jpg",
     caption: "WASH Infrastructure Clean Water Facility Deployments"
   },
   {
-    url: "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&q=80&w=1920",
+    url: "/carousel 3.jpg",
     caption: "Global Grant GG2517783 Medical Supply Cascade Forums"
   }
 ];
@@ -65,6 +65,9 @@ export default function Home() {
   const [showScrollButton, setShowScrollButton] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
+
+  // Active framework context panel tab vector
+  const [activeTab, setActiveTab] = useState<'fourway' | 'objectives' | 'vision'>('fourway');
 
   // Carousels State Intercept Tracking Vectors
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
@@ -279,7 +282,6 @@ export default function Home() {
           
           {/* Desktop Navbar Menu */}
           <nav className="hidden md:flex gap-6 lg:gap-8 text-xs uppercase tracking-widest font-bold items-center">
-            <a href="#home" className="text-blue-500 hover:text-amber-500 transition duration-300">Home</a>
             <a href="#who-we-are" className="text-neutral-300 hover:text-amber-500 transition duration-300">Who We Are</a>
             <a href="#rotary-code" className="text-neutral-300 hover:text-amber-500 transition duration-300">Rotary Code</a>
             <a href="#visionaries" className="text-neutral-300 hover:text-amber-500 transition duration-300">Visionaries</a>
@@ -441,7 +443,7 @@ export default function Home() {
               idx === currentSlideIndex ? 'opacity-100 scale-100 z-0' : 'opacity-0 scale-105 pointer-events-none'
             }`}
             style={{ 
-              backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.74), rgba(0, 0, 0, 0.92)), url('${slide.url}')`,
+              backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.65)), url('${slide.url}')`,
               transitionProperty: 'opacity, transform'
             }}
           />
@@ -450,21 +452,16 @@ export default function Home() {
         <button onClick={handlePrevSlide} className="absolute left-4 top-1/2 -translate-y-1/2 w-9 h-9 items-center justify-center rounded-full bg-black/30 border border-neutral-800 hover:border-amber-500 hover:text-amber-500 text-white transition z-20 cursor-pointer hidden sm:flex select-none">‹</button>
         <button onClick={handleNextSlide} className="absolute right-4 top-1/2 -translate-y-1/2 w-9 h-9 items-center justify-center rounded-full bg-black/30 border border-neutral-800 hover:border-amber-500 hover:text-amber-500 text-white transition z-20 cursor-pointer hidden sm:flex select-none">›</button>
 
-        <div className="max-w-7xl mx-auto w-full grid md:grid-cols-2 gap-12 items-center relative z-10 py-12 sm:py-16">
-          <div className="text-center md:text-left">
+        <div className="max-w-7xl mx-auto w-full relative z-10 py-12 sm:py-16">
+          <div className="text-center md:text-left max-w-2xl">
             <span className="bg-neutral-900 text-amber-500 text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-widest border border-neutral-800 shadow-sm inline-block">District 3770 • Service Above Self</span>
-            <h1 className="text-4xl sm:text-5xl md:text-7xl font-black tracking-tight text-white mt-4 mb-6 capitalize leading-none">{prodHeroTitle}</h1>
+            <h1 className="text-4xl sm:text-5xl md:text-7xl font-black tracking-tight text-white mt-4 mb-6 uppercase leading-none">{prodHeroTitle}</h1>
             <p className="text-sm sm:text-base text-neutral-300 mb-8 max-w-xl mx-auto md:mx-0 leading-relaxed">{prodHeroSub}</p>
             
             <div className="grid grid-cols-2 sm:flex gap-3 max-w-sm mx-auto md:max-w-none md:mx-0">
               <a href="#projects-and-news" className="bg-white text-black font-black py-3 rounded-lg hover:bg-amber-500 hover:text-black transition -300 shadow-md text-center text-xs sm:text-sm px-4 sm:px-6">Show Impact</a>
               <a href="#who-we-are" className="border-2 border-neutral-500 text-white font-bold py-3 rounded-lg hover:bg-white/10 transition text-center text-xs sm:text-sm px-4 sm:px-6">Learn More</a>
             </div>
-          </div>
-          
-          <div className="bg-white/5 backdrop-blur-sm border border-neutral-800 p-6 sm:p-8 rounded-2xl shadow-2xl text-center md:text-left hidden sm:block">
-            <h3 className="text-lg sm:text-xl font-bold text-amber-500 mb-2">Fellowship Through Service</h3>
-            <p className="text-xs sm:text-sm text-neutral-300 leading-relaxed">"The true value of our service is measured by the lasting difference we make in the lives of the people and communities we serve."</p>
           </div>
         </div>
 
@@ -495,7 +492,7 @@ export default function Home() {
                   Guided by the enduring Rotary principle of Service Above Self, the Rotary International community continues to transform lives through meaningful service and strong fellowship. Each Rotary year offers a renewed opportunity for Rotarians to make a difference in their communities and beyond.
                 </p>
                 <p>
-                  As we celebrate the 23rd Handover and Induction Ceremony of the Rotary Club of Meycauayan Metro, we reflect on the remarkable journey of service that has shaped our club. This milestone marks not only the transition of leadership but also a reaffirmation of our shared commitment to Rotary’s mission.
+                  As we celebrate the 23rd Handover and Induction Ceremony of the Rotary Club of Meycauayan Club, we reflect on the remarkable journey of service that has shaped our club. This milestone marks not only the transition of leadership but also a reaffirmation of our shared commitment to Rotary’s mission.
                 </p>
                 <p>
                   Anchored in this year’s Rotary theme, “Create Lasting Impact,” our club continues to pursue initiatives that bring sustainable and meaningful change to the communities we serve. Through collaborative projects, humanitarian programs, and the dedication of our members, we strive to ensure that our efforts today will leave a positive legacy for generations to come.
@@ -510,69 +507,81 @@ export default function Home() {
             </div>
             
             {/* RIGHT COLUMN: PREMIUM EDITORIAL CAROUSEL DECK WITH CUSTOM MATCHING SCROLLBAR */}
-            <div className="lg:col-span-2 bg-neutral-950 text-white rounded-3xl p-6 sm:p-10 shadow-2xl flex flex-col justify-between min-h-[580px] relative border border-amber-500/20 overflow-hidden">
-              
-              {/* Giant Stylized Decorative Backdrop Quote Mark */}
-              <div className="absolute -top-6 -left-2 text-neutral-900 text-[180px] font-serif leading-none select-none pointer-events-none opacity-40">
-                “
-              </div>
-
-              <div className="relative z-10">
-                <span className="text-amber-500 font-black uppercase tracking-widest text-[11px] bg-amber-500/10 px-3 py-1 rounded-full inline-block mb-6 border border-amber-500/20">
-                  Leadership Addresses
-                </span>
+            <div className="lg:col-span-2 space-y-6">
+              <div className="bg-neutral-950 text-white rounded-3xl p-6 sm:p-10 shadow-2xl flex flex-col justify-between min-h-[580px] relative border border-amber-500/20 overflow-hidden">
                 
-                <div className="relative min-h-[380px] sm:min-h-[400px]">
-                  {officialMessages.map((msg, mIdx) => (
-                    <div 
-                      key={mIdx}
-                      className={`absolute inset-0 flex flex-col justify-between transition-all duration-500 ${
-                        mIdx === currentMessageIndex 
-                          ? 'opacity-100 translate-y-0 scale-100 z-10 pointer-events-auto' 
-                          : 'opacity-0 translate-y-4 scale-95 pointer-events-none'
-                      }`}
-                    >
-                      <div className="w-full">
-                        <h3 className="text-lg sm:text-xl font-black text-white leading-tight tracking-tight uppercase border-l-4 border-amber-500 pl-3 mb-4">
-                          {msg.title}
-                        </h3>
+                {/* Giant Stylized Decorative Backdrop Quote Mark */}
+                <div className="absolute -top-6 -left-2 text-neutral-900 text-[180px] font-serif leading-none select-none pointer-events-none opacity-40">
+                  “
+                </div>
+
+                <div className="relative z-10">
+                  <span className="text-amber-500 font-black uppercase tracking-widest text-[11px] bg-amber-500/10 px-3 py-1 rounded-full inline-block mb-6 border border-amber-500/20">
+                    Leadership Addresses
+                  </span>
+                  
+                  <div className="relative min-h-[380px] sm:min-h-[400px]">
+                    {officialMessages.map((msg, mIdx) => (
+                      <div 
+                        key={mIdx}
+                        className={`absolute inset-0 flex flex-col justify-between transition-all duration-500 ${
+                          mIdx === currentMessageIndex 
+                            ? 'opacity-100 translate-y-0 scale-100 z-10 pointer-events-auto' 
+                            : 'opacity-0 translate-y-4 scale-95 pointer-events-none'
+                        }`}
+                      >
+                        <div className="w-full">
+                          <h3 className="text-lg sm:text-xl font-black text-white leading-tight tracking-tight uppercase border-l-4 border-amber-500 pl-3 mb-4">
+                            {msg.title}
+                          </h3>
+                          
+                          {/* THE HIGH-END SCROLLBAR TRACK BASELINE RUNWAY */}
+                          <p className="custom-magazine-scrollbar text-xs sm:text-sm text-neutral-300 leading-relaxed text-justify font-normal tracking-wide max-h-[260px] sm:max-h-[280px] overflow-y-auto pr-3 scroll-smooth">
+                            {msg.text}
+                          </p>
+                        </div>
                         
-                        {/* THE HIGH-END SCROLLBAR TRACK BASELINE RUNWAY */}
-                        <p className="custom-magazine-scrollbar text-xs sm:text-sm text-neutral-300 leading-relaxed text-justify font-normal tracking-wide max-h-[260px] sm:max-h-[280px] overflow-y-auto pr-3 scroll-smooth">
-                          {msg.text}
-                        </p>
+                        <div className="mt-4 pt-4 border-t border-neutral-900">
+                          <h4 className="font-black text-amber-500 text-sm tracking-wide uppercase leading-none">
+                            {msg.author}
+                          </h4>
+                          <p className="text-[11px] font-mono text-neutral-500 mt-1 uppercase tracking-widest leading-none">
+                            {msg.meta}
+                          </p>
+                        </div>
                       </div>
-                      
-                      <div className="mt-4 pt-4 border-t border-neutral-900">
-                        <h4 className="font-black text-amber-500 text-sm tracking-wide uppercase leading-none">
-                          {msg.author}
-                        </h4>
-                        <p className="text-[11px] font-mono text-neutral-500 mt-1 uppercase tracking-widest leading-none">
-                          {msg.meta}
-                        </p>
-                      </div>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
+                </div>
+
+                {/* ARROW CONTROL DECK */}
+                <div className="mt-8 pt-4 border-t border-neutral-900 flex justify-between items-center relative z-10">
+                  <div className="flex gap-2">
+                    {officialMessages.map((_, dIdx) => (
+                      <button
+                        key={dIdx}
+                        onClick={() => setCurrentMessageIndex(dIdx)}
+                        className={`h-1.5 rounded-full transition-all border-none outline-none cursor-pointer ${
+                          dIdx === currentMessageIndex ? 'bg-amber-500 w-6' : 'bg-neutral-800 w-1.5'
+                        }`}
+                      />
+                    ))}
+                  </div>
+                  <div className="flex gap-2.5">
+                    <button onClick={handlePrevMessage} className="w-9 h-9 flex items-center justify-center rounded-full border border-neutral-800 bg-neutral-900 text-white hover:border-amber-500 hover:text-amber-500 transition-all duration-300 cursor-pointer font-black text-sm select-none">‹</button>
+                    <button onClick={handleNextMessage} className="w-9 h-9 flex items-center justify-center rounded-full border border-neutral-800 bg-neutral-900 text-white hover:border-amber-500 hover:text-amber-500 transition-all duration-300 cursor-pointer font-black text-sm select-none">›</button>
+                  </div>
                 </div>
               </div>
 
-              {/* ARROW CONTROL DECK */}
-              <div className="mt-8 pt-4 border-t border-neutral-900 flex justify-between items-center relative z-10">
-                <div className="flex gap-2">
-                  {officialMessages.map((_, dIdx) => (
-                    <button
-                      key={dIdx}
-                      onClick={() => setCurrentMessageIndex(dIdx)}
-                      className={`h-1.5 rounded-full transition-all border-none outline-none cursor-pointer ${
-                        dIdx === currentMessageIndex ? 'bg-amber-500 w-6' : 'bg-neutral-800 w-1.5'
-                      }`}
-                    />
-                  ))}
-                </div>
-                <div className="flex gap-2.5">
-                  <button onClick={handlePrevMessage} className="w-9 h-9 flex items-center justify-center rounded-full border border-neutral-800 bg-neutral-900 text-white hover:border-amber-500 hover:text-amber-500 transition-all duration-300 cursor-pointer font-black text-sm select-none">‹</button>
-                  <button onClick={handleNextMessage} className="w-9 h-9 flex items-center justify-center rounded-full border border-neutral-800 bg-neutral-900 text-white hover:border-amber-500 hover:text-amber-500 transition-all duration-300 cursor-pointer font-black text-sm select-none">›</button>
-                </div>
+              {/* INTEGRATED PREMIUM EDITORIAL SIDEBAR WIDGET */}
+              <div className="bg-amber-500 text-black p-6 rounded-3xl shadow-lg border border-amber-600/20 text-left">
+                <h3 className="text-base font-black uppercase tracking-wider text-black flex items-center gap-2">
+                  Fellowship Through Service
+                </h3>
+                <p className="text-xs font-semibold leading-relaxed mt-2 text-neutral-900">
+                  "The true value of our service is measured by the lasting difference we make in the lives of the people and communities we serve."
+                </p>
               </div>
             </div>
 
@@ -580,44 +589,89 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 4. GUIDING ROTARY CODES MATRIX */}
-      <section id="rotary-code" className="py-16 bg-neutral-50 border-b border-neutral-200 scroll-mt-16 px-4 sm:px-6">
-        <div className="max-w-7xl mx-auto space-y-12">
-          <div className="text-center max-w-2xl mx-auto">
-            <span className="text-blue-600 font-bold uppercase tracking-widest text-xs block">Guiding Frameworks</span>
-            <h2 className="text-3xl font-black text-neutral-900 mt-1 tracking-tight">The Objectives & Vision Matrix</h2>
+      {/* =============================================================
+          4. HIGHLY INTERACTIVE & PREMIUM GUIDING ROTARY CODES MATRIX
+          ============================================================= */}
+      <section 
+        id="rotary-code" 
+        className="py-24 bg-cover bg-center bg-fixed scroll-mt-16 px-4 sm:px-6 relative overflow-hidden"
+        style={{ backgroundImage: `linear-gradient(rgba(10, 15, 30, 0.88), rgba(5, 5, 10, 0.95)), url('/rotary-background.jpg')` }}
+      >
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
+
+        <div className="max-w-5xl mx-auto space-y-12 relative z-10">
+          <div className="text-center max-w-2xl mx-auto space-y-2">
+            <span className="text-amber-500 font-extrabold uppercase tracking-widest text-xs block">Guiding Frameworks</span>
+            <h2 className="text-3xl font-black text-white tracking-tight uppercase">The Objectives & Vision Matrix</h2>
+            <p className="text-xs text-neutral-400 max-w-md mx-auto">Explore the fundamental tenets and structural philosophy that steer our global network of service leaders.</p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-6">
-            <div className="bg-white p-6 rounded-xl border border-neutral-200 shadow-sm space-y-3">
-              <h3 className="text-sm font-black text-white bg-black px-3 py-1.5 rounded uppercase tracking-wider inline-block">The 4-Way Test</h3>
-              <p className="text-[11px] text-neutral-400 tracking-wide uppercase font-mono border-b border-neutral-100 pb-1">Of the things we think, say, or do:</p>
-              <ol className="space-y-2 text-xs font-medium text-neutral-700 list-decimal pl-4">
-                <li>Is it the <span className="font-bold text-neutral-900">TRUTH</span>?</li>
-                <li>Is it <span className="font-bold text-neutral-900">FAIR</span> to all concerned?</li>
-                <li>Will it build <span className="font-bold text-neutral-900">GOODWILL</span> and <span className="font-bold text-neutral-900">BETTER FRIENDSHIPS</span>?</li>
-                <li>Will it be <span className="font-bold text-neutral-900">BENEFICIAL</span> to all concerned?</li>
-              </ol>
-            </div>
+          {/* Premium Capsule Navigation Segment Tab Strip */}
+          <div className="flex bg-slate-900/80 backdrop-blur-md p-1 rounded-2xl border border-slate-800 shadow-xl max-w-xl mx-auto">
+            <button onClick={() => setActiveTab('fourway')} className={`flex-1 py-3 text-xs font-black uppercase tracking-wider rounded-xl transition-all duration-300 border-none cursor-pointer ${activeTab === 'fourway' ? 'bg-amber-500 text-black font-extrabold shadow-lg' : 'text-neutral-400 hover:text-amber-500 bg-transparent'}`}>The 4-Way Test</button>
+            <button onClick={() => setActiveTab('objectives')} className={`flex-1 py-3 text-xs font-black uppercase tracking-wider rounded-xl transition-all duration-300 border-none cursor-pointer ${activeTab === 'objectives' ? 'bg-amber-500 text-black font-extrabold shadow-lg' : 'text-neutral-400 hover:text-amber-500 bg-transparent'}`}>Rotary Objectives</button>
+            <button onClick={() => setActiveTab('vision')} className={`flex-1 py-3 text-xs font-black uppercase tracking-wider rounded-xl transition-all duration-300 border-none cursor-pointer ${activeTab === 'vision' ? 'bg-amber-500 text-black font-extrabold shadow-lg' : 'text-neutral-400 hover:text-amber-500 bg-transparent'}`}>Our Vision</button>
+          </div>
 
-            <div className="bg-white p-6 rounded-xl border border-neutral-200 shadow-sm space-y-3">
-              <h3 className="text-sm font-black text-white bg-blue-600 px-3 py-1.5 rounded uppercase tracking-wider inline-block">Objectives of Rotary</h3>
-              <p className="text-[11px] text-neutral-400 tracking-wide uppercase font-mono border-b border-neutral-100 pb-1">To encourage and foster:</p>
-              <ul className="space-y-2 text-[11px] text-neutral-600 list-disc pl-4 leading-relaxed">
-                <li>The development of acquaintance as an opportunity for service.</li>
-                <li>High ethical standards in business and professions; the recognition of worthiness.</li>
-                <li>The application of the ideal of service in personal, business, and community life.</li>
-                <li>Advancement of international understanding, goodwill, and peace via fellowship.</li>
-              </ul>
-            </div>
+          {/* Interactive Core Panel Canvas Display Card */}
+          <div className="bg-neutral-900/30 backdrop-blur-xl border border-neutral-800/60 rounded-3xl p-6 sm:p-12 shadow-2xl min-h-[300px] flex items-center justify-center transition-all duration-500 hover:border-neutral-700/40">
+            
+            {activeTab === 'fourway' && (
+              <div className="w-full space-y-8 animate-fadeIn">
+                <div className="text-center md:text-left">
+                  <span className="text-[10px] bg-slate-900 text-slate-400 font-mono border border-slate-800 px-3 py-1 rounded-full uppercase tracking-widest inline-block mb-2">Ethical Baseline</span>
+                  <h3 className="text-xl font-black text-white uppercase tracking-wide">Of the things we think, say, or do:</h3>
+                </div>
+                <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-4">
+                  {[
+                    { num: "01", title: "TRUTH", desc: "Is it the truth?" },
+                    { num: "02", title: "FAIRNESS", desc: "Is it fair to all concerned?" },
+                    { num: "03", title: "GOODWILL", desc: "Will it build goodwill and better friendships?" },
+                    { num: "04", title: "BENEFICIAL", desc: "Will it be beneficial to all concerned?" }
+                  ].map((item, idx) => (
+                    <div key={idx} className="bg-slate-950/80 backdrop-blur-md border border-slate-900 rounded-2xl p-5 hover:border-amber-500/40 hover:-translate-y-1 hover:scale-[1.03] hover:shadow-[0_10px_25px_-5px_rgba(245,158,11,0.1)] transition-all group duration-300 relative overflow-hidden">
+                      <div className="text-3xl font-black text-amber-500/5 font-mono absolute top-2 right-3 group-hover:text-amber-500/30 transition-all duration-300 transform group-hover:scale-110 select-none">{item.num}</div>
+                      <h4 className="text-xs font-black tracking-widest text-amber-500 mb-1.5 uppercase font-mono group-hover:text-amber-400 transition-colors">{item.title}</h4>
+                      <p className="text-xs text-neutral-300 leading-relaxed font-normal">{item.desc}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
 
-            <div className="bg-white p-6 rounded-xl border border-neutral-200 shadow-sm space-y-3">
-              <h3 className="text-sm font-black text-white bg-amber-500 px-3 py-1.5 rounded uppercase tracking-wider inline-block">Vision Statement</h3>
-              <p className="text-[11px] text-neutral-400 tracking-wide uppercase font-mono border-b border-neutral-100 pb-1">Rotary International Vision</p>
-              <p className="text-xs font-medium text-neutral-800 uppercase tracking-wide leading-relaxed pt-2">
-                "Together we see a world where people unite and take action to create lasting change across the globe, in our communities, and in ourselves."
-              </p>
-            </div>
+            {activeTab === 'objectives' && (
+              <div className="w-full space-y-6 animate-fadeIn">
+                <div className="text-center md:text-left">
+                  <span className="text-[10px] bg-slate-900 text-slate-400 font-mono border border-slate-800 px-3 py-1 rounded-full uppercase tracking-widest inline-block mb-2">Core Purpose</span>
+                  <h3 className="text-xl font-black text-white uppercase tracking-wide mb-4">To encourage and foster the ideal of service:</h3>
+                </div>
+                <div className="grid md:grid-cols-2 gap-4">
+                  {[
+                    "The development of acquaintance as an active structural opportunity for humanitarian service.",
+                    "High ethical standards in professions; the recognition of worthiness of all useful occupations.",
+                    "The personal application of the ideal of service by every Rotarian to their personal and community life.",
+                    "The advancement of international understanding, collective goodwill, and peace via fellowship."
+                  ].map((text, idx) => (
+                    <div key={idx} className="bg-slate-950/50 backdrop-blur-md border border-slate-900/60 rounded-2xl p-5 flex gap-4 items-start hover:bg-slate-950/90 hover:scale-[1.01] hover:border-blue-500/30 shadow-md transition-all duration-300 group">
+                      <span className="w-6 h-6 bg-blue-600/10 rounded-full flex items-center justify-center shrink-0 border border-blue-500/20 text-blue-400 font-mono font-bold text-[10px] mt-0.5 group-hover:bg-blue-600 group-hover:text-white group-hover:scale-110 transition-all duration-300">{idx + 1}</span>
+                      <p className="text-xs text-neutral-300 leading-relaxed font-normal tracking-wide group-hover:text-white transition-colors">{text}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {activeTab === 'vision' && (
+              <div className="w-full max-w-3xl text-center space-y-6 animate-fadeIn py-4">
+                <span className="text-[10px] bg-slate-900 text-slate-400 font-mono border border-slate-800 px-3 py-1 rounded-full uppercase tracking-widest inline-block">Global Vision Blueprint</span>
+                <p className="text-lg sm:text-2xl font-black text-neutral-100 tracking-wide leading-relaxed uppercase max-w-2xl mx-auto">
+                  "Together we see a world where people unite and take action to create lasting change across the globe, in our communities, and in ourselves."
+                </p>
+                <div className="w-12 h-1 bg-amber-500 mx-auto rounded-full shadow-lg animate-pulse" />
+              </div>
+            )}
+
           </div>
         </div>
       </section>
