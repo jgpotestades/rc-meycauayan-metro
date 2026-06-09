@@ -1,39 +1,18 @@
 'use client';
 import React, { useState, useEffect, useRef } from 'react';
 
-// =================================================================
-// COFFEE-TABLE MAGAZINE VALIDATED DATABASES (RY 2026-2027 ROSTERS)
-// =================================================================
+// ==========================================
+// MAGAZINE VALIDATED DATABASES (RY 2026-2027)
+// ==========================================
 const initialUsers = [
-  // RY 2026-2027 OFFICERS
-  { id: 1, name: "Arvin Jason Andaya", role: "Officer", position: "Club President", isOfficer: true, isDirector: false, image: "/officer-arvin.jpg", birthday: "March 9" },
-  { id: 2, name: "Diosdado Alvarado", role: "Officer", position: "Vice President", isOfficer: true, isDirector: false, image: "/officer-diosdado.jpg", birthday: "December 9" },
-  { id: 3, name: "Daniel Cuyos", role: "Officer", position: "President Elect", isOfficer: true, isDirector: false, image: "/officer-daniel.jpg", birthday: "April 11" },
-  { id: 4, name: "Rosemarie Valencia", role: "Officer", position: "Club Secretary", isOfficer: true, isDirector: true, directorPosition: "Club Administration Director", image: "/officer-rosemarie.jpg", birthday: "August 14" },
-  { id: 5, name: "Adrian Go", role: "Officer", position: "Executive Secretary", isOfficer: true, isDirector: true, directorPosition: "Public Image Director", image: "/officer-adrian.jpg", birthday: "November 19" },
-  { id: 6, name: "Mark Christian Aloran", role: "Officer", position: "Club Treasurer", isOfficer: true, isDirector: false, image: "/officer-mark.jpg", birthday: "November 15" },
-  { id: 7, name: "April Homoroc", role: "Officer", position: "Club Auditor", isOfficer: true, isDirector: false, image: "/officer-april.jpg", birthday: "December 20" },
-  { id: 8, name: "Eric Homoroc", role: "Officer", position: "PRO", isOfficer: true, isDirector: false, image: "/officer-eric.jpg", birthday: "October 13" },
-
-  // INDEPENDENT CLUB DIRECTORS / LEADERSHIP MARGINS
-  { id: 9, name: "Angelito Ferrer", role: "Officer", position: "Immediate Past President", isOfficer: false, isDirector: true, directorPosition: "Rotary Foundation Director", image: "/officer-angelito.jpg", birthday: "November 2" },
-  { id: 10, name: "Jackie Halasan", role: "Officer", position: "Active Member", isOfficer: false, isDirector: true, directorPosition: "Club Membership Director", image: "/director-jackie.jpg", birthday: "July 21" },
-  { id: 11, name: "Raymond Peralta", role: "Officer", position: "Active Member", isOfficer: false, isDirector: true, directorPosition: "Service Project Director", image: "/director-raymond.jpg", birthday: "January 10" },
-  { id: 12, name: "Severino Pascual Jr.", role: "Officer", position: "Active Member", isOfficer: false, isDirector: true, directorPosition: "Youth Service Director", image: "/director-severino.jpg", birthday: "July 27" },
-  { id: 13, name: "Jayson Fernandez", role: "Officer", position: "Assistant Governor", isOfficer: false, isDirector: true, directorPosition: "Protocol Officer", image: "/officer-jayson.jpg", birthday: "July 13" },
-  { id: 14, name: "Francis Jay Dela Cruz", role: "Officer", position: "Active Member", isOfficer: false, isDirector: true, directorPosition: "Club Learning Facilitator", image: "/director-francis.jpg", birthday: "December 21" },
-
-  // ADDITIONAL OFFICIAL MEMBERS (ROSTER MATRIX)
-  { id: 15, name: "Richard Becerro", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/roster-richard.jpg", birthday: "May 16" },
-  { id: 16, name: "Ramil Inopia Burdin", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/roster-ramil.jpg", birthday: "August 16" },
-  { id: 17, name: "Morris Delos Santos", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/roster-morris.jpg", birthday: "November 17" },
-  { id: 18, name: "Felix Domigpe", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/roster-felix.jpg", birthday: "November 5" },
-  { id: 19, name: "Jaquelyn Jacob", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/roster-jaquelyn.jpg", birthday: "July 21" },
-  { id: 20, name: "Pablito Javier", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/roster-pablito.jpg", birthday: "January 5" },
-  { id: 21, name: "Frederick Malapit", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/roster-frederick.jpg", birthday: "July 12" },
-  { id: 22, name: "Enrique Milan", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/roster-enrique.jpg", birthday: "March 1" },
-  { id: 23, name: "Ma. Carmela Osiones", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/roster-carmela.jpg", birthday: "July 7" },
-  { id: 24, name: "Willy Sy", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/roster-willy.jpg", birthday: "March 12" }
+  { id: 1, name: "Arvin Jayson Andaya", role: "Super Admin", position: "Club President", username: "superadmin", email: "president@rcmm.org" },
+  { id: 2, name: "Angelito Ferrer", role: "Officer", position: "Immediate Past President", username: "pastpresident", email: "ipp@rcmm.org" },
+  { id: 3, name: "Jayson Fernandez", role: "Officer", position: "Assistant Governor / Protocol Officer", username: "agfernandez", email: "ag@rcmm.org" },
+  { id: 4, name: "Diosdado Alvarado", role: "Officer", position: "Vice President", username: "vicepresident", email: "vp@rcmm.org" },
+  { id: 5, name: "Rosemarie Valencia", role: "Officer", position: "Club Secretary & Admin Director", username: "secretary", email: "secretary@rcmm.org" },
+  { id: 6, name: "Adrian Go", role: "Officer", position: "Executive Secretary & Public Image Director", username: "execsec", email: "publicimage@rcmm.org" },
+  { id: 7, name: "Mark Christian Aloran", role: "Officer", position: "Club Treasurer", username: "treasurer", email: "treasurer@rcmm.org" },
+  { id: 8, name: "April Homoroc", role: "Officer", position: "Club Auditor", username: "auditor", email: "auditor@rcmm.org" }
 ];
 
 const initialActivities = [
@@ -44,9 +23,18 @@ const initialActivities = [
 ];
 
 const carouselSlides = [
-  { url: "/carousel 1.jpg", caption: "24th Induction Leadership Cascade — Matrix Creation Events Venue" },
-  { url: "/carousel 2.jpg", caption: "WASH Infrastructure Clean Water Facility Deployments" },
-  { url: "/carousel 3.jpg", caption: "Global Grant GG2517783 Medical Supply Cascade Forums" }
+  {
+    url: "/carousel 1.jpg",
+    caption: "24th Induction Leadership Cascade — Matrix Creation Events Venue"
+  },
+  {
+    url: "/carousel 2.jpg",
+    caption: "WASH Infrastructure Clean Water Facility Deployments"
+  },
+  {
+    url: "/carousel 3.jpg",
+    caption: "Global Grant GG2517783 Medical Supply Cascade Forums"
+  }
 ];
 
 const officialMessages = [
@@ -64,17 +52,11 @@ const officialMessages = [
   },
   {
     title: "Message from the President",
-    text: "It is with great humility and gratitude that I accept the responsibility of serving as President of the Rotary Club of Meycauayan Metro for Rotary Year 2026–2027. I am deeply honored by the trust and confidence given to me by my fellow Rotarians, and I look forward to leading our club in another meaningful year of service and fellowship. As we begin this new Rotary year, we are inspired by the Rotary theme “Create Lasting Impact.” This theme reminds us that the true value of our service is not only measured by what we accomplish today, but by the lasting difference we make in the lives of the people and communities we serve. Building on the strong foundation laid by our past leaders and members, our club will continue to pursue projects that address real community needs, promote sustainable development, and strengthen partnerships with organizations that share our vision. Through collaboration, dedication, and the unwavering commitment of our members, we will strive to create programs that leave a meaningful and lasting legacy. I extend my heartfelt appreciation to our Immediate Past President, Angelito Ferrer, whose leadership under the theme “Unite for Good” has further strengthened the spirit of unity and service within our club. Because of this strong foundation, we move forward with renewed energy and purpose. As we celebrate our 23rd Handover and Induction Ceremony, I invite every member of the Rotary Club of Meycauayan Metro to continue working together with passion and commitment. Let us deepen our fellowship, expand our service, and remain steadfast in upholding the ideals of Rotary International and its guiding principle of Service Above Self. Together, let us continue to serve with purpose, lead with integrity, and truly create lasting impact in our community and beyond.",
+    text: "It is with great humility and gratitude that I accept the responsibility of serving as President of the Rotary Club of Meycauayan Metro for Rotary Year 2026–2027. I am deeply honored by the trust and confidence given to me by my fellow Rotarians, and I look forward to leading our club in another meaningful year of service and fellowship. As we begin this new Rotary year, we are inspired by the Rotary theme “Create Lasting Impact.” This theme reminds us that the true value of our service is not only measured by what we accomplish today, but by the lasting difference we make in the lives of the people and communities we serve. Building on the strong foundation laid by our past leaders and members, our club will continue to pursue projects that address real community needs, promote sustainable development, and strengthen partnerships with organizations that share our vision. Through collaboration, dedication, and the unwavering commitment of our members, we will strive to create programs that leave a meaningful and lasting legacy. I extend my heartfelt appreciation to our Immediate Past President, Angelito Ferrer, whose leadership under the theme “Unite for Good” has further strengthened the spirit of unity and service within our club. Because of this strong foundation, we move forward with renewed energy and purpose. As we celebrate our 23rd Handover and Induction Ceremony, I invite every member of the Rotary Club of Meycauayan Metro to continue working together with passion and commitment. Let us deepen our fellowship, expand our service, and remain steadfast in upholding the ideals of Rotary International and its guiding principle of Service Above Self. Together, let us continue to serve with compassion, lead with integrity, and truly create lasting impact in our community and beyond.",
     author: "Arvin Jayson Andaya",
     meta: "Club President, RY 2026–2027"
   }
 ];
-
-// Helper Month Reference Grid Vector for Calendar Sorter Calculations
-const monthMap: { [key: string]: number } = {
-  january: 1, february: 2, march: 3, april: 4, may: 5, june: 6,
-  july: 7, august: 8, september: 9, october: 10, november: 11, december: 12
-};
 
 export default function Home() {
   // Navigation & Menu Trackers
@@ -84,12 +66,8 @@ export default function Home() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
 
-  // Active framework context panel tab vectors
+  // Active framework context panel tab vector
   const [activeTab, setActiveTab] = useState<'fourway' | 'objectives' | 'vision'>('fourway');
-  const [activeVisionaryTab, setActiveVisionaryTab] = useState<'officers' | 'directors' | 'roster'>('officers');
-  
-  // Sorting parameter state tracking interceptor
-  const [rosterSortCriteria, setRosterSortCriteria] = useState<'surname' | 'birthday'>('surname');
 
   // Carousels State Intercept Tracking Vectors
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
@@ -120,7 +98,7 @@ export default function Home() {
 
   // Local CRUD State
   const [editingUser, setEditingUser] = useState<typeof initialUsers[0] | null>(null);
-  const [newUser, setNewUser] = useState({ name: '', role: 'Member', position: 'Active Member', username: '', email: '', isOfficer: false, isDirector: false, image: '/placeholder.jpg', birthday: 'January 01' });
+  const [newUser, setNewUser] = useState({ name: '', role: 'Member', position: 'Active Member', username: '', email: '' });
   const [newActivity, setNewActivity] = useState({ type: 'Project', title: '', category: '', description: '', status: 'Ongoing', detail: '' });
 
   // Hero Carousel Automatically Cycle System
@@ -178,6 +156,7 @@ export default function Home() {
     const targetElement = document.getElementById(sectionId);
     if (!targetElement) return;
 
+    // Detect responsive offset configuration layout matrix
     const headerOffset = window.innerWidth >= 768 ? 84 : 70;
     const elementPosition = targetElement.getBoundingClientRect().top;
     const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
@@ -230,7 +209,7 @@ export default function Home() {
       username: newUser.name.toLowerCase().replace(/\s+/g, '')
     };
     setStageUsers([...stageUsers, created]);
-    setNewUser({ name: '', role: 'Member', position: 'Active Member', username: '', email: '', isOfficer: false, isDirector: false, image: '/placeholder.jpg', birthday: 'January 01' });
+    setNewUser({ name: '', role: 'Member', position: 'Active Member', username: '', email: '' });
     setHasUnsavedChanges(true);
   };
 
@@ -256,44 +235,16 @@ export default function Home() {
     }
   };
 
-  // Roster Dynamic Categorization Filter & Specialized Sorting Algorithm
-  const getFilteredAndSortedVisionaries = () => {
-    const subset = prodUsers.filter(user => {
-      if (activeVisionaryTab === 'officers') return user.isOfficer;
-      if (activeVisionaryTab === 'directors') return user.isDirector;
-      return true;
-    });
-
-    // Apply algorithm changes only to the complete Official Roster tab
-    if (activeVisionaryTab === 'roster') {
-      return [...subset].sort((a, b) => {
-        if (rosterSortCriteria === 'surname') {
-          // Tokenize string spaces to reliably find the terminal surname segment
-          const namePartsA = a.name.trim().split(/\s+/);
-          const namePartsB = b.name.trim().split(/\s+/);
-          const surnameA = namePartsA[namePartsA.length - 1].toLowerCase();
-          const surnameB = namePartsB[namePartsB.length - 1].toLowerCase();
-          return surnameA.localeCompare(surnameB);
-        } else {
-          // Parse natural chronological dates mapping indices
-          const [monthStrA, dayStrA] = a.birthday.trim().toLowerCase().split(/\s+/);
-          const [monthStrB, dayStrB] = b.birthday.trim().toLowerCase().split(/\s+/);
-          
-          const monthValA = monthMap[monthStrA] || 0;
-          const monthValB = monthMap[monthStrB] || 0;
-          
-          if (monthValA !== monthValB) return monthValA - monthValB;
-          
-          const dayValA = parseInt(dayStrA, 10) || 0;
-          const dayValB = parseInt(dayStrB, 10) || 0;
-          return dayValA - dayValB;
-        }
-      });
+  const handleDeployToProduction = () => {
+    if (confirm("Push all staged sandbox data live to public view channels?")) {
+      setProdUsers([...stageUsers]);
+      setProdActivities([...stageActivities]);
+      setProdHeroTitle(stageHeroTitle);
+      setProdHeroSub(stageHeroSub);
+      setHasUnsavedChanges(false);
+      alert("Deployment successful!");
     }
-    return subset;
   };
-
-  const filteredVisionaries = getFilteredAndSortedVisionaries();
 
   return (
     <main id="top" className="min-h-screen bg-neutral-50 text-neutral-800 font-sans scroll-smooth relative overflow-x-hidden">
@@ -305,16 +256,16 @@ export default function Home() {
           width: 5px;
         }
         .custom-magazine-scrollbar::-webkit-scrollbar-track {
-          background: #171717;
+          background: #171717; /* Matches neutral-900 border base canvas */
           border-radius: 999px;
         }
         .custom-magazine-scrollbar::-webkit-scrollbar-thumb {
-          background: #d97706;
+          background: #d97706; /* Matches premium amber-600 baseline */
           border-radius: 999px;
           transition: background 0.2s ease-in-out;
         }
         .custom-magazine-scrollbar::-webkit-scrollbar-thumb:hover {
-          background: #f59e0b;
+          background: #f59e0b; /* Brightens up to amber-500 on point intersections */
         }
 
         /* Firefox Support Layer */
@@ -330,10 +281,12 @@ export default function Home() {
       }`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-2 flex justify-between items-center relative">
           
+          {/* MOBILE TOGGLE BURGER BUTTON */}
           <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="md:hidden text-white hover:text-amber-500 font-bold focus:outline-none text-2xl bg-transparent border-none cursor-pointer z-10">
             {mobileMenuOpen ? '✕' : '☰'}
           </button>
           
+          {/* BANNER LOGO CONTAINER */}
           <a href="#top" onClick={(e) => scrollToSection(e, 'top')} className="flex items-center bg-transparent border-none outline-none cursor-pointer text-left no-underline select-none shrink-0 md:order-first">
             <img 
               src="/rotary-logo.png" 
@@ -342,12 +295,13 @@ export default function Home() {
             />
           </a>
           
+          {/* Desktop Navbar Menu */}
           <nav className="hidden md:flex gap-6 lg:gap-8 text-xs uppercase tracking-widest font-bold items-center">
-            <a href="#who-we-are" onClick={(e) => scrollToSection(e, 'who-we-are')} className="text-neutral-300 hover:text-amber-500 transition duration-300">Who We Are</a>
-            <a href="#rotary-code" onClick={(e) => scrollToSection(e, 'rotary-code')} className="text-neutral-300 hover:text-amber-500 transition duration-300">Rotary Code</a>
-            <a href="#visionaries" onClick={(e) => scrollToSection(e, 'visionaries')} className="text-neutral-300 hover:text-amber-500 transition duration-300">Visionaries</a>
-            <a href="#projects-and-news" onClick={(e) => scrollToSection(e, 'projects-and-news')} className="text-neutral-300 hover:text-amber-500 transition duration-300">Projects & News</a>
-            <a href="#contactus" onClick={(e) => scrollToSection(e, 'contactus')} className="text-neutral-300 hover:text-amber-500 transition duration-300">Get Involved</a>
+            <a href="#who-we-are" className="text-neutral-300 hover:text-amber-500 transition duration-300">Who We Are</a>
+            <a href="#rotary-code" className="text-neutral-300 hover:text-amber-500 transition duration-300">Rotary Code</a>
+            <a href="#visionaries" className="text-neutral-300 hover:text-amber-500 transition duration-300">Visionaries</a>
+            <a href="#projects-and-news" className="text-neutral-300 hover:text-amber-500 transition duration-300">Projects & News</a>
+            <a href="#contactus" className="text-neutral-300 hover:text-amber-500 transition duration-300">Get Involved</a>
             {userSession && <a href="#control-center" onClick={(e) => scrollToSection(e, 'control-center')} className="text-blue-400 font-black hover:underline normal-case tracking-normal">CMS Panel</a>}
           </nav>
           
@@ -571,6 +525,7 @@ export default function Home() {
             <div className="lg:col-span-2 space-y-6">
               <div className="bg-neutral-950 text-white rounded-3xl p-6 sm:p-10 shadow-2xl flex flex-col justify-between min-h-[580px] relative border border-amber-500/20 overflow-hidden">
                 
+                {/* Giant Stylized Decorative Backdrop Quote Mark */}
                 <div className="absolute -top-6 -left-2 text-neutral-900 text-[180px] font-serif leading-none select-none pointer-events-none opacity-40">
                   “
                 </div>
@@ -595,6 +550,7 @@ export default function Home() {
                             {msg.title}
                           </h3>
                           
+                          {/* THE HIGH-END SCROLLBAR TRACK BASELINE RUNWAY */}
                           <p className="custom-magazine-scrollbar text-xs sm:text-sm text-neutral-300 leading-relaxed text-justify font-normal tracking-wide max-h-[260px] sm:max-h-[280px] overflow-y-auto pr-3 scroll-smooth">
                             {msg.text}
                           </p>
@@ -613,6 +569,7 @@ export default function Home() {
                   </div>
                 </div>
 
+                {/* ARROW CONTROL DECK */}
                 <div className="mt-8 pt-4 border-t border-neutral-900 flex justify-between items-center relative z-10">
                   <div className="flex gap-2">
                     {officialMessages.map((_, dIdx) => (
@@ -632,6 +589,7 @@ export default function Home() {
                 </div>
               </div>
 
+              {/* INTEGRATED PREMIUM EDITORIAL SIDEBAR WIDGET */}
               <div className="bg-amber-500 text-black p-6 rounded-3xl shadow-lg border border-amber-600/20 text-left">
                 <h3 className="text-base font-black uppercase tracking-wider text-black flex items-center gap-2">
                   Fellowship Through Service
@@ -664,12 +622,14 @@ export default function Home() {
             <p className="text-xs text-neutral-400 max-w-md mx-auto">Explore the fundamental tenets and structural philosophy that steer our global network of service leaders.</p>
           </div>
 
+          {/* Premium Capsule Navigation Segment Tab Strip */}
           <div className="flex bg-slate-900/80 backdrop-blur-md p-1 rounded-2xl border border-slate-800 shadow-xl max-w-xl mx-auto">
             <button onClick={() => setActiveTab('fourway')} className={`flex-1 py-3 text-xs font-black uppercase tracking-wider rounded-xl transition-all duration-300 border-none cursor-pointer ${activeTab === 'fourway' ? 'bg-amber-500 text-black font-extrabold shadow-lg' : 'text-neutral-400 hover:text-amber-500 bg-transparent'}`}>The 4-Way Test</button>
             <button onClick={() => setActiveTab('objectives')} className={`flex-1 py-3 text-xs font-black uppercase tracking-wider rounded-xl transition-all duration-300 border-none cursor-pointer ${activeTab === 'objectives' ? 'bg-amber-500 text-black font-extrabold shadow-lg' : 'text-neutral-400 hover:text-amber-500 bg-transparent'}`}>Rotary Objectives</button>
             <button onClick={() => setActiveTab('vision')} className={`flex-1 py-3 text-xs font-black uppercase tracking-wider rounded-xl transition-all duration-300 border-none cursor-pointer ${activeTab === 'vision' ? 'bg-amber-500 text-black font-extrabold shadow-lg' : 'text-neutral-400 hover:text-amber-500 bg-transparent'}`}>Our Vision</button>
           </div>
 
+          {/* Interactive Core Panel Canvas Display Card */}
           <div className="bg-neutral-900/30 backdrop-blur-xl border border-neutral-800/60 rounded-3xl p-6 sm:p-12 shadow-2xl min-h-[300px] flex items-center justify-center transition-all duration-500 hover:border-neutral-700/40">
             
             {activeTab === 'fourway' && (
@@ -754,109 +714,23 @@ export default function Home() {
         </div>
       </section>
 
-      {/* =============================================================
-          5. OFFICIAL LEADERSHIP ROSTER SHOWCASE (VISIONARIES LIGHT THEME)
-          ============================================================= */}
-      <section 
-        id="visionaries" 
-        className="py-24 bg-neutral-50 border-b border-neutral-200 relative overflow-hidden transition-colors duration-500"
-      >
-        <div className="absolute top-0 right-1/4 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-amber-500/5 rounded-full blur-3xl pointer-events-none" />
-
-        <div className="max-w-6xl mx-auto space-y-12 relative z-10 px-4 sm:px-6">
-          <div className="text-center max-w-2xl mx-auto space-y-2">
-            <span className="text-amber-600 font-extrabold uppercase tracking-widest text-xs block">Visionaries Team</span>
-            <h2 className="text-3xl font-black text-neutral-900 tracking-tight uppercase">RY 2026-2027 Roster Administration</h2>
-            <p className="text-xs text-neutral-500 max-w-md mx-auto">Review the officers, project heads, and official team members executing change across the local sector channels.</p>
+      {/* 5. OFFICIAL LEADERSHIP ROSTER SHOWCASE */}
+      <section id="visionaries" className="py-16 px-4 sm:px-6 bg-white border-b border-neutral-200">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center max-w-2xl mx-auto mb-12">
+            <span className="text-blue-600 font-bold uppercase tracking-widest text-xs block">Club Administration</span>
+            <h2 className="text-3xl font-black text-neutral-900 mt-1 tracking-tight">RY 2026-2027 Officers & Board Directors</h2>
           </div>
 
-          {/* Dynamic Premium Capsule Segment Roster Control Switcher */}
-          <div className="flex bg-white p-1 rounded-2xl border border-neutral-200 shadow-sm max-w-xl mx-auto">
-            <button onClick={() => setActiveVisionaryTab('officers')} className={`flex-1 py-3 text-xs font-black uppercase tracking-wider rounded-xl transition-all duration-300 border-none cursor-pointer ${activeVisionaryTab === 'officers' ? 'bg-amber-500 text-black font-extrabold shadow-md' : 'text-neutral-500 hover:text-amber-600 bg-transparent'}`}>RY Officers</button>
-            <button onClick={() => setActiveVisionaryTab('directors')} className={`flex-1 py-3 text-xs font-black uppercase tracking-wider rounded-xl transition-all duration-300 border-none cursor-pointer ${activeVisionaryTab === 'directors' ? 'bg-amber-500 text-black font-extrabold shadow-md' : 'text-neutral-500 hover:text-amber-600 bg-transparent'}`}>Club Directors</button>
-            <button onClick={() => setActiveVisionaryTab('roster')} className={`flex-1 py-3 text-xs font-black uppercase tracking-wider rounded-xl transition-all duration-300 border-none cursor-pointer ${activeVisionaryTab === 'roster' ? 'bg-amber-500 text-black font-extrabold shadow-md' : 'text-neutral-500 hover:text-amber-600 bg-transparent'}`}>Official Roster</button>
-          </div>
-
-          {/* Light High-Contrast Grid Canvas Display Card */}
-          <div className="bg-white/40 backdrop-blur-xl border border-neutral-200 rounded-3xl p-6 sm:p-10 shadow-sm transition-all duration-500">
-            
-            {/* Conditional Sub-Filtering Sorting Header (Triggered only on Official Roster state tab) */}
-            {activeVisionaryTab === 'roster' && (
-              <div className="flex flex-col sm:flex-row items-center justify-end gap-3 mb-6 pb-4 border-b border-neutral-100 animate-fadeIn">
-                <span className="text-[11px] uppercase tracking-wider font-extrabold text-neutral-400">
-                  ⚡ Sort Algorithm Parameters:
-                </span>
-                <div className="flex gap-2 bg-neutral-100/80 p-0.5 rounded-xl border border-neutral-200 shadow-inner">
-                  <button 
-                    onClick={() => setRosterSortCriteria('surname')} 
-                    className={`px-3 py-1.5 text-[10px] uppercase font-bold tracking-wider rounded-lg transition border-none cursor-pointer ${rosterSortCriteria === 'surname' ? 'bg-black text-white' : 'text-neutral-500 hover:text-black bg-transparent'}`}
-                  >
-                    By Surname
-                  </button>
-                  <button 
-                    onClick={() => setRosterSortCriteria('birthday')} 
-                    className={`px-3 py-1.5 text-[10px] uppercase font-bold tracking-wider rounded-lg transition border-none cursor-pointer ${rosterSortCriteria === 'birthday' ? 'bg-black text-white' : 'text-neutral-500 hover:text-black bg-transparent'}`}
-                  >
-                    By Birthday Month
-                  </button>
-                </div>
+          <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {prodUsers.map((officer) => (
+              <div key={officer.id} className="bg-neutral-50 rounded-2xl border border-neutral-200 p-5 text-center hover:border-amber-500 hover:shadow-md transition duration-300">
+                <div className="w-12 h-12 bg-neutral-900 rounded-full flex items-center justify-center mx-auto mb-3 text-amber-500 font-black text-sm border border-neutral-800">⚙️</div>
+                <h3 className="text-sm font-black text-neutral-900 leading-tight">{officer.name}</h3>
+                <p className="text-[11px] text-blue-600 font-bold mt-1 uppercase tracking-wider leading-tight">{officer.position}</p>
+                <div className="mt-3 pt-2 border-t border-neutral-200 text-[10px] text-neutral-400 font-mono text-center select-all">{officer.email}</div>
               </div>
-            )}
-
-            <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 animate-fadeIn">
-              {filteredVisionaries.map((officer) => (
-                <div 
-                  key={officer.id} 
-                  className="bg-white border border-neutral-200 rounded-2xl p-5 text-center hover:border-amber-500/50 hover:-translate-y-1.5 hover:scale-[1.02] hover:shadow-[0_12px_30px_rgba(217,119,6,0.12)] transition-all group duration-300 relative overflow-hidden flex flex-col items-center justify-between min-h-[260px]"
-                >
-                  {/* Premium Media Wrapper Box with Smooth Hover Scale Interceptor */}
-                  <div className="w-24 h-24 rounded-full overflow-hidden mb-4 border-2 border-neutral-100 group-hover:border-amber-500/50 transition-colors duration-300 shadow-sm relative bg-neutral-100">
-                    <img 
-                      src={officer.image || "/placeholder.jpg"} 
-                      alt={officer.name}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).src = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23f5f5f5'/><text x='50%27 y='55%27 font-family='sans-serif' font-size='30' fill='%23d97706' text-anchor='middle'>👤</text></svg>";
-                      }}
-                    />
-                  </div>
-
-                  <div className="space-y-1 flex-1 flex flex-col justify-center">
-                    <h3 className="text-sm font-black text-neutral-900 tracking-wide group-hover:text-amber-600 transition-colors duration-200 line-clamp-2 px-1">
-                      {officer.name}
-                    </h3>
-                    
-                    {activeVisionaryTab === 'roster' ? (
-                      <div className="pt-2">
-                        <span className="text-[9px] font-mono uppercase tracking-widest text-neutral-400 block">
-                          Birthday
-                        </span>
-                        <p className="text-xs font-bold text-blue-600 font-sans mt-0.5">
-                          {officer.birthday || "Unspecified"}
-                        </p>
-                      </div>
-                    ) : activeVisionaryTab === 'directors' ? (
-                      <p className="text-[11px] text-blue-600 font-extrabold uppercase tracking-wider leading-tight max-w-[180px] mx-auto">
-                        {officer.directorPosition || officer.position}
-                      </p>
-                    ) : (
-                      <p className="text-[11px] text-blue-600 font-extrabold uppercase tracking-wider leading-tight max-w-[180px] mx-auto">
-                        {officer.position}
-                      </p>
-                    )}
-                  </div>
-                  
-                  <div className="absolute bottom-0 inset-x-0 h-0.5 bg-gradient-to-r from-transparent via-transparent to-transparent group-hover:via-amber-500/40 transition-all duration-500" />
-                </div>
-              ))}
-            </div>
-
-            {filteredVisionaries.length === 0 && (
-              <div className="text-center py-12 text-neutral-400 text-xs tracking-wider">
-                No verified organization members match the current display query vector filters.
-              </div>
-            )}
+            ))}
           </div>
         </div>
       </section>
@@ -899,7 +773,7 @@ export default function Home() {
       </section>
 
       {/* =============================================================
-          7. REVIZED CONTACT HUB WITH HIGH CONTRAST DARK STYLING
+          7. REVIZED CONTACT FORM HUB WITH HIGH CONTRAST DARK STYLING
           ============================================================= */}
       <section id="contactus" className="py-20 sm:py-28 bg-slate-950 px-4 sm:px-6 border-t border-slate-900 relative">
         <div className="max-w-4xl mx-auto">
@@ -991,7 +865,7 @@ export default function Home() {
       </footer>
 
       {/* 9. FLOATING BACK TO TOP FLOATER */}
-      <a href="#top" onClick={(e) => scrollToSection(e, 'top')} className={`fixed bottom-4 right-4 sm:bottom-6 sm:right-6 bg-amber-500 text-black w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center shadow-xl z-50 transition-all duration-300 transform font-bold text-lg sm:text-xl select-none ${showScrollButton ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-4 scale-75 pointer-events-none'}`} title="Scroll to Top">↑</a>
+      <a href="#top" className={`fixed bottom-4 right-4 sm:bottom-6 sm:right-6 bg-amber-500 text-black w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center shadow-xl z-50 transition-all duration-300 transform font-bold text-lg sm:text-xl select-none ${showScrollButton ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-4 scale-75 pointer-events-none'}`} title="Scroll to Top">↑</a>
 
     </main>
   );
