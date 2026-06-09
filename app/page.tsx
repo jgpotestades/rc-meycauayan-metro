@@ -1,3 +1,4 @@
+/// <reference types="styled-jsx" />
 'use client';
 import React, { useState, useEffect, useRef } from 'react';
 
@@ -59,7 +60,6 @@ const officialMessages = [
 ];
 
 export default function Home() {
-  // Navigation & Menu Trackers
   const [activeForm, setActiveForm] = useState<'inquiry' | 'member' | 'donate'>('inquiry');
   const [activityFilter, setActivityFilter] = useState<'All' | 'Project' | 'News'>('All');
   const [showScrollButton, setShowScrollButton] = useState(false);
@@ -69,16 +69,13 @@ export default function Home() {
   // Active framework context panel tab vector
   const [activeTab, setActiveTab] = useState<'fourway' | 'objectives' | 'vision'>('fourway');
 
-  // Carousels State Intercept Tracking Vectors
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
 
-  // Smart Sticky Scroll Direction Trackers
   const [navVisible, setNavVisible] = useState(true);
   const lastScrollY = useRef(0);
 
-  // Staging vs Production States
   const [prodUsers, setProdUsers] = useState(initialUsers);
   const [prodActivities, setProdActivities] = useState(initialActivities);
   const [prodHeroTitle, setProdHeroTitle] = useState("Create Lasting Impact");
@@ -90,18 +87,15 @@ export default function Home() {
   const [stageHeroSub, setStageHeroSub] = useState("Guided by the enduring Rotary principle of Service Above Self, the Rotary Club of Meycauayan Metro continues to transform lives through sustainable humanitarian action.");
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
 
-  // Auth States
   const [usernameInput, setUsernameInput] = useState('');
   const [passwordInput, setPasswordInput] = useState('');
   const [loginError, setLoginError] = useState('');
   const [userSession, setUserSession] = useState<typeof initialUsers[0] | null>(null);
 
-  // Local CRUD State
   const [editingUser, setEditingUser] = useState<typeof initialUsers[0] | null>(null);
   const [newUser, setNewUser] = useState({ name: '', role: 'Member', position: 'Active Member', username: '', email: '' });
   const [newActivity, setNewActivity] = useState({ type: 'Project', title: '', category: '', description: '', status: 'Ongoing', detail: '' });
 
-  // Hero Carousel Automatically Cycle System
   useEffect(() => {
     if (isHovered) return;
     const slideTimer = setInterval(() => {
@@ -118,7 +112,6 @@ export default function Home() {
     setCurrentSlideIndex((prev) => (prev + 1) % carouselSlides.length);
   };
 
-  // Message Carousel Steppers
   const handlePrevMessage = () => {
     setCurrentMessageIndex((prev) => (prev === 0 ? officialMessages.length - 1 : prev - 1));
   };
@@ -127,7 +120,6 @@ export default function Home() {
     setCurrentMessageIndex((prev) => (prev + 1) % officialMessages.length);
   };
 
-  // Combined Window Scroll Listener Matrix
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
@@ -148,7 +140,6 @@ export default function Home() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [mobileMenuOpen]);
 
-  // PRECISION JAVASCRIPT SCROLL CALCULATOR INTERCEPTOR
   const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) => {
     e.preventDefault();
     setMobileMenuOpen(false);
@@ -192,7 +183,6 @@ export default function Home() {
     }
   };
 
-  // CRUD Sandbox Mutations
   const saveUserEditToStage = (e: React.FormEvent) => {
     e.preventDefault();
     if (!editingUser) return;
@@ -249,7 +239,6 @@ export default function Home() {
   return (
     <main id="top" className="min-h-screen bg-neutral-50 text-neutral-800 font-sans scroll-smooth relative overflow-x-hidden">
       
-      {/* INJECTED GLOBAL STYLED SCROLLBAR MATRIX FOR PREMIUM COFFEE-TABLE THEME AESTHETICS */}
       <style jsx global>{`
         /* Webkit Engines (Chrome, Safari, Edge) */
         .custom-magazine-scrollbar::-webkit-scrollbar {
