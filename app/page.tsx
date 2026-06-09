@@ -257,7 +257,7 @@ export default function Home() {
         }
       `}</style>
 
-      /* 1. SMART STICKY NAVIGATION BAR */
+      {/* 1. SMART STICKY NAVIGATION BAR */}
       <header className={`sticky top-0 z-50 bg-black text-white shadow-md border-b border-neutral-800 transition-transform duration-300 transform ${
         navVisible ? 'translate-y-0' : '-translate-y-full'
       }`}>
@@ -279,12 +279,12 @@ export default function Home() {
           
           {/* Desktop Navbar Menu */}
           <nav className="hidden md:flex gap-6 lg:gap-8 text-xs uppercase tracking-widest font-bold items-center">
-            <a href="#top" className="text-blue-500 hover:text-amber-500 transition duration-300">Home</a>
-            <a href="#about" className="text-neutral-300 hover:text-amber-500 transition duration-300">Who We Are</a>
-            <a href="#guidelines" className="text-neutral-300 hover:text-amber-500 transition duration-300">Rotary Code</a>
-            <a href="#officers" className="text-neutral-300 hover:text-amber-500 transition duration-300">Roster Officers</a>
-            <a href="#portfolio" className="text-neutral-300 hover:text-amber-500 transition duration-300">Impact Metrics</a>
-            <a href="#contact" className="text-neutral-300 hover:text-amber-500 transition duration-300">Get Involved</a>
+            <a href="#home" className="text-blue-500 hover:text-amber-500 transition duration-300">Home</a>
+            <a href="#who-we-are" className="text-neutral-300 hover:text-amber-500 transition duration-300">Who We Are</a>
+            <a href="#rotary-code" className="text-neutral-300 hover:text-amber-500 transition duration-300">Rotary Code</a>
+            <a href="#visionaries" className="text-neutral-300 hover:text-amber-500 transition duration-300">Visionaries</a>
+            <a href="#projects-and-news" className="text-neutral-300 hover:text-amber-500 transition duration-300">Projects & News</a>
+            <a href="#contactus" className="text-neutral-300 hover:text-amber-500 transition duration-300">Get Involved</a>
             {userSession && <a href="#control-center" className="text-blue-400 font-black hover:underline normal-case tracking-normal">CMS Panel</a>}
           </nav>
           
@@ -302,12 +302,12 @@ export default function Home() {
 
         {mobileMenuOpen && (
           <div className="md:hidden bg-black border-t border-neutral-900 p-4 space-y-3 flex flex-col text-xs font-bold tracking-wider uppercase text-neutral-300 animate-fadeIn shadow-inner">
-            <a href="#top" onClick={handleLinkClick} className="hover:text-amber-500 py-1">Home</a>
-            <a href="#about" onClick={handleLinkClick} className="hover:text-amber-500 py-1">Who We Are</a>
-            <a href="#guidelines" onClick={handleLinkClick} className="hover:text-amber-500 py-1">Rotary Code</a>
-            <a href="#officers" onClick={handleLinkClick} className="hover:text-amber-500 py-1">Roster Officers</a>
-            <a href="#portfolio" onClick={handleLinkClick} className="hover:text-amber-500 py-1">Impact Metrics</a>
-            <a href="#contact" onClick={handleLinkClick} className="hover:text-amber-500 py-1">Get Involved</a>
+            <a href="#home" onClick={handleLinkClick} className="hover:text-amber-500 py-1">Home</a>
+            <a href="#who-we-are" onClick={handleLinkClick} className="hover:text-amber-500 py-1">Who We Are</a>
+            <a href="#rotary-code" onClick={handleLinkClick} className="hover:text-amber-500 py-1">Rotary Code</a>
+            <a href="#visionaries" onClick={handleLinkClick} className="hover:text-amber-500 py-1">Visionaries</a>
+            <a href="#projects-and-news" onClick={handleLinkClick} className="hover:text-amber-500 py-1">Projects & News</a>
+            <a href="#contactus" onClick={handleLinkClick} className="hover:text-amber-500 py-1">Get Involved</a>
             {userSession && <a href="#control-center" onClick={handleLinkClick} className="text-blue-400 py-1 font-bold border-t border-neutral-800 normal-case tracking-normal">CMS Panel Workspace</a>}
             <div className="pt-2 border-t border-neutral-800">
               {userSession ? (
@@ -453,12 +453,12 @@ export default function Home() {
         <div className="max-w-7xl mx-auto w-full grid md:grid-cols-2 gap-12 items-center relative z-10 py-12 sm:py-16">
           <div className="text-center md:text-left">
             <span className="bg-neutral-900 text-amber-500 text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-widest border border-neutral-800 shadow-sm inline-block">District 3770 • Service Above Self</span>
-            <h1 className="text-4xl sm:text-5xl md:text-7xl font-black tracking-tight text-white mt-4 mb-6 uppercase leading-none">{prodHeroTitle}</h1>
+            <h1 className="text-4xl sm:text-5xl md:text-7xl font-black tracking-tight text-white mt-4 mb-6 capitalize leading-none">{prodHeroTitle}</h1>
             <p className="text-sm sm:text-base text-neutral-300 mb-8 max-w-xl mx-auto md:mx-0 leading-relaxed">{prodHeroSub}</p>
             
             <div className="grid grid-cols-2 sm:flex gap-3 max-w-sm mx-auto md:max-w-none md:mx-0">
-              <a href="#portfolio" className="bg-white text-black font-black py-3 rounded-lg hover:bg-amber-500 hover:text-black transition duration-300 shadow-md text-center text-xs sm:text-sm px-4 sm:px-6">View Metrics</a>
-              <a href="#about" className="border-2 border-neutral-500 text-white font-bold py-3 rounded-lg hover:bg-white/10 transition text-center text-xs sm:text-sm px-4 sm:px-6">Read Intro</a>
+              <a href="#projects-and-news" className="bg-white text-black font-black py-3 rounded-lg hover:bg-amber-500 hover:text-black transition -300 shadow-md text-center text-xs sm:text-sm px-4 sm:px-6">Show Impact</a>
+              <a href="#who-we-are" className="border-2 border-neutral-500 text-white font-bold py-3 rounded-lg hover:bg-white/10 transition text-center text-xs sm:text-sm px-4 sm:px-6">Learn More</a>
             </div>
           </div>
           
@@ -478,14 +478,14 @@ export default function Home() {
       {/* =============================================================
           3. ABOUT US INTRODUCTORY REFLECTIONS & EMBEDDED SCROLL CAROUSEL
           ============================================================= */}
-      <section id="about" className="py-16 sm:py-24 px-4 sm:px-6 bg-white border-b border-neutral-200 scroll-mt-16">
+      <section id="who-we-are" className="py-16 sm:py-24 px-4 sm:px-6 bg-white border-b border-neutral-200 scroll-mt-16">
         <div className="max-w-7xl mx-auto">
           <div className="grid lg:grid-cols-5 gap-12 lg:gap-16 items-start">
             
             {/* LEFT COLUMN: INTRODUCTION TEXT COPY */}
             <div className="lg:col-span-3 space-y-6">
               <div className="space-y-2">
-                <span className="text-amber-500 font-black uppercase tracking-widest text-xs block">Official Roster Message</span>
+                <span className="text-amber-500 font-black uppercase tracking-widest text-xs block">Who We Are</span>
                 <h2 className="text-3xl sm:text-4xl font-black text-neutral-900 tracking-tight uppercase border-b-4 border-black pb-3 inline-block">
                   Introduction
                 </h2>
@@ -581,7 +581,7 @@ export default function Home() {
       </section>
 
       {/* 4. GUIDING ROTARY CODES MATRIX */}
-      <section id="guidelines" className="py-16 bg-neutral-50 border-b border-neutral-200 scroll-mt-16 px-4 sm:px-6">
+      <section id="rotary-code" className="py-16 bg-neutral-50 border-b border-neutral-200 scroll-mt-16 px-4 sm:px-6">
         <div className="max-w-7xl mx-auto space-y-12">
           <div className="text-center max-w-2xl mx-auto">
             <span className="text-blue-600 font-bold uppercase tracking-widest text-xs block">Guiding Frameworks</span>
@@ -623,7 +623,7 @@ export default function Home() {
       </section>
 
       {/* 5. OFFICIAL LEADERSHIP ROSTER SHOWCASE */}
-      <section id="officers" className="py-16 px-4 sm:px-6 bg-white border-b border-neutral-200 scroll-mt-16">
+      <section id="visionaries" className="py-16 px-4 sm:px-6 bg-white border-b border-neutral-200 scroll-mt-16">
         <div className="max-w-7xl mx-auto">
           <div className="text-center max-w-2xl mx-auto mb-12">
             <span className="text-blue-600 font-bold uppercase tracking-widest text-xs block">Club Administration</span>
@@ -644,7 +644,7 @@ export default function Home() {
       </section>
 
       {/* 6. PROJECTS & IMPACT METRICS FEED */}
-      <section id="portfolio" className="py-16 sm:py-20 bg-neutral-50 px-4 sm:px-6 border-b border-neutral-200 scroll-mt-16">
+      <section id="projects-and-news" className="py-16 sm:py-20 bg-neutral-50 px-4 sm:px-6 border-b border-neutral-200 scroll-mt-16">
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
             <div>
@@ -683,7 +683,7 @@ export default function Home() {
       {/* =============================================================
           7. REVIZED CONTACT FORM HUB WITH HIGH CONTRAST DARK STYLING
           ============================================================= */}
-      <section id="contact" className="py-20 sm:py-28 bg-slate-950 px-4 sm:px-6 scroll-mt-16 border-t border-slate-900 relative">
+      <section id="contactus" className="py-20 sm:py-28 bg-slate-950 px-4 sm:px-6 scroll-mt-16 border-t border-slate-900 relative">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-8 sm:mb-12 space-y-1">
             <span className="text-amber-500 font-bold uppercase tracking-widest text-xs block">Connect With Us</span>
