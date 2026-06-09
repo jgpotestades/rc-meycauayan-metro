@@ -30,3 +30,7 @@ body {
     scroll-behavior: smooth !important;
   }
 }
+
+.custom-scroll-section {
+  scroll-margin-top: 5rem; /* Exactly 80px, perfectly matching your header layout matrix */
+}

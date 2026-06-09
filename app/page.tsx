@@ -148,8 +148,23 @@ export default function Home() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [mobileMenuOpen]);
 
-  const handleLinkClick = () => {
+  // PRECISION JAVASCRIPT SCROLL CALCULATOR INTERCEPTOR
+  const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) => {
+    e.preventDefault();
     setMobileMenuOpen(false);
+
+    const targetElement = document.getElementById(sectionId);
+    if (!targetElement) return;
+
+    // Detect responsive offset configuration layout matrix
+    const headerOffset = window.innerWidth >= 768 ? 84 : 70;
+    const elementPosition = targetElement.getBoundingClientRect().top;
+    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+    window.scrollTo({
+      top: offsetPosition,
+      behavior: 'smooth'
+    });
   };
 
   const clearAuthFields = () => { setUsernameInput(''); setPasswordInput(''); };
@@ -272,7 +287,7 @@ export default function Home() {
           </button>
           
           {/* BANNER LOGO CONTAINER */}
-          <a href="#top" onClick={handleLinkClick} className="flex items-center bg-transparent border-none outline-none cursor-pointer text-left no-underline select-none shrink-0 md:order-first">
+          <a href="#top" onClick={(e) => scrollToSection(e, 'top')} className="flex items-center bg-transparent border-none outline-none cursor-pointer text-left no-underline select-none shrink-0 md:order-first">
             <img 
               src="/rotary-logo.png" 
               alt="Rotary Club of Meycauayan Metro" 
@@ -287,7 +302,7 @@ export default function Home() {
             <a href="#visionaries" className="text-neutral-300 hover:text-amber-500 transition duration-300">Visionaries</a>
             <a href="#projects-and-news" className="text-neutral-300 hover:text-amber-500 transition duration-300">Projects & News</a>
             <a href="#contactus" className="text-neutral-300 hover:text-amber-500 transition duration-300">Get Involved</a>
-            {userSession && <a href="#control-center" className="text-blue-400 font-black hover:underline normal-case tracking-normal">CMS Panel</a>}
+            {userSession && <a href="#control-center" onClick={(e) => scrollToSection(e, 'control-center')} className="text-blue-400 font-black hover:underline normal-case tracking-normal">CMS Panel</a>}
           </nav>
           
           <div className="hidden md:flex items-center gap-4">
@@ -304,13 +319,13 @@ export default function Home() {
 
         {mobileMenuOpen && (
           <div className="md:hidden bg-black border-t border-neutral-900 p-4 space-y-3 flex flex-col text-xs font-bold tracking-wider uppercase text-neutral-300 animate-fadeIn shadow-inner">
-            <a href="#home" onClick={handleLinkClick} className="hover:text-amber-500 py-1">Home</a>
-            <a href="#who-we-are" onClick={handleLinkClick} className="hover:text-amber-500 py-1">Who We Are</a>
-            <a href="#rotary-code" onClick={handleLinkClick} className="hover:text-amber-500 py-1">Rotary Code</a>
-            <a href="#visionaries" onClick={handleLinkClick} className="hover:text-amber-500 py-1">Visionaries</a>
-            <a href="#projects-and-news" onClick={handleLinkClick} className="hover:text-amber-500 py-1">Projects & News</a>
-            <a href="#contactus" onClick={handleLinkClick} className="hover:text-amber-500 py-1">Get Involved</a>
-            {userSession && <a href="#control-center" onClick={handleLinkClick} className="text-blue-400 py-1 font-bold border-t border-neutral-800 normal-case tracking-normal">CMS Panel Workspace</a>}
+            <a href="#home" onClick={(e) => scrollToSection(e, 'top')} className="hover:text-amber-500 py-1">Home</a>
+            <a href="#who-we-are" onClick={(e) => scrollToSection(e, 'who-we-are')} className="hover:text-amber-500 py-1">Who We Are</a>
+            <a href="#rotary-code" onClick={(e) => scrollToSection(e, 'rotary-code')} className="hover:text-amber-500 py-1">Rotary Code</a>
+            <a href="#visionaries" onClick={(e) => scrollToSection(e, 'visionaries')} className="hover:text-amber-500 py-1">Visionaries</a>
+            <a href="#projects-and-news" onClick={(e) => scrollToSection(e, 'projects-and-news')} className="hover:text-amber-500 py-1">Projects & News</a>
+            <a href="#contactus" onClick={(e) => scrollToSection(e, 'contactus')} className="hover:text-amber-500 py-1">Get Involved</a>
+            {userSession && <a href="#control-center" onClick={(e) => scrollToSection(e, 'control-center')} className="text-blue-400 py-1 font-bold border-t border-neutral-800 normal-case tracking-normal">CMS Panel Workspace</a>}
             <div className="pt-2 border-t border-neutral-800">
               {userSession ? (
                 <button suppressHydrationWarning onClick={() => { setUserSession(null); setMobileMenuOpen(false); }} className="w-full bg-red-600 text-white text-center font-bold py-2.5 rounded-lg border-none text-xs tracking-widest">Logout</button>
@@ -348,7 +363,7 @@ export default function Home() {
 
       {/* ADMINISTRATOR CONTROL PANEL CMS WORKSPACE */}
       {userSession && (
-        <section id="control-center" className="bg-neutral-900 text-white py-12 px-4 sm:px-6 border-b-4 border-blue-600 scroll-mt-16">
+        <section id="control-center" className="bg-neutral-900 text-white py-12 px-4 sm:px-6 border-b-4 border-blue-600">
           <div className="max-w-7xl mx-auto space-y-8">
             <div className="bg-black rounded-xl p-4 sm:p-6 border border-neutral-800 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 shadow-inner">
               <div>
@@ -459,8 +474,8 @@ export default function Home() {
             <p className="text-sm sm:text-base text-neutral-300 mb-8 max-w-xl mx-auto md:mx-0 leading-relaxed">{prodHeroSub}</p>
             
             <div className="grid grid-cols-2 sm:flex gap-3 max-w-sm mx-auto md:max-w-none md:mx-0">
-              <a href="#projects-and-news" className="bg-white text-black font-black py-3 rounded-lg hover:bg-amber-500 hover:text-black transition -300 shadow-md text-center text-xs sm:text-sm px-4 sm:px-6">Show Impact</a>
-              <a href="#who-we-are" className="border-2 border-neutral-500 text-white font-bold py-3 rounded-lg hover:bg-white/10 transition text-center text-xs sm:text-sm px-4 sm:px-6">Learn More</a>
+              <a href="#projects-and-news" onClick={(e) => scrollToSection(e, 'projects-and-news')} className="bg-white text-black font-black py-3 rounded-lg hover:bg-amber-500 hover:text-black transition -300 shadow-md text-center text-xs sm:text-sm px-4 sm:px-6">Show Impact</a>
+              <a href="#who-we-are" onClick={(e) => scrollToSection(e, 'who-we-are')} className="border-2 border-neutral-500 text-white font-bold py-3 rounded-lg hover:bg-white/10 transition text-center text-xs sm:text-sm px-4 sm:px-6">Learn More</a>
             </div>
           </div>
         </div>
@@ -475,7 +490,7 @@ export default function Home() {
       {/* =============================================================
           3. ABOUT US INTRODUCTORY REFLECTIONS & EMBEDDED SCROLL CAROUSEL
           ============================================================= */}
-      <section id="who-we-are" className="py-16 sm:py-24 px-4 sm:px-6 bg-white border-b border-neutral-200 scroll-mt-16">
+      <section id="who-we-are" className="py-16 sm:py-24 px-4 sm:px-6 bg-white border-b border-neutral-200">
         <div className="max-w-7xl mx-auto">
           <div className="grid lg:grid-cols-5 gap-12 lg:gap-16 items-start">
             
@@ -594,7 +609,7 @@ export default function Home() {
           ============================================================= */}
       <section 
         id="rotary-code" 
-        className="py-24 bg-cover bg-center bg-fixed scroll-mt-16 px-4 sm:px-6 relative overflow-hidden"
+        className="py-24 bg-cover bg-center bg-fixed relative overflow-hidden"
         style={{ backgroundImage: `linear-gradient(rgba(10, 15, 30, 0.88), rgba(5, 5, 10, 0.95)), url('/rotary-background.jpg')` }}
       >
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl pointer-events-none" />
@@ -625,13 +640,13 @@ export default function Home() {
                 </div>
                 <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-4">
                   {[
-                    { num: "01", title: "TRUTH", desc: "Is it the truth?" },
-                    { num: "02", title: "FAIRNESS", desc: "Is it fair to all concerned?" },
-                    { num: "03", title: "GOODWILL", desc: "Will it build goodwill and better friendships?" },
-                    { num: "04", title: "BENEFICIAL", desc: "Will it be beneficial to all concerned?" }
+                    { title: "01", desc: "Is it the truth?" },
+                    { title: "02", desc: "Is it fair to all concerned?" },
+                    { title: "03", desc: "Will it build goodwill and better friendships?" },
+                    { title: "04", desc: "Will it be beneficial to all concerned?" }
                   ].map((item, idx) => (
                     <div key={idx} className="bg-slate-950/80 backdrop-blur-md border border-slate-900 rounded-2xl p-5 hover:border-amber-500/40 hover:-translate-y-1 hover:scale-[1.03] hover:shadow-[0_10px_25px_-5px_rgba(245,158,11,0.1)] transition-all group duration-300 relative overflow-hidden">
-                      <div className="text-3xl font-black text-amber-500/5 font-mono absolute top-2 right-3 group-hover:text-amber-500/30 transition-all duration-300 transform group-hover:scale-110 select-none">{item.num}</div>
+                      <div className="text-3xl font-black text-amber-500/5 font-mono absolute top-2 right-3 group-hover:text-amber-500/30 transition-all duration-300 transform group-hover:scale-110 select-none">{item.title}</div>
                       <h4 className="text-xs font-black tracking-widest text-amber-500 mb-1.5 uppercase font-mono group-hover:text-amber-400 transition-colors">{item.title}</h4>
                       <p className="text-xs text-neutral-300 leading-relaxed font-normal">{item.desc}</p>
                     </div>
@@ -648,10 +663,10 @@ export default function Home() {
                 </div>
                 <div className="grid md:grid-cols-2 gap-4">
                   {[
-                    "The development of acquaintance as an active structural opportunity for humanitarian service.",
-                    "High ethical standards in professions; the recognition of worthiness of all useful occupations.",
-                    "The personal application of the ideal of service by every Rotarian to their personal and community life.",
-                    "The advancement of international understanding, collective goodwill, and peace via fellowship."
+                    "The development of acquaintance as an opportunity for service.",
+                    "High ethical standards in business and professions; the recognition of worthiness of all useful occupations; and the dignifying of each Rotarian's occupation as an opportunity to serve society.",
+                    "The application of the ideal of service in each Rotarian's personal, business, and community life.",
+                    "The advancement of international understanding, goodwill, and peace through a world fellowship of business and professional persons united in the ideal of service."
                   ].map((text, idx) => (
                     <div key={idx} className="bg-slate-950/50 backdrop-blur-md border border-slate-900/60 rounded-2xl p-5 flex gap-4 items-start hover:bg-slate-950/90 hover:scale-[1.01] hover:border-blue-500/30 shadow-md transition-all duration-300 group">
                       <span className="w-6 h-6 bg-blue-600/10 rounded-full flex items-center justify-center shrink-0 border border-blue-500/20 text-blue-400 font-mono font-bold text-[10px] mt-0.5 group-hover:bg-blue-600 group-hover:text-white group-hover:scale-110 transition-all duration-300">{idx + 1}</span>
@@ -663,12 +678,35 @@ export default function Home() {
             )}
 
             {activeTab === 'vision' && (
-              <div className="w-full max-w-3xl text-center space-y-6 animate-fadeIn py-4">
-                <span className="text-[10px] bg-slate-900 text-slate-400 font-mono border border-slate-800 px-3 py-1 rounded-full uppercase tracking-widest inline-block">Global Vision Blueprint</span>
-                <p className="text-lg sm:text-2xl font-black text-neutral-100 tracking-wide leading-relaxed uppercase max-w-2xl mx-auto">
-                  "Together we see a world where people unite and take action to create lasting change across the globe, in our communities, and in ourselves."
-                </p>
-                <div className="w-12 h-1 bg-amber-500 mx-auto rounded-full shadow-lg animate-pulse" />
+              <div className="w-full max-w-4xl text-center py-6 px-4 animate-fadeIn">
+                <div className="max-w-3xl mx-auto space-y-6 group bg-black/40 backdrop-blur-md border border-neutral-800 p-8 sm:p-12 rounded-2xl shadow-xl hover:border-amber-500/30 transition-all duration-500">
+                  <span className="text-[10px] bg-neutral-900/80 text-amber-500 font-mono border border-neutral-800 px-4 py-1.5 rounded-full uppercase tracking-widest inline-block">
+                    Official International Blueprint
+                  </span>
+                  
+                  <p className="text-xl sm:text-3xl font-light text-neutral-300 tracking-wide leading-relaxed text-center font-serif">
+                    "
+                    <span className="font-black bg-gradient-to-r from-amber-400 via-orange-400 to-amber-500 text-transparent bg-clip-text drop-shadow-[0_2px_8px_rgba(245,158,11,0.3)] uppercase tracking-tight mx-1">
+                      Together
+                    </span> 
+                    we see a world where 
+                    <span className="font-black bg-gradient-to-r from-amber-400 via-orange-400 to-amber-500 text-transparent bg-clip-text drop-shadow-[0_2px_8px_rgba(245,158,11,0.3)] uppercase tracking-tight mx-1">
+                      people
+                    </span> 
+                    unite and take action to 
+                    <span className="font-black bg-gradient-to-r from-amber-400 via-orange-400 to-amber-500 text-transparent bg-clip-text drop-shadow-[0_2px_8px_rgba(245,158,11,0.3)] uppercase tracking-tight mx-1">
+                      create
+                    </span> 
+                    lasting 
+                    <span className="font-black bg-gradient-to-r from-amber-400 via-orange-400 to-amber-500 text-transparent bg-clip-text drop-shadow-[0_2px_8px_rgba(245,158,11,0.3)] uppercase tracking-tight mx-1">
+                      change
+                    </span> 
+                    across the globe, in our communities, and in ourselves.
+                    "
+                  </p>
+                  
+                  <div className="w-16 h-0.5 bg-gradient-to-r from-transparent via-amber-500 to-transparent mx-auto shadow-md" />
+                </div>
               </div>
             )}
 
@@ -677,7 +715,7 @@ export default function Home() {
       </section>
 
       {/* 5. OFFICIAL LEADERSHIP ROSTER SHOWCASE */}
-      <section id="visionaries" className="py-16 px-4 sm:px-6 bg-white border-b border-neutral-200 scroll-mt-16">
+      <section id="visionaries" className="py-16 px-4 sm:px-6 bg-white border-b border-neutral-200">
         <div className="max-w-7xl mx-auto">
           <div className="text-center max-w-2xl mx-auto mb-12">
             <span className="text-blue-600 font-bold uppercase tracking-widest text-xs block">Club Administration</span>
@@ -698,7 +736,7 @@ export default function Home() {
       </section>
 
       {/* 6. PROJECTS & IMPACT METRICS FEED */}
-      <section id="projects-and-news" className="py-16 sm:py-20 bg-neutral-50 px-4 sm:px-6 border-b border-neutral-200 scroll-mt-16">
+      <section id="projects-and-news" className="py-16 sm:py-20 bg-neutral-50 px-4 sm:px-6 border-b border-neutral-200">
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
             <div>
@@ -737,7 +775,7 @@ export default function Home() {
       {/* =============================================================
           7. REVIZED CONTACT FORM HUB WITH HIGH CONTRAST DARK STYLING
           ============================================================= */}
-      <section id="contactus" className="py-20 sm:py-28 bg-slate-950 px-4 sm:px-6 scroll-mt-16 border-t border-slate-900 relative">
+      <section id="contactus" className="py-20 sm:py-28 bg-slate-950 px-4 sm:px-6 border-t border-slate-900 relative">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-8 sm:mb-12 space-y-1">
             <span className="text-amber-500 font-bold uppercase tracking-widest text-xs block">Connect With Us</span>
