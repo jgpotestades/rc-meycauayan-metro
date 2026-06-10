@@ -22,34 +22,27 @@ interface RotaryUser {
 // =================================================================
 const initialUsers: RotaryUser[] = [
   // RY 2026-2027 OFFICERS
-  { id: 1, name: "Arvin Jason Andaya", role: "Officer", position: "Club President", isOfficer: true, isDirector: false, image: "/officer-arvin.jpg", birthday: "March 9", username: "arvinjasonandaya", email: "arvin@rcmeycauayanmetro.org" },
-  { id: 2, name: "Diosdado Alvarado", role: "Officer", position: "Vice President", isOfficer: true, isDirector: false, image: "/officer-diosdado.jpg", birthday: "December 9", username: "diosdadoalvarado", email: "diosdado@rcmeycauayanmetro.org" },
-  { id: 3, name: "Daniel Cuyos", role: "Officer", position: "President Elect", isOfficer: true, isDirector: false, image: "/officer-daniel.jpg", birthday: "April 11", username: "danielcuyos", email: "daniel@rcmeycauayanmetro.org" },
-  { id: 4, name: "Rosemarie Valencia", role: "Officer", position: "Club Secretary", isOfficer: true, isDirector: true, directorPosition: "Club Administration Director", image: "/officer-rosemarie.jpg", birthday: "August 14", username: "rosemarievalencia", email: "rosemarie@rcmeycauayanmetro.org" },
-  { id: 5, name: "Adrian Go", role: "Officer", position: "Executive Secretary", isOfficer: true, isDirector: true, directorPosition: "Public Image Director", image: "/officer-adrian.jpg", birthday: "November 19", username: "adriango", email: "adrian@rcmeycauayanmetro.org" },
-  { id: 6, name: "Mark Christian Aloran", role: "Officer", position: "Club Treasurer", isOfficer: true, isDirector: false, image: "/officer-mark.jpg", birthday: "November 15", username: "markchristianaloran", email: "mark@rcmeycauayanmetro.org" },
-  { id: 7, name: "April Homoroc", role: "Officer", position: "Club Auditor", isOfficer: true, isDirector: false, image: "/officer-april.jpg", birthday: "December 20", username: "aprilhomoroc", email: "april@rcmeycauayanmetro.org" },
-  { id: 8, name: "Eric Homoroc", role: "Officer", position: "PRO", isOfficer: true, isDirector: false, image: "/officer-eric.jpg", birthday: "October 13", username: "erichomoroc", email: "eric@rcmeycauayanmetro.org" },
-
+  { id: 1, name: "Arvin Jason Andaya", role: "Officer", position: "Club President", isOfficer: true, isDirector: false, image: "/members/Arvin Jayson Andaya.png", birthday: "March 9", username: "arvinjasonandaya", email: "arvin@rcmeycauayanmetro.org" },
+  { id: 2, name: "Diosdado Alvarado", role: "Officer", position: "Vice President", isOfficer: true, isDirector: false, image: "/members/Diosdado Alvarado.png", birthday: "December 9", username: "diosdadoalvarado", email: "diosdado@rcmeycauayanmetro.org" },
+  { id: 3, name: "Daniel Cuyos", role: "Officer", position: "President Elect", isOfficer: true, isDirector: false, image: "/members/Daniel Cuyos.png", birthday: "April 11", username: "danielcuyos", email: "daniel@rcmeycauayanmetro.org" },
+  { id: 4, name: "Rosemarie Valencia", role: "Officer", position: "Club Secretary", isOfficer: true, isDirector: true, directorPosition: "Club Administration Director", image: "/members/Rosemarie Valencia.png", birthday: "August 14", username: "rosemarievalencia", email: "rosemarie@rcmeycauayanmetro.org" },
+  { id: 5, name: "Adrian Go", role: "Officer", position: "Executive Secretary", isOfficer: true, isDirector: true, directorPosition: "Public Image Director", image: "/members/Adrian Go.png", birthday: "November 19", username: "adriango", email: "adrian@rcmeycauayanmetro.org" },
+  { id: 6, name: "Mark Christian Aloran", role: "Officer", position: "Club Treasurer", isOfficer: true, isDirector: false, image: "/members/Mark Christian Aloran.png", birthday: "November 15", username: "markchristianaloran", email: "mark@rcmeycauayanmetro.org" },
+  { id: 7, name: "April Homoroc", role: "Officer", position: "Club Auditor", isOfficer: true, isDirector: false, image: "/members/April Homoroc.png", birthday: "December 20", username: "aprilhomoroc", email: "april@rcmeycauayanmetro.org" },
+  { id: 8, name: "Eric Homoroc", role: "Officer", position: "PRO", isOfficer: true, isDirector: false, image: "/members/Eric Homoroc.png", birthday: "October 13", username: "erichomoroc", email: "eric@rcmeycauayanmetro.org" },
   // INDEPENDENT CLUB DIRECTORS / LEADERSHIP MARGINS
-  { id: 9, name: "Angelito Ferrer", role: "Super Admin", position: "Immediate Past President", isOfficer: false, isDirector: true, directorPosition: "Rotary Foundation Director", image: "/officer-angelito.jpg", birthday: "November 2", username: "angelitoferrer", email: "angelito@rcmeycauayanmetro.org" },
-  { id: 10, name: "Jackie Halasan", role: "Officer", position: "Active Member", isOfficer: false, isDirector: true, directorPosition: "Club Membership Director", image: "/director-jackie.jpg", birthday: "July 21", username: "jackiehalasan", email: "jackie@rcmeycauayanmetro.org" },
-  { id: 11, name: "Raymond Peralta", role: "Officer", position: "Active Member", isOfficer: false, isDirector: true, directorPosition: "Service Project Director", image: "/director-raymond.jpg", birthday: "January 10", username: "raymondperalta", email: "raymond@rcmeycauayanmetro.org" },
-  { id: 12, name: "Severino Pascual Jr.", role: "Officer", position: "Active Member", isOfficer: false, isDirector: true, directorPosition: "Youth Service Director", image: "/director-severino.jpg", birthday: "July 27", username: "severinopascual", email: "severino@rcmeycauayanmetro.org" },
-  { id: 13, name: "Jayson Fernandez", role: "Officer", position: "Assistant Governor", isOfficer: false, isDirector: true, directorPosition: "Protocol Officer", image: "/officer-jayson.jpg", birthday: "July 13", username: "jaysonfernandez", email: "jayson@rcmeycauayanmetro.org" },
-  { id: 14, name: "Francis Jay Dela Cruz", role: "Officer", position: "Active Member", isOfficer: false, isDirector: true, directorPosition: "Club Learning Facilitator", image: "/director-francis.jpg", birthday: "December 21", username: "francisjaydelacruz", email: "francis@rcmeycauayanmetro.org" },
-
-  // ADDITIONAL OFFICIAL MEMBERS (ROSTER MATRIX)
-  { id: 15, name: "Richard Becerro", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/roster-richard.jpg", birthday: "May 16", username: "richardbecerro", email: "richard@rcmeycauayanmetro.org" },
-  { id: 16, name: "Ramil Inopia Burdin", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/roster-ramil.jpg", birthday: "August 16", username: "ramilinopiaburdin", email: "ramil@rcmeycauayanmetro.org" },
-  { id: 17, name: "Morris Delos Santos", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/roster-morris.jpg", birthday: "November 17", username: "morrisdelossantos", email: "morris@rcmeycauayanmetro.org" },
-  { id: 18, name: "Felix Domigpe", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/roster-felix.jpg", birthday: "November 5", username: "felixdomigpe", email: "felix@rcmeycauayanmetro.org" },
-  { id: 19, name: "Jaquelyn Jacob", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/roster-jaquelyn.jpg", birthday: "July 21", username: "jaquelynjacob", email: "jaquelyn@rcmeycauayanmetro.org" },
-  { id: 20, name: "Pablito Javier", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/roster-pablito.jpg", birthday: "January 5", username: "pablitojavier", email: "pablito@rcmeycauayanmetro.org" },
-  { id: 21, name: "Frederick Malapit", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/roster-frederick.jpg", birthday: "July 12", username: "frederickmalapit", email: "frederick@rcmeycauayanmetro.org" },
-  { id: 22, name: "Enrique Milan", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/roster-enrique.jpg", birthday: "March 1", username: "enriquemilan", email: "enrique@rcmeycauayanmetro.org" },
-  { id: 23, name: "Ma. Carmela Osiones", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/roster-carmela.jpg", birthday: "July 7", username: "macarmelaosiones", email: "carmela@rcmeycauayanmetro.org" },
-  { id: 24, name: "Willy Sy", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/roster-willy.jpg", birthday: "March 12", username: "willysy", email: "willy@rcmeycauayanmetro.org" }
+  { id: 9, name: "Angelito Ferrer", role: "Super Admin", position: "Immediate Past President", isOfficer: false, isDirector: true, directorPosition: "Rotary Foundation Director", image: "/members/Angelito Ferrer.png", birthday: "November 2", username: "angelitoferrer", email: "angelito@rcmeycauayanmetro.org" },
+  { id: 10, name: "Jaquelyn Jacob", role: "Officer", position: "Active Member", isOfficer: false, isDirector: true, directorPosition: "Club Membership Director", image: "/members/Jackie Halasan.png", birthday: "July 21", username: "jackiehalasan", email: "jackie@rcmeycauayanmetro.org" },
+  { id: 11, name: "Raymond Peralta", role: "Officer", position: "Active Member", isOfficer: false, isDirector: true, directorPosition: "Service Project Director", image: "/members/Raymond Peralta.png", birthday: "January 10", username: "raymondperalta", email: "raymond@rcmeycauayanmetro.org" },
+  { id: 12, name: "Severino Pascual Jr.", role: "Officer", position: "Active Member", isOfficer: false, isDirector: true, directorPosition: "Youth Service Director", image: "/members/Severino Pascual Jr.png", birthday: "July 27", username: "severinopascual", email: "severino@rcmeycauayanmetro.org" },
+  { id: 13, name: "Jayson Fernandez", role: "Officer", position: "Assistant Governor", isOfficer: false, isDirector: true, directorPosition: "Protocol Officer", image: "/members/Jayson Fernandez.png", birthday: "July 13", username: "jaysonfernandez", email: "jayson@rcmeycauayanmetro.org" },
+  { id: 14, name: "Francis Jay Dela Cruz", role: "Officer", position: "Active Member", isOfficer: false, isDirector: true, directorPosition: "Club Learning Facilitator", image: "/members/Francis Jay Dela Cruz.png", birthday: "December 21", username: "francisjaydelacruz", email: "francis@rcmeycauayanmetro.org" },
+  { id: 18, name: "Felix Domigpe", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/members/Felix Domigpe.png", birthday: "November 5", username: "felixdomigpe", email: "felix@rcmeycauayanmetro.org" },
+  { id: 19, name: "Pablito Javier", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/members/Pablito Javier.png", birthday: "January 5", username: "pablitojavier", email: "pablito@rcmeycauayanmetro.org" },
+  { id: 20, name: "Frederick Malapit", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/members/Frederick Malapit.png", birthday: "July 12", username: "frederickmalapit", email: "frederick@rcmeycauayanmetro.org" },
+  { id: 21, name: "Enrique Milan", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/members/Enrique Milan.png", birthday: "March 1", username: "enriquemilan", email: "enrique@rcmeycauayanmetro.org" },
+  { id: 22, name: "Ma. Carmela Osiones", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/members/Ma Carmela Osiones.png", birthday: "July 7", username: "macarmelaosiones", email: "carmela@rcmeycauayanmetro.org" },
+  { id: 23, name: "Willy Sy", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/members/Willy Sy.png", birthday: "March 12", username: "willysy", email: "willy@rcmeycauayanmetro.org" }
 ];
 
 const initialActivities = [
@@ -99,7 +92,7 @@ const areasOfFocus = [
 const corporateSponsors = [
   { name: "Evergold Memorial Services", logoImage: "/partner-evergold-logo.jpg", fallbackText: "EMS", url: "https://www.facebook.com/evergoldmemorialservice" },
   { name: "Trident Assessment and Technical Training Center, Inc.", logoImage: "/partner-trident-logo.jpg", fallbackText: "TAATTC", url: "https://www.facebook.com/profile.php?id=100093554252998" },
-  { name: "The Pixels Inc.", logoImage: "/partner-thepixelsinc-logo.png", fallbackText: "TPI", url: "https://www.linkedin.com/company/the-pixels-inc/" },
+  { name: "The Pixels Inc.", logoImage: "/partner-thepixelsinc-logo.png", fallbackText: "TPI", url: "https://www.thepixelsinc.com/" },
   { name: "Dr. H Centro Estetico", logoImage: "/partner-dr-h-centro-estetico-logo.jpg", fallbackText: "DRH", url: "https://www.facebook.com/DrHCentroEstetico" },
   { name: "Rotary International", logoImage: "/partner-rotary-international.png", fallbackText: "RI", url: "https://www.rotary.org/en" },
   { name: "Cityblinds Enterprises", logoImage: "/partner-cityblinds-logo.png", fallbackText: "CE", url: "#" },
@@ -736,50 +729,59 @@ export default function Home() {
             )}
 
             <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 animate-fadeIn">
-              {filteredVisionaries.map((officer) => (
-                <div 
-                  key={officer.id} 
-                  className="bg-white border border-neutral-200 rounded-2xl p-5 text-center hover:border-amber-500/50 hover:-translate-y-1.5 hover:scale-[1.02] hover:shadow-[0_12px_30px_rgba(217,119,6,0.12)] transition-all group duration-300 relative overflow-hidden flex flex-col items-center justify-between min-h-[260px]"
-                >
-                  <div className="w-24 h-24 rounded-full overflow-hidden mb-4 border-2 border-neutral-100 group-hover:border-amber-500/50 transition-colors duration-300 shadow-sm relative bg-neutral-100">
-                    <img 
-                      src={officer.image || "/placeholder.jpg"} 
-                      alt={officer.name}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).src = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23f5f5f5'/><text x='50%27 y='55%27 font-family='sans-serif' font-size='30' fill='%23d97706' text-anchor='middle'>👤</text></svg>";
-                      }}
-                    />
-                  </div>
+              {filteredVisionaries.map((officer) => {
+                // RUNTIME AUTO-NORMALIZER LAYER
+                // This converts direct paths like '/officer-name.jpg' into your nested structure automatically
+                const resolvedImagePath = officer.image.startsWith('/members/') 
+                  ? officer.image 
+                  : `/members/${officer.name.trim().replace(/\s+/g, '_')}${officer.image.endsWith('.png') ? '.png' : '.jpg'}`;
 
-                  <div className="space-y-1 flex-1 flex flex-col justify-center">
-                    <h3 className="text-sm font-black text-neutral-900 tracking-wide group-hover:text-amber-600 transition-colors duration-200 line-clamp-2 px-1">
-                      {officer.name}
-                    </h3>
-                    
-                    {activeVisionaryTab === 'roster' ? (
-                      <div className="pt-2">
-                        <span className="text-[9px] font-mono uppercase tracking-widest text-neutral-400 block">
-                          Birthday
-                        </span>
-                        <p className="text-xs font-bold text-blue-600 font-sans mt-0.5">
-                          {officer.birthday || "Unspecified"}
+                return (
+                  <div 
+                    key={officer.id} 
+                    className="bg-white border border-neutral-200 rounded-2xl p-5 text-center hover:border-amber-500/50 hover:-translate-y-1.5 hover:scale-[1.02] hover:shadow-[0_12px_30px_rgba(217,119,6,0.12)] transition-all group duration-300 relative overflow-hidden flex flex-col items-center justify-between min-h-[260px]"
+                  >
+                    <div className="w-24 h-24 rounded-full overflow-hidden mb-4 border-2 border-neutral-100 group-hover:border-amber-500/50 transition-colors duration-300 shadow-sm relative bg-neutral-100">
+                      <img 
+                        src={resolvedImagePath} 
+                        alt={officer.name}
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        onError={(e) => {
+                          // Clean profile fallback if an image wasn't uploaded yet
+                          (e.target as HTMLImageElement).src = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23f5f5f5'/><text x='50%27 y='55%27 font-family='sans-serif' font-size='30' fill='%23d97706' text-anchor='middle'>👤</text></svg>";
+                        }}
+                      />
+                    </div>
+
+                    <div className="space-y-1 flex-1 flex flex-col justify-center">
+                      <h3 className="text-sm font-black text-neutral-900 tracking-wide group-hover:text-amber-600 transition-colors duration-200 line-clamp-2 px-1">
+                        {officer.name}
+                      </h3>
+                      
+                      {activeVisionaryTab === 'roster' ? (
+                        <div className="pt-2">
+                          <span className="text-[9px] font-mono uppercase tracking-widest text-neutral-400 block">
+                            Birthday
+                          </span>
+                          <p className="text-xs font-bold text-blue-600 font-sans mt-0.5">
+                            {officer.birthday || "Unspecified"}
+                          </p>
+                        </div>
+                      ) : activeVisionaryTab === 'directors' ? (
+                        <p className="text-[11px] text-blue-600 font-extrabold uppercase tracking-wider leading-tight max-w-[180px] mx-auto">
+                          {officer.directorPosition || officer.position}
                         </p>
-                      </div>
-                    ) : activeVisionaryTab === 'directors' ? (
-                      <p className="text-[11px] text-blue-600 font-extrabold uppercase tracking-wider leading-tight max-w-[180px] mx-auto">
-                        {officer.directorPosition || officer.position}
-                      </p>
-                    ) : (
-                      <p className="text-[11px] text-blue-600 font-extrabold uppercase tracking-wider leading-tight max-w-[180px] mx-auto">
-                        {officer.position}
-                      </p>
-                    )}
+                      ) : (
+                        <p className="text-[11px] text-blue-600 font-extrabold uppercase tracking-wider leading-tight max-w-[180px] mx-auto">
+                          {officer.position}
+                        </p>
+                      )}
+                    </div>
+                    
+                    <div className="absolute bottom-0 inset-x-0 h-0.5 bg-gradient-to-r from-transparent via-transparent to-transparent group-hover:via-amber-500/40 transition-all duration-500" />
                   </div>
-                  
-                  <div className="absolute bottom-0 inset-x-0 h-0.5 bg-gradient-to-r from-transparent via-transparent to-transparent group-hover:via-amber-500/40 transition-all duration-500" />
-                </div>
-              ))}
+                );
+              })}
             </div>
 
             {filteredVisionaries.length === 0 && (
