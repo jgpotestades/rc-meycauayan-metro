@@ -60,13 +60,6 @@ const officialMessages = [
 ];
 
 export default function Home() {
-  const [mounted, setMounted] = useState(false);
-  
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  const hydration = { suppressHydrationWarning: true };
   const [activeForm, setActiveForm] = useState<'inquiry' | 'member' | 'donate'>('inquiry');
   const [activityFilter, setActivityFilter] = useState<'All' | 'Project' | 'News'>('All');
   const [showScrollButton, setShowScrollButton] = useState(false);
@@ -103,7 +96,14 @@ export default function Home() {
   const [newUser, setNewUser] = useState({ name: '', role: 'Member', position: 'Active Member', username: '', email: '' });
   const [newActivity, setNewActivity] = useState({ type: 'Project', title: '', category: '', description: '', status: 'Ongoing', detail: '' });
 
-  // Navigation handlers restored here
+  useEffect(() => {
+    if (isHovered) return;
+    const slideTimer = setInterval(() => {
+      setCurrentSlideIndex((prevIndex) => (prevIndex + 1) % carouselSlides.length);
+    }, 6000);
+    return () => clearInterval(slideTimer);
+  }, [isHovered]);
+
   const handlePrevSlide = () => {
     setCurrentSlideIndex((prev) => (prev === 0 ? carouselSlides.length - 1 : prev - 1));
   };
@@ -121,15 +121,6 @@ export default function Home() {
   };
 
   useEffect(() => {
-    if (!mounted || isHovered) return;
-    const slideTimer = setInterval(() => {
-      setCurrentSlideIndex((prevIndex) => (prevIndex + 1) % carouselSlides.length);
-    }, 6000);
-    return () => clearInterval(slideTimer);
-  }, [isHovered, mounted]);
-
-  useEffect(() => {
-    if (!mounted) return;
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
       setShowScrollButton(currentScrollY > 400);
@@ -147,7 +138,7 @@ export default function Home() {
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [mobileMenuOpen, mounted]);
+  }, [mobileMenuOpen]);
 
   const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) => {
     e.preventDefault();
@@ -307,10 +298,10 @@ export default function Home() {
             {userSession ? (
               <div className="flex items-center gap-3">
                 <span className="text-xs bg-neutral-900 px-3 py-1.5 rounded-md text-neutral-400 border border-neutral-800">{userSession.role}</span>
-                <button {...hydration} onClick={() => { setUserSession(null); setMobileMenuOpen(false); }} className="bg-red-600 hover:bg-red-700 text-white font-bold px-4 py-2 rounded-full text-xs transition border-none cursor-pointer">Logout</button>
+                <button suppressHydrationWarning onClick={() => { setUserSession(null); setMobileMenuOpen(false); }} className="bg-red-600 hover:bg-red-700 text-white font-bold px-4 py-2 rounded-full text-xs transition border-none cursor-pointer">Logout</button>
               </div>
             ) : (
-              <button {...hydration} onClick={() => { setShowLoginModal(true); setMobileMenuOpen(false); }} className="bg-transparent border border-neutral-700 text-neutral-200 hover:border-amber-500 hover:text-amber-500 font-bold px-5 py-2 rounded-full text-xs uppercase tracking-wider transition cursor-pointer">Portal Access</button>
+              <button suppressHydrationWarning onClick={() => { setShowLoginModal(true); setMobileMenuOpen(false); }} className="bg-transparent border border-neutral-700 text-neutral-200 hover:border-amber-500 hover:text-amber-500 font-bold px-5 py-2 rounded-full text-xs uppercase tracking-wider transition cursor-pointer">Portal Access</button>
             )}
           </div>
         </div>
@@ -326,9 +317,9 @@ export default function Home() {
             {userSession && <a href="#control-center" onClick={(e) => scrollToSection(e, 'control-center')} className="text-blue-400 py-1 font-bold border-t border-neutral-800 normal-case tracking-normal">CMS Panel Workspace</a>}
             <div className="pt-2 border-t border-neutral-800">
               {userSession ? (
-                <button {...hydration} onClick={() => { setUserSession(null); setMobileMenuOpen(false); }} className="w-full bg-red-600 text-white text-center font-bold py-2.5 rounded-lg border-none text-xs tracking-widest">Logout</button>
+                <button suppressHydrationWarning onClick={() => { setUserSession(null); setMobileMenuOpen(false); }} className="w-full bg-red-600 text-white text-center font-bold py-2.5 rounded-lg border-none text-xs tracking-widest">Logout</button>
               ) : (
-                <button {...hydration} onClick={() => { setShowLoginModal(true); setMobileMenuOpen(false); }} className="w-full border border-neutral-700 text-neutral-200 text-center font-bold py-2.5 rounded-lg bg-transparent text-xs tracking-widest">Portal Access Login</button>
+                <button suppressHydrationWarning onClick={() => { setShowLoginModal(true); setMobileMenuOpen(false); }} className="w-full border border-neutral-700 text-neutral-200 text-center font-bold py-2.5 rounded-lg bg-transparent text-xs tracking-widest">Portal Access Login</button>
               )}
             </div>
           </div>
@@ -339,21 +330,21 @@ export default function Home() {
       {showLoginModal && (
         <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-2xl shadow-2xl border border-neutral-200 max-w-md w-full p-6 sm:p-8 relative text-neutral-800">
-            <button {...hydration} onClick={() => { setShowLoginModal(false); setLoginError(''); }} className="absolute top-4 right-4 text-neutral-400 hover:text-neutral-600 font-bold text-lg bg-transparent border-none cursor-pointer">✕</button>
+            <button onClick={() => { setShowLoginModal(false); setLoginError(''); }} className="absolute top-4 right-4 text-neutral-400 hover:text-neutral-600 font-bold text-lg bg-transparent border-none cursor-pointer">✕</button>
             <div className="text-center mb-6">
               <h3 className="text-xl sm:text-2xl font-black text-neutral-900 tracking-tight">RCMM Verification Gateway</h3>
             </div>
             <form onSubmit={handleAuthSubmit} className="space-y-4">
               <div>
                 <label className="block text-xs font-bold text-neutral-500 uppercase mb-1">User Authorization ID</label>
-                <input {...hydration} type="text" required value={usernameInput} onChange={(e) => setUsernameInput(e.target.value)} className="w-full border border-neutral-300 rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-blue-600" placeholder="Username" />
+                <input suppressHydrationWarning type="text" required value={usernameInput} onChange={(e) => setUsernameInput(e.target.value)} className="w-full border border-neutral-300 rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-blue-600" placeholder="Username" />
               </div>
               <div>
                 <label className="block text-xs font-bold text-neutral-500 uppercase mb-1">Clearance Password</label>
-                <input {...hydration} type="password" required value={passwordInput} onChange={(e) => setPasswordInput(e.target.value)} className="w-full border border-neutral-300 rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-blue-600" placeholder="••••••••" />
+                <input suppressHydrationWarning type="password" required value={passwordInput} onChange={(e) => setPasswordInput(e.target.value)} className="w-full border border-neutral-300 rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-blue-600" placeholder="••••••••" />
               </div>
               {loginError && <p className="text-xs text-red-600 font-semibold bg-red-50 p-3 rounded border border-red-200 leading-relaxed">⚠️ {loginError}</p>}
-              <button {...hydration} type="submit" className="w-full bg-black hover:bg-neutral-900 text-white font-bold py-2.5 rounded-lg text-sm transition shadow border-none cursor-pointer">Authorize Session</button>
+              <button suppressHydrationWarning type="submit" className="w-full bg-black hover:bg-neutral-900 text-white font-bold py-2.5 rounded-lg text-sm transition shadow border-none cursor-pointer">Authorize Session</button>
             </form>
           </div>
         </div>
@@ -370,7 +361,7 @@ export default function Home() {
               </div>
               <div>
                 {hasUnsavedChanges ? (
-                  <button {...hydration} onClick={handleDeployToProduction} className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-black px-5 py-2.5 rounded-lg text-xs tracking-wider uppercase shadow-md transition border-none cursor-pointer">🚀 Publish to Live Production</button>
+                  <button suppressHydrationWarning onClick={handleDeployToProduction} className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-black px-5 py-2.5 rounded-lg text-xs tracking-wider uppercase shadow-md transition border-none cursor-pointer">🚀 Publish to Live Production</button>
                 ) : (
                   <span className="text-xs bg-neutral-800 border border-neutral-700 text-neutral-400 font-semibold px-4 py-2 rounded-lg block text-center">✓ Production Synced</span>
                 )}
@@ -383,11 +374,11 @@ export default function Home() {
                 <div className="grid md:grid-cols-2 gap-4 text-xs">
                   <div className="md:col-span-2">
                     <label className="block text-neutral-400 font-bold mb-1">Staging Hero Title Text</label>
-                    <input {...hydration} type="text" value={stageHeroTitle} onChange={(e) => { setStageHeroTitle(e.target.value); setHasUnsavedChanges(true); }} className="w-full bg-neutral-900 text-white border border-neutral-600 rounded px-3 py-2.5 focus:border-blue-500 outline-none text-xs" />
+                    <input suppressHydrationWarning type="text" value={stageHeroTitle} onChange={(e) => { setStageHeroTitle(e.target.value); setHasUnsavedChanges(true); }} className="w-full bg-neutral-900 text-white border border-neutral-600 rounded px-3 py-2.5 focus:border-blue-500 outline-none text-xs" />
                   </div>
                   <div className="md:col-span-2">
                     <label className="block text-neutral-400 font-bold mb-1">Staging Hero Paragraph Description Block</label>
-                    <textarea {...hydration} value={stageHeroSub} onChange={(e) => { setStageHeroSub(e.target.value); setHasUnsavedChanges(true); }} rows={2} className="w-full bg-neutral-900 text-white border border-neutral-600 rounded px-3 py-2.5 focus:border-blue-500 outline-none text-xs" />
+                    <textarea suppressHydrationWarning value={stageHeroSub} onChange={(e) => { setStageHeroSub(e.target.value); setHasUnsavedChanges(true); }} rows={2} className="w-full bg-neutral-900 text-white border border-neutral-600 rounded px-3 py-2.5 focus:border-blue-500 outline-none text-xs" />
                   </div>
                 </div>
               </div>
@@ -418,7 +409,7 @@ export default function Home() {
                           <td className="px-4 md:py-3 text-neutral-400 block md:table-cell">{u.position}</td>
                           <td className="px-4 md:py-3 text-left md:text-right space-x-3 block md:table-cell mt-1 md:mt-0">
                             {userSession.role === 'Super Admin' && (
-                              <button {...hydration} onClick={() => deleteUserFromStage(u.id)} className="text-red-400 hover:underline font-bold bg-transparent border-none cursor-pointer text-xs">Delete</button>
+                              <button suppressHydrationWarning onClick={() => deleteUserFromStage(u.id)} className="text-red-400 hover:underline font-bold bg-transparent border-none cursor-pointer text-xs">Delete</button>
                             )}
                           </td>
                         </tr>
@@ -431,10 +422,10 @@ export default function Home() {
                   <form onSubmit={createMemberInStage} className="bg-neutral-900/60 p-4 sm:p-5 rounded-xl border border-neutral-700 space-y-4">
                     <h4 className="text-xs sm:text-sm font-bold text-blue-400">➕ Super Admin Proxy Action: Enroll New Member</h4>
                     <div className="grid sm:grid-cols-2 gap-4 text-xs text-gray-800">
-                      <input {...hydration} type="text" required value={newUser.name} onChange={(e) => setNewUser({...newUser, name: e.target.value})} className="w-full p-2 rounded border border-gray-300 text-xs" placeholder="Full Name" />
-                      <input {...hydration} type="email" required value={newUser.email} onChange={(e) => setNewUser({...newUser, email: e.target.value})} className="w-full p-2 rounded border border-gray-300 text-xs" placeholder="Email Interface" />
+                      <input type="text" required value={newUser.name} onChange={(e) => setNewUser({...newUser, name: e.target.value})} className="w-full p-2 rounded border border-gray-300 text-xs" placeholder="Full Name" />
+                      <input type="email" required value={newUser.email} onChange={(e) => setNewUser({...newUser, email: e.target.value})} className="w-full p-2 rounded border border-gray-300 text-xs" placeholder="Email Interface" />
                     </div>
-                    <button {...hydration} type="submit" className="bg-blue-600 text-white font-bold text-xs px-4 py-2 rounded border-none cursor-pointer">Stage Account Creation</button>
+                    <button type="submit" className="bg-blue-600 text-white font-bold text-xs px-4 py-2 rounded border-none cursor-pointer">Stage Account Creation</button>
                   </form>
                 )}
               </div>
@@ -462,8 +453,8 @@ export default function Home() {
           />
         ))}
 
-        <button {...hydration} onClick={handlePrevSlide} className="absolute left-4 top-1/2 -translate-y-1/2 w-9 h-9 items-center justify-center rounded-full bg-black/30 border border-neutral-800 hover:border-amber-500 hover:text-amber-500 text-white transition z-20 cursor-pointer hidden sm:flex select-none">‹</button>
-        <button {...hydration} onClick={handleNextSlide} className="absolute right-4 top-1/2 -translate-y-1/2 w-9 h-9 items-center justify-center rounded-full bg-black/30 border border-neutral-800 hover:border-amber-500 hover:text-amber-500 text-white transition z-20 cursor-pointer hidden sm:flex select-none">›</button>
+        <button onClick={handlePrevSlide} className="absolute left-4 top-1/2 -translate-y-1/2 w-9 h-9 items-center justify-center rounded-full bg-black/30 border border-neutral-800 hover:border-amber-500 hover:text-amber-500 text-white transition z-20 cursor-pointer hidden sm:flex select-none">‹</button>
+        <button onClick={handleNextSlide} className="absolute right-4 top-1/2 -translate-y-1/2 w-9 h-9 items-center justify-center rounded-full bg-black/30 border border-neutral-800 hover:border-amber-500 hover:text-amber-500 text-white transition z-20 cursor-pointer hidden sm:flex select-none">›</button>
 
         <div className="max-w-7xl mx-auto w-full relative z-10 py-12 sm:py-16">
           <div className="text-center md:text-left max-w-2xl">
@@ -480,7 +471,7 @@ export default function Home() {
 
         <div className="absolute bottom-5 left-1/2 -translate-x-1/2 flex gap-2 z-20">
           {carouselSlides.map((_, dotIdx) => (
-            <button {...hydration} key={dotIdx} onClick={() => setCurrentSlideIndex(dotIdx)} className={`h-1.5 rounded-full transition-all border-none outline-none cursor-pointer ${dotIdx === currentSlideIndex ? 'bg-amber-500 w-6' : 'bg-neutral-600 w-1.5'}`} />
+            <button key={dotIdx} onClick={() => setCurrentSlideIndex(dotIdx)} className={`h-1.5 rounded-full transition-all border-none outline-none ${dotIdx === currentSlideIndex ? 'bg-amber-500 w-6' : 'bg-neutral-600 w-1.5'}`} />
           ))}
         </div>
       </section>
@@ -572,7 +563,6 @@ export default function Home() {
                   <div className="flex gap-2">
                     {officialMessages.map((_, dIdx) => (
                       <button
-                        {...hydration}
                         key={dIdx}
                         onClick={() => setCurrentMessageIndex(dIdx)}
                         className={`h-1.5 rounded-full transition-all border-none outline-none cursor-pointer ${
@@ -582,8 +572,8 @@ export default function Home() {
                     ))}
                   </div>
                   <div className="flex gap-2.5">
-                    <button {...hydration} onClick={handlePrevMessage} className="w-9 h-9 flex items-center justify-center rounded-full border border-neutral-800 bg-neutral-900 text-white hover:border-amber-500 hover:text-amber-500 transition-all duration-300 cursor-pointer font-black text-sm select-none">‹</button>
-                    <button {...hydration} onClick={handleNextMessage} className="w-9 h-9 flex items-center justify-center rounded-full border border-neutral-800 bg-neutral-900 text-white hover:border-amber-500 hover:text-amber-500 transition-all duration-300 cursor-pointer font-black text-sm select-none">›</button>
+                    <button onClick={handlePrevMessage} className="w-9 h-9 flex items-center justify-center rounded-full border border-neutral-800 bg-neutral-900 text-white hover:border-amber-500 hover:text-amber-500 transition-all duration-300 cursor-pointer font-black text-sm select-none">‹</button>
+                    <button onClick={handleNextMessage} className="w-9 h-9 flex items-center justify-center rounded-full border border-neutral-800 bg-neutral-900 text-white hover:border-amber-500 hover:text-amber-500 transition-all duration-300 cursor-pointer font-black text-sm select-none">›</button>
                   </div>
                 </div>
               </div>
@@ -623,9 +613,9 @@ export default function Home() {
 
           {/* Premium Capsule Navigation Segment Tab Strip */}
           <div className="flex bg-slate-900/80 backdrop-blur-md p-1 rounded-2xl border border-slate-800 shadow-xl max-w-xl mx-auto">
-            <button {...hydration} onClick={() => setActiveTab('fourway')} className={`flex-1 py-3 text-xs font-black uppercase tracking-wider rounded-xl transition-all duration-300 border-none cursor-pointer ${activeTab === 'fourway' ? 'bg-amber-500 text-black font-extrabold shadow-lg' : 'text-neutral-400 hover:text-amber-500 bg-transparent'}`}>The 4-Way Test</button>
-            <button {...hydration} onClick={() => setActiveTab('objectives')} className={`flex-1 py-3 text-xs font-black uppercase tracking-wider rounded-xl transition-all duration-300 border-none cursor-pointer ${activeTab === 'objectives' ? 'bg-amber-500 text-black font-extrabold shadow-lg' : 'text-neutral-400 hover:text-amber-500 bg-transparent'}`}>Rotary Objectives</button>
-            <button {...hydration} onClick={() => setActiveTab('vision')} className={`flex-1 py-3 text-xs font-black uppercase tracking-wider rounded-xl transition-all duration-300 border-none cursor-pointer ${activeTab === 'vision' ? 'bg-amber-500 text-black font-extrabold shadow-lg' : 'text-neutral-400 hover:text-amber-500 bg-transparent'}`}>Our Vision</button>
+            <button onClick={() => setActiveTab('fourway')} className={`flex-1 py-3 text-xs font-black uppercase tracking-wider rounded-xl transition-all duration-300 border-none cursor-pointer ${activeTab === 'fourway' ? 'bg-amber-500 text-black font-extrabold shadow-lg' : 'text-neutral-400 hover:text-amber-500 bg-transparent'}`}>The 4-Way Test</button>
+            <button onClick={() => setActiveTab('objectives')} className={`flex-1 py-3 text-xs font-black uppercase tracking-wider rounded-xl transition-all duration-300 border-none cursor-pointer ${activeTab === 'objectives' ? 'bg-amber-500 text-black font-extrabold shadow-lg' : 'text-neutral-400 hover:text-amber-500 bg-transparent'}`}>Rotary Objectives</button>
+            <button onClick={() => setActiveTab('vision')} className={`flex-1 py-3 text-xs font-black uppercase tracking-wider rounded-xl transition-all duration-300 border-none cursor-pointer ${activeTab === 'vision' ? 'bg-amber-500 text-black font-extrabold shadow-lg' : 'text-neutral-400 hover:text-amber-500 bg-transparent'}`}>Our Vision</button>
           </div>
 
           {/* Interactive Core Panel Canvas Display Card */}
