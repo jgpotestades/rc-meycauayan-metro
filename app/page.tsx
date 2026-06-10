@@ -2,10 +2,25 @@
 'use client';
 import React, { useState, useEffect, useRef } from 'react';
 
+// Define strict interfaces to satisfy the TypeScript compiler and prevent build failure
+interface RotaryUser {
+  id: number;
+  name: string;
+  role: string;
+  position: string;
+  isOfficer: boolean;
+  isDirector: boolean;
+  image: string;
+  birthday: string;
+  username?: string; // Optional to prevent missing property errors
+  email?: string;    // Optional to prevent missing property errors
+  directorPosition?: string;
+}
+
 // =================================================================
 // COFFEE-TABLE MAGAZINE VALIDATED DATABASES (RY 2026-2027 ROSTERS)
 // =================================================================
-const initialUsers = [
+const initialUsers: RotaryUser[] = [
   // RY 2026-2027 OFFICERS
   { id: 1, name: "Arvin Jason Andaya", role: "Officer", position: "Club President", isOfficer: true, isDirector: false, image: "/officer-arvin.jpg", birthday: "March 9", username: "arvinjasonandaya", email: "arvin@rcmeycauayanmetro.org" },
   { id: 2, name: "Diosdado Alvarado", role: "Officer", position: "Vice President", isOfficer: true, isDirector: false, image: "/officer-diosdado.jpg", birthday: "December 9", username: "diosdadoalvarado", email: "diosdado@rcmeycauayanmetro.org" },
@@ -28,7 +43,7 @@ const initialUsers = [
   { id: 15, name: "Richard Becerro", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/roster-richard.jpg", birthday: "May 16", username: "richardbecerro", email: "richard@rcmeycauayanmetro.org" },
   { id: 16, name: "Ramil Inopia Burdin", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/roster-ramil.jpg", birthday: "August 16", username: "ramilinopiaburdin", email: "ramil@rcmeycauayanmetro.org" },
   { id: 17, name: "Morris Delos Santos", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/roster-morris.jpg", birthday: "November 17", username: "morrisdelossantos", email: "morris@rcmeycauayanmetro.org" },
-  { id: 18, name: "Felix Domigpe", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/roster-felix.jpg", birthday: "November 5", username: "felixdomigpe", fill: "felix@rcmeycauayanmetro.org" },
+  { id: 18, name: "Felix Domigpe", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/roster-felix.jpg", birthday: "November 5", username: "felixdomigpe", email: "felix@rcmeycauayanmetro.org" },
   { id: 19, name: "Jaquelyn Jacob", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/roster-jaquelyn.jpg", birthday: "July 21", username: "jaquelynjacob", email: "jaquelyn@rcmeycauayanmetro.org" },
   { id: 20, name: "Pablito Javier", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/roster-pablito.jpg", birthday: "January 5", username: "pablitojavier", email: "pablito@rcmeycauayanmetro.org" },
   { id: 21, name: "Frederick Malapit", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/roster-frederick.jpg", birthday: "July 12", username: "frederickmalapit", email: "frederick@rcmeycauayanmetro.org" },
@@ -73,20 +88,22 @@ const officialMessages = [
 
 const areasOfFocus = [
   { id: 1, title: "Disease Prevention & Treatment", desc: "Setting up continuous diagnostic networks, mobile medical supply grids, and regional health immunity block camps.", icon: "🩺" },
-  { id: 2, title: "Water, Sanitation, & Hygiene", desc: "Constructing long-term scalable clean water delivery systems and sustainable micro-filtration infrastructure segments.", icon: "🚰" },
+  { id: 2, title: "Water, Sanitation, & Hygiene", desc: "Constructing long-term scalable clean water delivery systems and sustainable micro-filtration infrastructure segments.", icon: "𚚰" },
   { id: 3, title: "Supporting Education", desc: "Expanding text material blocks, structural micro-libraries, and continuous adult learning environments.", icon: "📚" },
   { id: 4, title: "Growing Local Economies", desc: "Formulating scalable alternative livelihood micro-grants and strategic cooperative development framework blocks.", icon: "📊" },
   { id: 5, title: "Peacebuilding & Conflict Prevention", desc: "Training municipal community leaders to identify threat triggers and formulate legal integration paradigms.", icon: "🕊️" },
   { id: 6, title: "Maternal & Child Health", desc: "Supplying comprehensive clean delivery kits and optimizing early infantile health tracking mechanisms.", icon: "👶" }
 ];
 
+// DATA MATRIX: VERIFIED RELATIVE PUBLIC IMAGE DOMAIN REFERENCES
 const corporateSponsors = [
-  { name: "Global Grant Alliances", logoText: "GGA" },
-  { name: "Metro Bulacan Utilities", logoText: "MBU" },
-  { name: "Matrix Creations Venue", logoText: "MCV" },
-  { name: "Meycauayan Foundry Co.", logoText: "MFC" },
-  { name: "Apex Logistics Grid", logoText: "ALG" },
-  { name: "Phoenix LaRocco Industrial", logoText: "PLI" }
+  { name: "Evergold Memorial Services", logoImage: "/partner-evergold-logo.jpg", fallbackText: "EMS", url: "https://www.facebook.com/evergoldmemorialservice" },
+  { name: "Trident Assessment and Technical Training Center, Inc.", logoImage: "/partner-trident-logo.jpg", fallbackText: "TAATTC", url: "https://www.facebook.com/profile.php?id=100093554252998" },
+  { name: "The Pixels Inc.", logoImage: "/partner-thepixelsinc-logo.png", fallbackText: "TPI", url: "https://www.linkedin.com/company/the-pixels-inc/" },
+  { name: "Dr. H Centro Estetico", logoImage: "/partner-dr-h-centro-estetico-logo.jpg", fallbackText: "DRH", url: "https://www.facebook.com/DrHCentroEstetico" },
+  { name: "Rotary International", logoImage: "/partner-rotary-international.png", fallbackText: "RI", url: "https://www.rotary.org/en" },
+  { name: "Cityblinds Enterprises", logoImage: "/partner-cityblinds-logo.png", fallbackText: "CE", url: "#" },
+  { name: "EM Builders", logoImage: "/partner-em-builders-logo.jpg", fallbackText: "EMB", url: "https://www.facebook.com/profile.php?id=100063686025704" }
 ];
 
 const monthMap: { [key: string]: number } = {
@@ -112,7 +129,7 @@ export default function Home() {
   
   const [rosterSortCriteria, setRosterSortCriteria] = useState<'surname' | 'birthday'>('surname');
   
-  // Pagination State for Official Roster tab
+  // Pagination State Variables
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8;
 
@@ -123,20 +140,20 @@ export default function Home() {
   const [navVisible, setNavVisible] = useState(true);
   const lastScrollY = useRef(0);
 
-  const handlePrevSlide = () => {
-    setCurrentSlideIndex((prev) => (prev === 0 ? carouselSlides.length - 1 : prev - 1));
-  };
-
   const handleNextSlide = () => {
     setCurrentSlideIndex((prev) => (prev + 1) % carouselSlides.length);
   };
 
-  const handlePrevMessage = () => {
-    setCurrentMessageIndex((prev) => (prev === 0 ? officialMessages.length - 1 : prev - 1));
+  const handlePrevSlide = () => {
+    setCurrentSlideIndex((prev) => (prev === 0 ? carouselSlides.length - 1 : prev - 1));
   };
 
   const handleNextMessage = () => {
     setCurrentMessageIndex((prev) => (prev + 1) % officialMessages.length);
+  };
+
+  const handlePrevMessage = () => {
+    setCurrentMessageIndex((prev) => (prev === 0 ? officialMessages.length - 1 : prev - 1));
   };
 
   useEffect(() => {
@@ -172,7 +189,7 @@ export default function Home() {
     setCurrentPage(1);
   }, [activeVisionaryTab, rosterSortCriteria]);
 
-  const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) => {
+  const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement> | React.MouseEvent<HTMLButtonElement>, sectionId: string) => {
     e.preventDefault();
     setMobileMenuOpen(false);
 
@@ -302,11 +319,12 @@ export default function Home() {
             <a href="#focus-channels" onClick={(e) => scrollToSection(e, 'focus-channels')} className="text-neutral-300 hover:text-amber-500 transition duration-300">Areas of Focus</a>
             <a href="#visionaries" onClick={(e) => scrollToSection(e, 'visionaries')} className="text-neutral-300 hover:text-amber-500 transition duration-300">Visionaries</a>
             <a href="#projects-and-news" onClick={(e) => scrollToSection(e, 'projects-and-news')} className="text-neutral-300 hover:text-amber-500 transition duration-300">Projects & News</a>
-            <a href="#contactus" onClick={(e) => scrollToSection(e, 'contactus')} className="text-neutral-300 hover:text-amber-500 transition duration-300">Get Involved</a>
           </nav>
           
           <div className="hidden md:flex items-center gap-4">
-            <a href="#contactus" onClick={(e) => scrollToSection(e, 'contactus')} className="bg-transparent border border-neutral-700 text-neutral-200 hover:border-amber-500 hover:text-amber-500 font-bold px-5 py-2 rounded-full text-xs uppercase tracking-wider transition cursor-pointer text-center no-underline">Get Involved</a>
+            <button onClick={(e) => scrollToSection(e, 'contactus')} className="bg-transparent border border-neutral-700 text-neutral-200 hover:border-amber-500 hover:text-amber-500 font-bold px-5 py-2 rounded-full text-xs uppercase tracking-wider transition cursor-pointer text-center no-underline">
+              Get Involved
+            </button>
           </div>
         </div>
 
@@ -622,32 +640,47 @@ export default function Home() {
       </section>
 
       {/* =============================================================
-          4.8 OUR SPONSORS & PARTNERS INFINITE MARQUEE STRIP
+          4.8 UPGRADED: IMMERSIVE LOGO MARQUEE (NO OUTLINES, MATCHES BACKGROUND)
           ============================================================= */}
-      <section className="py-12 bg-black border-b border-neutral-900 overflow-hidden select-none">
-        <div className="max-w-7xl mx-auto px-4 mb-4 flex items-center justify-center md:justify-start">
-          <span className="text-[10px] font-mono text-neutral-500 uppercase tracking-widest border border-neutral-800 px-3 py-1 rounded-full bg-neutral-950">
-            Trusted Partners & Sponsors
+      <section className="py-16 bg-white border-b border-neutral-200 overflow-hidden select-none">
+        <div className="max-w-7xl mx-auto px-4 mb-8 flex items-center justify-center md:justify-start">
+          <span className="text-[10px] font-mono text-neutral-400 uppercase tracking-widest border border-neutral-200 px-3 py-1 rounded-full bg-neutral-50">
+            Our Partners & Sponsors
           </span>
         </div>
         
         <div className="relative w-full flex items-center">
-          <div className="absolute left-0 inset-y-0 w-16 bg-gradient-to-r from-black to-transparent z-10 pointer-events-none" />
-          <div className="absolute right-0 inset-y-0 w-16 bg-gradient-to-l from-black to-transparent z-10 pointer-events-none" />
+          <div className="absolute left-0 inset-y-0 w-24 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
+          <div className="absolute right-0 inset-y-0 w-24 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
           
           <div className="animate-marquee-stream flex gap-12 items-center">
             {[...corporateSponsors, ...corporateSponsors, ...corporateSponsors].map((sponsor, sIdx) => (
-              <div 
+              <a 
                 key={sIdx}
-                className="flex items-center gap-3 bg-neutral-900/50 border border-neutral-800/80 px-6 py-3.5 rounded-2xl shrink-0 group hover:border-amber-500/30 transition-all duration-300"
+                href={sponsor.url}
+                target={sponsor.url.startsWith('http') ? '_blank' : '_self'}
+                rel="noopener noreferrer"
+                className="flex items-center justify-center p-3 rounded-2xl shrink-0 group transition-all duration-300 no-underline cursor-pointer w-44 h-24 bg-neutral-50/50 hover:bg-neutral-100/60"
+                title={sponsor.name}
               >
-                <div className="w-8 h-8 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-500 flex items-center justify-center text-xs font-mono font-black group-hover:bg-amber-500 group-hover:text-black transition-all duration-300">
-                  {sponsor.logoText}
+                {/* Optimized size architecture with object-contain to dynamically unify logos */}
+                <div className="w-full h-full flex items-center justify-center transition-transform duration-300 group-hover:scale-106">
+                  <img 
+                    src={sponsor.logoImage} 
+                    alt={sponsor.name}
+                    className="max-w-full max-h-full object-contain mix-blend-multiply transition-opacity duration-300"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.style.display = 'none';
+                      const parent = target.parentElement;
+                      if (parent) {
+                        parent.innerText = sponsor.fallbackText;
+                        parent.className = "w-16 h-10 rounded-lg bg-amber-500/10 text-amber-600 flex items-center justify-center text-xs font-mono font-black";
+                      }
+                    }}
+                  />
                 </div>
-                <span className="text-xs font-bold uppercase tracking-wider text-neutral-400 group-hover:text-neutral-200 transition-colors duration-200">
-                  {sponsor.name}
-                </span>
-              </div>
+              </a>
             ))}
           </div>
         </div>
@@ -844,7 +877,7 @@ export default function Home() {
       </section>
 
       {/* =============================================================
-          7. REVIZED CONTACT HUB WITH HIGH CONTRAST DARK STYLING
+          7. CONTACT HUB WITH HIGH CONTRAST DARK STYLING
           ============================================================= */}
       <section id="contactus" className="py-20 sm:py-28 bg-slate-950 px-4 sm:px-6 border-t border-slate-900 relative">
         <div className="max-w-4xl mx-auto">
