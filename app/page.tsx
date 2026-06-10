@@ -28,7 +28,7 @@ const initialUsers = [
   { id: 15, name: "Richard Becerro", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/roster-richard.jpg", birthday: "May 16", username: "richardbecerro", email: "richard@rcmeycauayanmetro.org" },
   { id: 16, name: "Ramil Inopia Burdin", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/roster-ramil.jpg", birthday: "August 16", username: "ramilinopiaburdin", email: "ramil@rcmeycauayanmetro.org" },
   { id: 17, name: "Morris Delos Santos", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/roster-morris.jpg", birthday: "November 17", username: "morrisdelossantos", email: "morris@rcmeycauayanmetro.org" },
-  { id: 18, name: "Felix Domigpe", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/roster-felix.jpg", birthday: "November 5", username: "felixdomigpe", email: "felix@rcmeycauayanmetro.org" },
+  { id: 18, name: "Felix Domigpe", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/roster-felix.jpg", birthday: "November 5", username: "felixdomigpe", fill: "felix@rcmeycauayanmetro.org" },
   { id: 19, name: "Jaquelyn Jacob", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/roster-jaquelyn.jpg", birthday: "July 21", username: "jaquelynjacob", email: "jaquelyn@rcmeycauayanmetro.org" },
   { id: 20, name: "Pablito Javier", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/roster-pablito.jpg", birthday: "January 5", username: "pablitojavier", email: "pablito@rcmeycauayanmetro.org" },
   { id: 21, name: "Frederick Malapit", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/roster-frederick.jpg", birthday: "July 12", username: "frederickmalapit", email: "frederick@rcmeycauayanmetro.org" },
@@ -71,6 +71,24 @@ const officialMessages = [
   }
 ];
 
+const areasOfFocus = [
+  { id: 1, title: "Disease Prevention & Treatment", desc: "Setting up continuous diagnostic networks, mobile medical supply grids, and regional health immunity block camps.", icon: "🩺" },
+  { id: 2, title: "Water, Sanitation, & Hygiene", desc: "Constructing long-term scalable clean water delivery systems and sustainable micro-filtration infrastructure segments.", icon: "🚰" },
+  { id: 3, title: "Supporting Education", desc: "Expanding text material blocks, structural micro-libraries, and continuous adult learning environments.", icon: "📚" },
+  { id: 4, title: "Growing Local Economies", desc: "Formulating scalable alternative livelihood micro-grants and strategic cooperative development framework blocks.", icon: "📊" },
+  { id: 5, title: "Peacebuilding & Conflict Prevention", desc: "Training municipal community leaders to identify threat triggers and formulate legal integration paradigms.", icon: "🕊️" },
+  { id: 6, title: "Maternal & Child Health", desc: "Supplying comprehensive clean delivery kits and optimizing early infantile health tracking mechanisms.", icon: "👶" }
+];
+
+const corporateSponsors = [
+  { name: "Global Grant Alliances", logoText: "GGA" },
+  { name: "Metro Bulacan Utilities", logoText: "MBU" },
+  { name: "Matrix Creations Venue", logoText: "MCV" },
+  { name: "Meycauayan Foundry Co.", logoText: "MFC" },
+  { name: "Apex Logistics Grid", logoText: "ALG" },
+  { name: "Phoenix LaRocco Industrial", logoText: "PLI" }
+];
+
 const monthMap: { [key: string]: number } = {
   january: 1, february: 2, march: 3, april: 4, may: 5, june: 6,
   july: 7, august: 8, september: 9, october: 10, november: 11, december: 12
@@ -94,7 +112,7 @@ export default function Home() {
   
   const [rosterSortCriteria, setRosterSortCriteria] = useState<'surname' | 'birthday'>('surname');
   
-  // Roster Pagination States
+  // Pagination State for Official Roster tab
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8;
 
@@ -150,7 +168,6 @@ export default function Home() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [mobileMenuOpen, mounted]);
 
-  // Reset pagination index when filters switch to ensure index safety bounds
   useEffect(() => {
     setCurrentPage(1);
   }, [activeVisionaryTab, rosterSortCriteria]);
@@ -207,7 +224,6 @@ export default function Home() {
 
   const allFilteredVisionaries = getFilteredAndSortedVisionaries();
   
-  // Segment list entries based on active grid vs paginated roster limits
   const totalPages = Math.ceil(allFilteredVisionaries.length / itemsPerPage);
   const filteredVisionaries = activeVisionaryTab === 'roster'
     ? allFilteredVisionaries.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
@@ -247,6 +263,19 @@ export default function Home() {
           scrollbar-width: thin;
           scrollbar-color: #d97706 #171717;
         }
+
+        @keyframes infiniteMarquee {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+        .animate-marquee-stream {
+          display: flex;
+          width: max-content;
+          animation: infiniteMarquee 28s linear infinite;
+        }
+        .animate-marquee-stream:hover {
+          animation-play-state: paused;
+        }
       `}</style>
 
       {/* 1. SMART STICKY NAVIGATION BAR */}
@@ -270,6 +299,7 @@ export default function Home() {
           <nav className="hidden md:flex gap-6 lg:gap-8 text-xs uppercase tracking-widest font-bold items-center">
             <a href="#who-we-are" onClick={(e) => scrollToSection(e, 'who-we-are')} className="text-neutral-300 hover:text-amber-500 transition duration-300">Who We Are</a>
             <a href="#rotary-code" onClick={(e) => scrollToSection(e, 'rotary-code')} className="text-neutral-300 hover:text-amber-500 transition duration-300">Rotary Code</a>
+            <a href="#focus-channels" onClick={(e) => scrollToSection(e, 'focus-channels')} className="text-neutral-300 hover:text-amber-500 transition duration-300">Areas of Focus</a>
             <a href="#visionaries" onClick={(e) => scrollToSection(e, 'visionaries')} className="text-neutral-300 hover:text-amber-500 transition duration-300">Visionaries</a>
             <a href="#projects-and-news" onClick={(e) => scrollToSection(e, 'projects-and-news')} className="text-neutral-300 hover:text-amber-500 transition duration-300">Projects & News</a>
             <a href="#contactus" onClick={(e) => scrollToSection(e, 'contactus')} className="text-neutral-300 hover:text-amber-500 transition duration-300">Get Involved</a>
@@ -285,6 +315,7 @@ export default function Home() {
             <a href="#home" onClick={(e) => scrollToSection(e, 'top')} className="hover:text-amber-500 py-1">Home</a>
             <a href="#who-we-are" onClick={(e) => scrollToSection(e, 'who-we-are')} className="hover:text-amber-500 py-1">Who We Are</a>
             <a href="#rotary-code" onClick={(e) => scrollToSection(e, 'rotary-code')} className="hover:text-amber-500 py-1">Rotary Code</a>
+            <a href="#focus-channels" onClick={(e) => scrollToSection(e, 'focus-channels')} className="hover:text-amber-500 py-1">Areas of Focus</a>
             <a href="#visionaries" onClick={(e) => scrollToSection(e, 'visionaries')} className="hover:text-amber-500 py-1">Visionaries</a>
             <a href="#projects-and-news" onClick={(e) => scrollToSection(e, 'projects-and-news')} className="hover:text-amber-500 py-1">Projects & News</a>
             <a href="#contactus" onClick={(e) => scrollToSection(e, 'contactus')} className="hover:text-amber-500 py-1">Get Involved</a>
@@ -552,6 +583,72 @@ export default function Home() {
               </div>
             )}
 
+          </div>
+        </div>
+      </section>
+
+      {/* =============================================================
+          4.5 ADDED ROTARY AREAS OF FOCUS INTERACTIVE MESH WORKSPACE
+          ============================================================= */}
+      <section id="focus-channels" className="py-24 bg-white border-b border-neutral-200 relative overflow-hidden">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 space-y-12 relative z-10">
+          <div className="text-center max-w-2xl mx-auto space-y-2">
+            <span className="text-amber-600 font-extrabold uppercase tracking-widest text-xs block">Strategic Pillars</span>
+            <h2 className="text-3xl font-black text-neutral-900 tracking-tight uppercase">Rotary Areas of Focus</h2>
+            <p className="text-xs text-neutral-500 max-w-md mx-auto">Our humanitarian targets optimize specific tactical focus nodes across seven globally recognized development vector bands.</p>
+          </div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {areasOfFocus.map((focus) => (
+              <div 
+                key={focus.id}
+                className="bg-neutral-50 border border-neutral-200 rounded-3xl p-6 sm:p-8 hover:border-amber-500/50 hover:bg-white hover:-translate-y-1 hover:shadow-[0_15px_35px_rgba(217,119,6,0.08)] transition-all group duration-300 flex flex-col justify-between"
+              >
+                <div className="space-y-4">
+                  <div className="w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-amber-600 flex items-center justify-center font-bold text-xl group-hover:bg-amber-500 group-hover:text-black group-hover:scale-105 transition-all duration-300">
+                    {focus.icon}
+                  </div>
+                  <h3 className="text-base font-black text-neutral-900 uppercase tracking-wide leading-snug group-hover:text-amber-600 transition-colors duration-200">
+                    {focus.title}
+                  </h3>
+                  <p className="text-xs text-neutral-500 leading-relaxed font-normal tracking-wide text-justify">
+                    {focus.desc}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* =============================================================
+          4.8 OUR SPONSORS & PARTNERS INFINITE MARQUEE STRIP
+          ============================================================= */}
+      <section className="py-12 bg-black border-b border-neutral-900 overflow-hidden select-none">
+        <div className="max-w-7xl mx-auto px-4 mb-4 flex items-center justify-center md:justify-start">
+          <span className="text-[10px] font-mono text-neutral-500 uppercase tracking-widest border border-neutral-800 px-3 py-1 rounded-full bg-neutral-950">
+            Trusted Partners & Sponsors
+          </span>
+        </div>
+        
+        <div className="relative w-full flex items-center">
+          <div className="absolute left-0 inset-y-0 w-16 bg-gradient-to-r from-black to-transparent z-10 pointer-events-none" />
+          <div className="absolute right-0 inset-y-0 w-16 bg-gradient-to-l from-black to-transparent z-10 pointer-events-none" />
+          
+          <div className="animate-marquee-stream flex gap-12 items-center">
+            {[...corporateSponsors, ...corporateSponsors, ...corporateSponsors].map((sponsor, sIdx) => (
+              <div 
+                key={sIdx}
+                className="flex items-center gap-3 bg-neutral-900/50 border border-neutral-800/80 px-6 py-3.5 rounded-2xl shrink-0 group hover:border-amber-500/30 transition-all duration-300"
+              >
+                <div className="w-8 h-8 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-500 flex items-center justify-center text-xs font-mono font-black group-hover:bg-amber-500 group-hover:text-black transition-all duration-300">
+                  {sponsor.logoText}
+                </div>
+                <span className="text-xs font-bold uppercase tracking-wider text-neutral-400 group-hover:text-neutral-200 transition-colors duration-200">
+                  {sponsor.name}
+                </span>
+              </div>
+            ))}
           </div>
         </div>
       </section>
