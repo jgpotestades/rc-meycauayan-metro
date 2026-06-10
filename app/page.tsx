@@ -93,6 +93,10 @@ export default function Home() {
   const [activeVisionaryTab, setActiveVisionaryTab] = useState<'officers' | 'directors' | 'roster'>('officers');
   
   const [rosterSortCriteria, setRosterSortCriteria] = useState<'surname' | 'birthday'>('surname');
+  
+  // Roster Pagination States
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 8;
 
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
@@ -146,6 +150,11 @@ export default function Home() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [mobileMenuOpen, mounted]);
 
+  // Reset pagination index when filters switch to ensure index safety bounds
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [activeVisionaryTab, rosterSortCriteria]);
+
   const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) => {
     e.preventDefault();
     setMobileMenuOpen(false);
@@ -196,7 +205,13 @@ export default function Home() {
     return subset;
   };
 
-  const filteredVisionaries = getFilteredAndSortedVisionaries();
+  const allFilteredVisionaries = getFilteredAndSortedVisionaries();
+  
+  // Segment list entries based on active grid vs paginated roster limits
+  const totalPages = Math.ceil(allFilteredVisionaries.length / itemsPerPage);
+  const filteredVisionaries = activeVisionaryTab === 'roster'
+    ? allFilteredVisionaries.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
+    : allFilteredVisionaries;
 
   if (!mounted) {
     return (
@@ -261,7 +276,7 @@ export default function Home() {
           </nav>
           
           <div className="hidden md:flex items-center gap-4">
-            <a href="#contactus" onClick={(e) => scrollToSection(e, 'contactus')} className="bg-transparent border border-neutral-700 text-neutral-200 hover:border-amber-500 hover:text-amber-500 font-bold px-5 py-2 rounded-full text-xs uppercase tracking-wider transition cursor-pointer text-center no-underline">Contact Us</a>
+            <a href="#contactus" onClick={(e) => scrollToSection(e, 'contactus')} className="bg-transparent border border-neutral-700 text-neutral-200 hover:border-amber-500 hover:text-amber-500 font-bold px-5 py-2 rounded-full text-xs uppercase tracking-wider transition cursor-pointer text-center no-underline">Get Involved</a>
           </div>
         </div>
 
@@ -642,6 +657,54 @@ export default function Home() {
                 No verified organization members match the current display query vector filters.
               </div>
             )}
+
+            {/* AESTHETIC PAGINATION LAYER */}
+            {activeVisionaryTab === 'roster' && totalPages > 1 && (
+              <div className="mt-12 pt-6 border-t border-neutral-100 flex items-center justify-between flex-col sm:flex-row gap-4 animate-fadeIn select-none">
+                <span className="text-xs font-bold text-neutral-400 uppercase tracking-wider">
+                  Showing <span className="text-neutral-800 font-black">{filteredVisionaries.length}</span> of <span className="text-neutral-800 font-black">{allFilteredVisionaries.length}</span> Members
+                </span>
+                
+                <div className="flex items-center gap-1.5">
+                  <button 
+                    {...hydration}
+                    onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                    disabled={currentPage === 1}
+                    className="w-9 h-9 flex items-center justify-center rounded-xl bg-white border border-neutral-200 text-neutral-700 font-bold hover:border-amber-500 hover:text-amber-600 disabled:opacity-40 disabled:hover:text-neutral-700 disabled:hover:border-neutral-200 transition cursor-pointer text-sm"
+                  >
+                    ‹
+                  </button>
+
+                  {Array.from({ length: totalPages }, (_, index) => {
+                    const pageNumber = index + 1;
+                    return (
+                      <button
+                        {...hydration}
+                        key={pageNumber}
+                        onClick={() => setCurrentPage(pageNumber)}
+                        className={`w-9 h-9 flex items-center justify-center rounded-xl text-xs font-black tracking-wide uppercase transition border ${
+                          currentPage === pageNumber
+                            ? 'bg-amber-500 border-amber-500 text-black shadow-md shadow-amber-500/20'
+                            : 'bg-white border-neutral-200 text-neutral-600 hover:border-amber-500 hover:text-amber-600'
+                        } cursor-pointer`}
+                      >
+                        {pageNumber}
+                      </button>
+                    );
+                  })}
+
+                  <button 
+                    {...hydration}
+                    onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                    disabled={currentPage === totalPages}
+                    className="w-9 h-9 flex items-center justify-center rounded-xl bg-white border border-neutral-200 text-neutral-700 font-bold hover:border-amber-500 hover:text-amber-600 disabled:opacity-40 disabled:hover:text-neutral-700 disabled:hover:border-neutral-200 transition cursor-pointer text-sm"
+                  >
+                    ›
+                  </button>
+                </div>
+              </div>
+            )}
+
           </div>
         </div>
       </section>
@@ -719,7 +782,9 @@ export default function Home() {
                   <label className="block text-xs font-bold text-slate-400 uppercase mb-1.5 tracking-wider">Message or Question</label>
                   <textarea name="message" rows={4} required className="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-3 text-xs text-white focus:outline-none focus:border-amber-500 transition" placeholder="How can our organization collaborate with the club?"></textarea>
                 </div>
-                <button suppressHydrationWarning type="submit" className="w-full bg-amber-500 hover:bg-amber-600 text-black font-black py-4 rounded-xl shadow-lg transition border-none cursor-pointer text-xs uppercase tracking-wider">Submit General Inquiry</button>
+                <div className="w-full block">
+                  <button suppressHydrationWarning type="submit" className="w-full bg-amber-500 hover:bg-amber-600 text-black font-black py-4 rounded-xl shadow-lg transition border-none cursor-pointer text-xs uppercase tracking-wider">Submit General Inquiry</button>
+                </div>
               </form>
             )}
 
@@ -736,7 +801,9 @@ export default function Home() {
                     <input suppressHydrationWarning type="tel" name="phone" required className="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-3 text-xs text-white focus:outline-none focus:border-amber-500 transition" placeholder="+63 947 467 5516" />
                   </div>
                 </div>
-                <button suppressHydrationWarning type="submit" className="w-full bg-amber-500 hover:bg-amber-600 text-black font-black py-4 rounded-xl shadow-lg transition border-none cursor-pointer text-xs uppercase tracking-wider">Submit Membership Request</button>
+                <div className="w-full block">
+                  <button suppressHydrationWarning type="submit" className="w-full bg-amber-500 hover:bg-amber-600 text-black font-black py-4 rounded-xl shadow-lg transition border-none cursor-pointer text-xs uppercase tracking-wider">Submit Membership Request</button>
+                </div>
               </form>
             )}
 
@@ -757,7 +824,9 @@ export default function Home() {
                     </select>
                   </div>
                 </div>
-                <button suppressHydrationWarning type="submit" className="w-full bg-amber-500 hover:bg-amber-600 text-black font-black py-4 rounded-xl shadow-lg transition border-none cursor-pointer text-xs uppercase tracking-wider">Submit Donation Pledge</button>
+                <div className="w-full block">
+                  <button suppressHydrationWarning type="submit" className="w-full bg-amber-500 hover:bg-amber-600 text-black font-black py-4 rounded-xl shadow-lg transition border-none cursor-pointer text-xs uppercase tracking-wider">Submit Donation Pledge</button>
+                </div>
               </form>
             )}
           </div>
