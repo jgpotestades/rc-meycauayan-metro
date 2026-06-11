@@ -568,21 +568,21 @@ export default function Home() {
                     Official International Blueprint
                   </span>
                   
-                  <p className="text-xl sm:text-3xl font-light text-neutral-300 tracking-wide leading-relaxed text-center font-serif">
+                  <p className="text-xl sm:text-3xl font-light text-neutral-300 tracking-wide leading-relaxed text-center font-serif select-none">
                     "
-                    <span className="font-black bg-gradient-to-r from-amber-400 via-orange-400 to-amber-500 text-transparent bg-clip-text drop-shadow-[0_2px_8px_rgba(245,158,11,0.3)] uppercase tracking-tight mx-1">
+                    <span className="inline-block font-black bg-gradient-to-r from-amber-400 via-orange-400 to-amber-500 text-transparent bg-clip-text drop-shadow-[0_2px_8px_rgba(245,158,11,0.3)] uppercase tracking-tight mx-1 transition-all duration-300 hover:scale-110 hover:rotate-1 hover:drop-shadow-[0_4px_12px_rgba(245,158,11,0.6)] cursor-pointer">
                       Together
                     </span> 
                     we see a world where 
-                    <span className="font-black bg-gradient-to-r from-amber-400 via-orange-400 to-amber-500 text-transparent bg-clip-text drop-shadow-[0_2px_8px_rgba(245,158,11,0.3)] uppercase tracking-tight mx-1">
+                    <span className="inline-block font-black bg-gradient-to-r from-amber-400 via-orange-400 to-amber-500 text-transparent bg-clip-text drop-shadow-[0_2px_8px_rgba(245,158,11,0.3)] uppercase tracking-tight mx-1 transition-all duration-300 hover:scale-110 hover:-rotate-1 hover:drop-shadow-[0_4px_12px_rgba(245,158,11,0.6)] cursor-pointer">
                       people
                     </span> 
                     unite and take action to 
-                    <span className="font-black bg-gradient-to-r from-amber-400 via-orange-400 to-amber-500 text-transparent bg-clip-text drop-shadow-[0_2px_8px_rgba(245,158,11,0.3)] uppercase tracking-tight mx-1">
+                    <span className="inline-block font-black bg-gradient-to-r from-amber-400 via-orange-400 to-amber-500 text-transparent bg-clip-text drop-shadow-[0_2px_8px_rgba(245,158,11,0.3)] uppercase tracking-tight mx-1 transition-all duration-300 hover:scale-110 hover:rotate-2 hover:drop-shadow-[0_4px_12px_rgba(245,158,11,0.6)] cursor-pointer">
                       create
                     </span> 
                     lasting 
-                    <span className="font-black bg-gradient-to-r from-amber-400 via-orange-400 to-amber-500 text-transparent bg-clip-text drop-shadow-[0_2px_8px_rgba(245,158,11,0.3)] uppercase tracking-tight mx-1">
+                    <span className="inline-block font-black bg-gradient-to-r from-amber-400 via-orange-400 to-amber-500 text-transparent bg-clip-text drop-shadow-[0_2px_8px_rgba(245,158,11,0.3)] uppercase tracking-tight mx-1 transition-all duration-300 hover:scale-110 hover:-rotate-2 hover:drop-shadow-[0_4px_12px_rgba(245,158,11,0.6)] cursor-pointer">
                       change
                     </span> 
                     across the globe, in our communities, and in ourselves.
