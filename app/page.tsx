@@ -13,9 +13,21 @@ interface RotaryUser {
   isDirector: boolean;
   image: string;
   birthday: string;
-  username?: string; // Optional to prevent missing property errors
-  email?: string;    // Optional to prevent missing property errors
+  username?: string;
+  email?: string;
   directorPosition?: string;
+}
+
+interface ActivityItem {
+  id: number;
+  type: 'Project' | 'News';
+  title: string;
+  category: string;
+  description: string;
+  status: string;
+  detail: string;
+  fullDescription: string;
+  galleryImages: string[];
 }
 
 // =================================================================
@@ -26,7 +38,7 @@ const initialUsers: RotaryUser[] = [
   { id: 1, name: "Arvin Jason Andaya", role: "Officer", position: "Club President", isOfficer: true, isDirector: false, image: "/members/Arvin Jayson Andaya.png", birthday: "March 9", username: "arvinjasonandaya", email: "arvin@rcmeycauayanmetro.org" },
   { id: 2, name: "Diosdado Alvarado", role: "Officer", position: "Vice President", isOfficer: true, isDirector: false, image: "/members/Diosdado Alvarado.png", birthday: "December 9", username: "diosdadoalvarado", email: "diosdado@rcmeycauayanmetro.org" },
   { id: 3, name: "Daniel Cuyos", role: "Officer", position: "President Elect", isOfficer: true, isDirector: false, image: "/members/Daniel Cuyos.png", birthday: "April 11", username: "danielcuyos", email: "daniel@rcmeycauayanmetro.org" },
-  { id: 4, name: "Rosemarie Valencia", role: "Officer", position: "Club Secretary", isOfficer: true, isDirector: true, directorPosition: "Club Administration Director", image: "/members/Rosemarie Valencia.png", birthday: "August 14", username: "rosemarievalencia", email: "rosemarie@rcmeycauayanmetro.org" },
+  { id: 4, name: "Rosemarie Valencia", role: "Officer", position: "Club Secretary", isOfficer: true, isDirector: true, directorPosition: "Club Administration Director", image: "/members/Rosemarie Valencia.png", birthday: "August 14", username: "rosemarievalencia", email: "rosemarievalencia@rcmeycauayanmetro.org" },
   { id: 5, name: "Adrian Go", role: "Officer", position: "Executive Secretary", isOfficer: true, isDirector: true, directorPosition: "Public Image Director", image: "/members/Adrian Go.png", birthday: "November 19", username: "adriango", email: "adrian@rcmeycauayanmetro.org" },
   { id: 6, name: "Mark Christian Aloran", role: "Officer", position: "Club Treasurer", isOfficer: true, isDirector: false, image: "/members/Mark Christian Aloran.png", birthday: "November 15", username: "markchristianaloran", email: "mark@rcmeycauayanmetro.org" },
   { id: 7, name: "April Homoroc", role: "Officer", position: "Club Auditor", isOfficer: true, isDirector: false, image: "/members/April Homoroc.png", birthday: "December 20", username: "aprilhomoroc", email: "april@rcmeycauayanmetro.org" },
@@ -46,11 +58,51 @@ const initialUsers: RotaryUser[] = [
   { id: 23, name: "Willy Sy", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/members/Willy Sy.png", birthday: "March 12", username: "willysy", email: "willy@rcmeycauayanmetro.org" }
 ];
 
-const initialActivities = [
-  { id: 1, type: 'Project', title: "Global Grant Health Initiative (GG2517783)", category: "Disease Prevention & Treatment", description: "Deploying targeted diagnostic facility clusters and essential clinical resources to localized sectors.", status: "Completed", detail: "Global Grant Verification Compliance Complete" },
-  { id: 2, type: 'Project', title: "WASH Clean Water Hub Infrastructure", category: "Water, Sanitation, & Hygiene", description: "Constructing physical water delivery nodes and comprehensive sanitation framework units for high-need zones.", status: "Ongoing", detail: "WASH Infrastructure Deployment Grid" },
-  { id: 3, type: 'News', title: "24th Handover and Induction Ceremony Success", category: "Club Assembly", description: "The club formally convened at the Matrix Creation Events Venue to install President Arvin Jayson Andaya and the incoming board.", status: "Completed", detail: "Inaugurated on July 29, 2026" },
-  { id: 4, type: 'Project', title: "Meycauayan Youth Textbook & Literacy Drive", category: "Supporting Education", description: "Distributing full core primary catalog book blocks and implementing reading systems in public facilities.", status: "Completed", detail: "Empowering Next-Gen Scholars" }
+const initialActivities: ActivityItem[] = [
+  { 
+    id: 1, 
+    type: 'Project', 
+    title: "Global Grant Health Initiative (GG2517783)", 
+    category: "Disease Prevention & Treatment", 
+    description: "Deploying targeted diagnostic facility clusters and essential clinical resources to localized sectors.", 
+    status: "Completed", 
+    detail: "Global Grant Verification Compliance Complete",
+    fullDescription: "The Global Grant Health Initiative represents a core commitment to expanding healthcare access within municipal clusters. By integrating continuous screening networks, providing state-of-the-art diagnostic machines, and coordinating forums with regional medical networks, this initiative sets up long-term wellness tracking parameters that directly strengthen community resilience and elevate baseline epidemiological safety profiles.",
+    galleryImages: ["/carousel 3.jpg", "/carousel 1.jpg", "/carousel 2.jpg"]
+  },
+  { 
+    id: 2, 
+    type: 'Project', 
+    title: "WASH Clean Water Hub Infrastructure", 
+    category: "Water, Sanitation, & Hygiene", 
+    description: "Constructing physical water delivery nodes and comprehensive sanitation framework units for high-need zones.", 
+    status: "Ongoing", 
+    detail: "WASH Infrastructure Deployment Grid",
+    fullDescription: "Clean running water and structured hygiene clusters constitute the foundational pillars of societal development. The WASH Clean Water Hub framework introduces deep-well extraction pipelines paired with multi-phase micro-filtration elements to eliminate localized waterborne health threats. Parallel community assemblies focus on sustainable plumbing ownership and resource preservation techniques.",
+    galleryImages: ["/carousel 2.jpg", "/carousel 3.jpg", "/carousel 1.jpg"]
+  },
+  { 
+    id: 3, 
+    type: 'News', 
+    title: "24th Handover and Induction Ceremony Success", 
+    category: "Club Assembly", 
+    description: "The club formally convened at the Matrix Creation Events Venue to install President Arvin Jayson Andaya and the incoming board.", 
+    status: "Completed", 
+    detail: "Inaugurated on July 29, 2026",
+    fullDescription: "Marking a momentous handover milestone in our club's history, the 24th Handover and Induction Ceremony successfully gathered district delegates, regional leaders, and corporate sponsors at the premier Matrix Creation Events Venue. Outgoing President Angelito Ferrer commemorated an exceptional year of unity before handing the ceremonial gavel over to President Arvin Jayson Andaya to spearhead the incoming administrative board's strategic vision.",
+    galleryImages: ["/carousel 1.jpg", "/carousel 2.jpg", "/carousel 3.jpg"]
+  },
+  { 
+    id: 4, 
+    type: 'Project', 
+    title: "Meycauayan Youth Textbook & Literacy Drive", 
+    category: "Supporting Education", 
+    description: "Distributing full core primary catalog book blocks and implementing reading systems in public facilities.", 
+    status: "Completed", 
+    detail: "Empowering Next-Gen Scholars",
+    fullDescription: "To counter educational gaps and expand reading accessibility parameters, the literacy initiative successfully targeted multi-sector public primary facilities. By supplying foundational reference materials, curriculum blocks, and updating modular libraries, this campaign equips early learners with comprehensive pedagogical resources designed to foster long-term scholastic progression.",
+    galleryImages: ["/carousel 2.jpg", "/carousel 1.jpg", "/carousel 3.jpg"]
+  }
 ];
 
 const carouselSlides = [
@@ -89,7 +141,6 @@ const areasOfFocus = [
   { id: 6, title: "Maternal & Child Health", desc: "Supplying comprehensive clean delivery kits and optimizing early infantile health tracking mechanisms.", icon: "👶" }
 ];
 
-// DATA MATRIX: VERIFIED RELATIVE PUBLIC IMAGE DOMAIN REFERENCES
 const corporateSponsors = [
   { name: "Evergold Memorial Services", logoImage: "/partner-evergold-logo.jpg", fallbackText: "EMS", url: "https://www.facebook.com/evergoldmemorialservice" },
   { name: "Trident Assessment and Technical Training Center, Inc.", logoImage: "/partner-trident-logo.jpg", fallbackText: "TAATTC", url: "https://www.facebook.com/profile.php?id=100093554252998" },
@@ -121,12 +172,19 @@ export default function Home() {
 
   const [activeTab, setActiveTab] = useState<'fourway' | 'objectives' | 'vision'>('fourway');
   const [activeVisionaryTab, setActiveVisionaryTab] = useState<'officers' | 'directors' | 'roster'>('officers');
-  
   const [rosterSortCriteria, setRosterSortCriteria] = useState<'surname' | 'birthday'>('surname');
   
-  // Pagination State Variables
+  // Roster Pagination Setup
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8;
+
+  // Activities Feature States
+  const [searchQuery, setSearchQuery] = useState('');
+  const [activityPage, setActivityPage] = useState(1);
+  const activitiesPerPage = 6;
+  const [selectedActivity, setSelectedActivity] = useState<ActivityItem | null>(null);
+  const [modalActiveImage, setModalActiveImage] = useState<string>('');
+  const [isFullscreenLightbox, setIsFullscreenLightbox] = useState(false);
 
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
@@ -184,6 +242,35 @@ export default function Home() {
     setCurrentPage(1);
   }, [activeVisionaryTab, rosterSortCriteria]);
 
+  useEffect(() => {
+    setActivityPage(1);
+  }, [searchQuery, activityFilter]);
+
+  // Handle modal escape and page body overlay locks cleanly
+  useEffect(() => {
+    if (selectedActivity) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        if (isFullscreenLightbox) {
+          setIsFullscreenLightbox(false);
+        } else {
+          setSelectedActivity(null);
+        }
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.body.style.overflow = '';
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [selectedActivity, isFullscreenLightbox]);
+
   const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement> | React.MouseEvent<HTMLButtonElement>, sectionId: string) => {
     e.preventDefault();
     setMobileMenuOpen(false);
@@ -235,11 +322,37 @@ export default function Home() {
   };
 
   const allFilteredVisionaries = getFilteredAndSortedVisionaries();
-  
   const totalPages = Math.ceil(allFilteredVisionaries.length / itemsPerPage);
   const filteredVisionaries = activeVisionaryTab === 'roster'
     ? allFilteredVisionaries.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
     : allFilteredVisionaries;
+
+  const getProcessedActivities = () => {
+    return initialActivities.filter((act) => {
+      const matchesFilter = activityFilter === 'All' || act.type === activityFilter;
+      const matchesSearch = act.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                            act.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                            act.description.toLowerCase().includes(searchQuery.toLowerCase());
+      return matchesFilter && matchesSearch;
+    });
+  };
+
+  const allProcessedActivities = getProcessedActivities();
+  const totalActivityPages = Math.ceil(allProcessedActivities.length / activitiesPerPage);
+  const paginatedActivities = allProcessedActivities.slice(
+    (activityPage - 1) * activitiesPerPage,
+    activityPage * activitiesPerPage
+  );
+
+  const openActivityModal = (activity: ActivityItem) => {
+    setSelectedActivity(activity);
+    if (activity.galleryImages && activity.galleryImages.length > 0) {
+      setModalActiveImage(activity.galleryImages[0]);
+    } else {
+      setModalActiveImage('/carousel 1.jpg');
+    }
+    setIsFullscreenLightbox(false);
+  };
 
   if (!mounted) {
     return (
@@ -252,11 +365,9 @@ export default function Home() {
   return (
     <main id="top" className="min-h-screen bg-neutral-50 text-neutral-800 font-sans scroll-smooth relative overflow-x-hidden">
       
-      {/* GLOBAL CUSTOM CURSOR COMPONENT */}
       <CustomCursor />
       
       <style jsx global>{`
-        /* Webkit Engines (Chrome, Safari, Edge) */
         .custom-magazine-scrollbar::-webkit-scrollbar {
           width: 5px;
         }
@@ -272,13 +383,10 @@ export default function Home() {
         .custom-magazine-scrollbar::-webkit-scrollbar-thumb:hover {
           background: #f59e0b;
         }
-
-        /* Firefox Support Layer */
         .custom-magazine-scrollbar {
           scrollbar-width: thin;
           scrollbar-color: #d97706 #171717;
         }
-
         @keyframes infiniteMarquee {
           0% { transform: translateX(0); }
           100% { transform: translateX(-50%); }
@@ -381,14 +489,11 @@ export default function Home() {
         </div>
       </section>
 
-      {/* =============================================================
-          3. ABOUT US INTRODUCTORY REFLECTIONS & EMBEDDED SCROLL CAROUSEL
-          ============================================================= */}
+      {/* 3. ABOUT US INTRODUCTORY REFLECTIONS */}
       <section id="who-we-are" className="py-16 sm:py-24 px-4 sm:px-6 bg-white border-b border-neutral-200">
         <div className="max-w-7xl mx-auto">
           <div className="grid lg:grid-cols-5 gap-12 lg:gap-16 items-start">
             
-            {/* LEFT COLUMN: INTRODUCTION TEXT COPY */}
             <div className="lg:col-span-3 space-y-6">
               <div className="space-y-2">
                 <span className="text-amber-500 font-black uppercase tracking-widest text-xs block">Who We Are</span>
@@ -415,19 +520,11 @@ export default function Home() {
               </div>
             </div>
             
-            {/* RIGHT COLUMN: PREMIUM EDITORIAL CAROUSEL DECK WITH CUSTOM MATCHING SCROLLBAR */}
             <div className="lg:col-span-2 space-y-6">
               <div className="bg-neutral-950 text-white rounded-3xl p-6 sm:p-10 shadow-2xl flex flex-col justify-between min-h-[580px] relative border border-amber-500/20 overflow-hidden">
-                
-                <div className="absolute -top-6 -left-2 text-neutral-900 text-[180px] font-serif leading-none select-none pointer-events-none opacity-40">
-                  “
-                </div>
-
+                <div className="absolute -top-6 -left-2 text-neutral-900 text-[180px] font-serif leading-none select-none pointer-events-none opacity-40">“</div>
                 <div className="relative z-10">
-                  <span className="text-amber-500 font-black uppercase tracking-widest text-[11px] bg-amber-500/10 px-3 py-1 rounded-full inline-block mb-6 border border-amber-500/20">
-                    Leadership Addresses
-                  </span>
-                  
+                  <span className="text-amber-500 font-black uppercase tracking-widest text-[11px] bg-amber-500/10 px-3 py-1 rounded-full inline-block mb-6 border border-amber-500/20">Leadership Addresses</span>
                   <div className="relative min-h-[380px] sm:min-h-[400px]">
                     {officialMessages.map((msg, mIdx) => (
                       <div 
@@ -442,12 +539,10 @@ export default function Home() {
                           <h3 className="text-lg sm:text-xl font-black text-white leading-tight tracking-tight uppercase border-l-4 border-amber-500 pl-3 mb-4">
                             {msg.title}
                           </h3>
-                          
                           <p className="custom-magazine-scrollbar text-xs sm:text-sm text-neutral-300 leading-relaxed text-justify font-normal tracking-wide max-h-[260px] sm:max-h-[280px] overflow-y-auto pr-3 scroll-smooth">
                             {msg.text}
                           </p>
                         </div>
-                        
                         <div className="mt-4 pt-4 border-t border-neutral-900">
                           <h4 className="font-black text-amber-500 text-sm tracking-wide uppercase leading-none">
                             {msg.author}
@@ -460,18 +555,10 @@ export default function Home() {
                     ))}
                   </div>
                 </div>
-
                 <div className="mt-8 pt-4 border-t border-neutral-900 flex justify-between items-center relative z-10">
                   <div className="flex gap-2">
                     {officialMessages.map((_, dIdx) => (
-                      <button
-                        {...hydration}
-                        key={dIdx}
-                        onClick={() => setCurrentMessageIndex(dIdx)}
-                        className={`h-1.5 rounded-full transition-all border-none outline-none cursor-pointer ${
-                          dIdx === currentMessageIndex ? 'bg-amber-500 w-6' : 'bg-neutral-800 w-1.5'
-                        }`}
-                      />
+                      <button {...hydration} key={dIdx} onClick={() => setCurrentMessageIndex(dIdx)} className={`h-1.5 rounded-full transition-all border-none outline-none cursor-pointer ${dIdx === currentMessageIndex ? 'bg-amber-500 w-6' : 'bg-neutral-800 w-1.5'}`} />
                     ))}
                   </div>
                   <div className="flex gap-2.5">
@@ -480,14 +567,9 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-
               <div className="bg-amber-500 text-black p-6 rounded-3xl shadow-lg border border-amber-600/20 text-left">
-                <h3 className="text-base font-black uppercase tracking-wider text-black flex items-center gap-2">
-                  Fellowship Through Service
-                </h3>
-                <p className="text-xs font-semibold leading-relaxed mt-2 text-neutral-900">
-                  "The true value of our service is measured by the lasting difference we make in the lives of the people and communities we serve."
-                </p>
+                <h3 className="text-base font-black uppercase tracking-wider text-black flex items-center gap-2">Fellowship Through Service</h3>
+                <p className="text-xs font-semibold leading-relaxed mt-2 text-neutral-900">"The true value of our service is measured by the lasting difference we make in the lives of the people and communities we serve."</p>
               </div>
             </div>
 
@@ -495,32 +577,23 @@ export default function Home() {
         </div>
       </section>
 
-      {/* =============================================================
-          4. HIGHLY INTERACTIVE & PREMIUM GUIDING ROTARY CODES MATRIX
-          ============================================================= */}
+      {/* 4. GUIDING ROTARY CODES MATRIX */}
       <section 
         id="rotary-code" 
         className="py-24 bg-cover bg-center bg-fixed relative overflow-hidden"
         style={{ backgroundImage: `linear-gradient(rgba(10, 15, 30, 0.88), rgba(5, 5, 10, 0.95)), url('/rotary-background.jpg')` }}
       >
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
-
         <div className="max-w-5xl mx-auto space-y-12 relative z-10">
           <div className="text-center max-w-2xl mx-auto space-y-2">
             <span className="text-amber-500 font-extrabold uppercase tracking-widest text-xs block">Guiding Frameworks</span>
             <h2 className="text-3xl font-black text-white tracking-tight uppercase">The Objectives & Vision Matrix</h2>
-            <p className="text-xs text-neutral-400 max-w-md mx-auto">Explore the fundamental tenets and structural philosophy that steer our global network of service leaders.</p>
           </div>
-
           <div className="flex bg-slate-900/80 backdrop-blur-md p-1 rounded-2xl border border-slate-800 shadow-xl max-w-xl mx-auto">
             <button {...hydration} onClick={() => setActiveTab('fourway')} className={`flex-1 py-3 text-xs font-black uppercase tracking-wider rounded-xl transition-all duration-300 border-none cursor-pointer ${activeTab === 'fourway' ? 'bg-amber-500 text-black font-extrabold shadow-lg' : 'text-neutral-400 hover:text-amber-500 bg-transparent'}`}>The 4-Way Test</button>
             <button {...hydration} onClick={() => setActiveTab('objectives')} className={`flex-1 py-3 text-xs font-black uppercase tracking-wider rounded-xl transition-all duration-300 border-none cursor-pointer ${activeTab === 'objectives' ? 'bg-amber-500 text-black font-extrabold shadow-lg' : 'text-neutral-400 hover:text-amber-500 bg-transparent'}`}>Rotary Objectives</button>
             <button {...hydration} onClick={() => setActiveTab('vision')} className={`flex-1 py-3 text-xs font-black uppercase tracking-wider rounded-xl transition-all duration-300 border-none cursor-pointer ${activeTab === 'vision' ? 'bg-amber-500 text-black font-extrabold shadow-lg' : 'text-neutral-400 hover:text-amber-500 bg-transparent'}`}>Our Vision</button>
           </div>
-
           <div className="bg-neutral-900/30 backdrop-blur-xl border border-neutral-800/60 rounded-3xl p-6 sm:p-12 shadow-2xl min-h-[300px] flex items-center justify-center transition-all duration-500 hover:border-neutral-700/40">
-            
             {activeTab === 'fourway' && (
               <div className="w-full space-y-8 animate-fadeIn">
                 <div className="text-center md:text-left">
@@ -534,16 +607,15 @@ export default function Home() {
                     { title: "03", desc: "Will it build goodwill and better friendships?" },
                     { title: "04", desc: "Will it be beneficial to all concerned?" }
                   ].map((item, idx) => (
-                    <div key={idx} className="bg-slate-950/80 backdrop-blur-md border border-slate-900 rounded-2xl p-5 hover:border-amber-500/40 hover:-translate-y-1 hover:scale-[1.03] hover:shadow-[0_10px_25px_-5px_rgba(245,158,11,0.1)] transition-all group duration-300 relative overflow-hidden">
-                      <div className="text-3xl font-black text-amber-500/5 font-mono absolute top-2 right-3 group-hover:text-amber-500/30 transition-all duration-300 transform group-hover:scale-110 select-none">{item.title}</div>
-                      <h4 className="text-xs font-black tracking-widest text-amber-500 mb-1.5 uppercase font-mono group-hover:text-amber-400 transition-colors">{item.title}</h4>
+                    <div key={idx} className="bg-slate-950/80 backdrop-blur-md border border-slate-900 rounded-2xl p-5 hover:border-amber-500/40 hover:-translate-y-1 hover:scale-[1.03] transition-all group duration-300 relative overflow-hidden">
+                      <div className="text-3xl font-black text-amber-500/5 font-mono absolute top-2 right-3 select-none">{item.title}</div>
+                      <h4 className="text-xs font-black tracking-widest text-amber-500 mb-1.5 uppercase font-mono">{item.title}</h4>
                       <p className="text-xs text-neutral-300 leading-relaxed font-normal">{item.desc}</p>
                     </div>
                   ))}
                 </div>
               </div>
             )}
-
             {activeTab === 'objectives' && (
               <div className="w-full space-y-6 animate-fadeIn">
                 <div className="text-center md:text-left">
@@ -557,79 +629,44 @@ export default function Home() {
                     "The application of the ideal of service in each Rotarian's personal, business, and community life.",
                     "The advancement of international understanding, goodwill, and peace through a world fellowship of business and professional persons united in the ideal of service."
                   ].map((text, idx) => (
-                    <div key={idx} className="bg-slate-950/50 backdrop-blur-md border border-slate-900/60 rounded-2xl p-5 flex gap-4 items-start hover:bg-slate-950/90 hover:scale-[1.01] hover:border-blue-500/30 shadow-md transition-all duration-300 group">
-                      <span className="w-6 h-6 bg-blue-600/10 rounded-full flex items-center justify-center shrink-0 border border-blue-500/20 text-blue-400 font-mono font-bold text-[10px] mt-0.5 group-hover:bg-blue-600 group-hover:text-white group-hover:scale-110 transition-all duration-300">{idx + 1}</span>
-                      <p className="text-xs text-neutral-300 leading-relaxed font-normal tracking-wide group-hover:text-white transition-colors">{text}</p>
+                    <div key={idx} className="bg-slate-950/50 backdrop-blur-md border border-slate-900/60 rounded-2xl p-5 flex gap-4 items-start shadow-md transition-all duration-300 group">
+                      <span className="w-6 h-6 bg-blue-600/10 rounded-full flex items-center justify-center shrink-0 border border-blue-500/20 text-blue-400 font-mono font-bold text-[10px] mt-0.5">{idx + 1}</span>
+                      <p className="text-xs text-neutral-300 leading-relaxed font-normal tracking-wide">{text}</p>
                     </div>
                   ))}
                 </div>
               </div>
             )}
-
             {activeTab === 'vision' && (
               <div className="w-full max-w-4xl text-center py-6 px-4 animate-fadeIn">
                 <div className="max-w-3xl mx-auto space-y-6 group bg-black/40 backdrop-blur-md border border-neutral-800 p-8 sm:p-12 rounded-2xl shadow-xl hover:border-amber-500/30 transition-all duration-500">
-                  <span className="text-[10px] bg-neutral-900/80 text-amber-500 font-mono border border-neutral-800 px-4 py-1.5 rounded-full uppercase tracking-widest inline-block">
-                    Official International Blueprint
-                  </span>
-                  
+                  <span className="text-[10px] bg-neutral-900/80 text-amber-500 font-mono border border-neutral-800 px-4 py-1.5 rounded-full uppercase tracking-widest inline-block">Official International Blueprint</span>
                   <p className="text-xl sm:text-3xl font-light text-neutral-300 tracking-wide leading-relaxed text-center font-serif select-none">
                     "
-                    <span className="inline-block font-black bg-gradient-to-r from-amber-400 via-orange-400 to-amber-500 text-transparent bg-clip-text drop-shadow-[0_2px_8px_rgba(245,158,11,0.3)] uppercase tracking-tight mx-1 transition-all duration-300 hover:scale-110 hover:rotate-1 hover:drop-shadow-[0_4px_12px_rgba(245,158,11,0.6)] cursor-pointer">
-                      Together
-                    </span> 
-                    we see a world where 
-                    <span className="inline-block font-black bg-gradient-to-r from-amber-400 via-orange-400 to-amber-500 text-transparent bg-clip-text drop-shadow-[0_2px_8px_rgba(245,158,11,0.3)] uppercase tracking-tight mx-1 transition-all duration-300 hover:scale-110 hover:-rotate-1 hover:drop-shadow-[0_4px_12px_rgba(245,158,11,0.6)] cursor-pointer">
-                      people
-                    </span> 
-                    unite and take action to 
-                    <span className="inline-block font-black bg-gradient-to-r from-amber-400 via-orange-400 to-amber-500 text-transparent bg-clip-text drop-shadow-[0_2px_8px_rgba(245,158,11,0.3)] uppercase tracking-tight mx-1 transition-all duration-300 hover:scale-110 hover:rotate-2 hover:drop-shadow-[0_4px_12px_rgba(245,158,11,0.6)] cursor-pointer">
-                      create
-                    </span> 
-                    lasting 
-                    <span className="inline-block font-black bg-gradient-to-r from-amber-400 via-orange-400 to-amber-500 text-transparent bg-clip-text drop-shadow-[0_2px_8px_rgba(245,158,11,0.3)] uppercase tracking-tight mx-1 transition-all duration-300 hover:scale-110 hover:-rotate-2 hover:drop-shadow-[0_4px_12px_rgba(245,158,11,0.6)] cursor-pointer">
-                      change
-                    </span> 
-                    across the globe, in our communities, and in ourselves.
-                    "
+                    <span className="inline-block font-black bg-gradient-to-r from-amber-400 via-orange-400 to-amber-500 text-transparent bg-clip-text drop-shadow-[0_2px_8px_rgba(245,158,11,0.3)] uppercase tracking-tight mx-1">Together</span> we see a world where <span className="inline-block font-black bg-gradient-to-r from-amber-400 via-orange-400 to-amber-500 text-transparent bg-clip-text drop-shadow-[0_2px_8px_rgba(245,158,11,0.3)] uppercase tracking-tight mx-1">people</span> unite and take action to <span className="inline-block font-black bg-gradient-to-r from-amber-400 via-orange-400 to-amber-500 text-transparent bg-clip-text drop-shadow-[0_2px_8px_rgba(245,158,11,0.3)] uppercase tracking-tight mx-1">create</span> lasting <span className="inline-block font-black bg-gradient-to-r from-amber-400 via-orange-400 to-amber-500 text-transparent bg-clip-text drop-shadow-[0_2px_8px_rgba(245,158,11,0.3)] uppercase tracking-tight mx-1">change</span> across the globe, in our communities, and in ourselves."
                   </p>
-                  
                   <div className="w-16 h-0.5 bg-gradient-to-r from-transparent via-amber-500 to-transparent mx-auto shadow-md" />
                 </div>
               </div>
             )}
-
           </div>
         </div>
       </section>
 
-      {/* =============================================================
-          4.5 ADDED ROTARY AREAS OF FOCUS INTERACTIVE MESH WORKSPACE
-          ============================================================= */}
+      {/* 4.5 ROTARY AREAS OF FOCUS INTERACTIVE MESH WORKSPACE */}
       <section id="focus-channels" className="py-24 bg-white border-b border-neutral-200 relative overflow-hidden">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 space-y-12 relative z-10">
           <div className="text-center max-w-2xl mx-auto space-y-2">
             <span className="text-amber-600 font-extrabold uppercase tracking-widest text-xs block">Strategic Pillars</span>
             <h2 className="text-3xl font-black text-neutral-900 tracking-tight uppercase">Rotary Areas of Focus</h2>
-            <p className="text-xs text-neutral-500 max-w-md mx-auto">Our humanitarian targets optimize specific tactical focus nodes across seven globally recognized development vector bands.</p>
           </div>
-
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {areasOfFocus.map((focus) => (
-              <div 
-                key={focus.id}
-                className="bg-neutral-50 border border-neutral-200 rounded-3xl p-6 sm:p-8 hover:border-amber-500/50 hover:bg-white hover:-translate-y-1 hover:shadow-[0_15px_35px_rgba(217,119,6,0.08)] transition-all group duration-300 flex flex-col justify-between"
-              >
+              <div key={focus.id} className="bg-neutral-50 border border-neutral-200 rounded-3xl p-6 sm:p-8 hover:border-amber-500/50 hover:bg-white hover:-translate-y-1 transition-all group duration-300 flex flex-col justify-between">
                 <div className="space-y-4">
-                  <div className="w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-amber-600 flex items-center justify-center font-bold text-xl group-hover:bg-amber-500 group-hover:text-black group-hover:scale-105 transition-all duration-300">
-                    {focus.icon}
-                  </div>
-                  <h3 className="text-base font-black text-neutral-900 uppercase tracking-wide leading-snug group-hover:text-amber-600 transition-colors duration-200">
-                    {focus.title}
-                  </h3>
-                  <p className="text-xs text-neutral-500 leading-relaxed font-normal tracking-wide text-justify">
-                    {focus.desc}
-                  </p>
+                  <div className="w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-amber-600 flex items-center justify-center font-bold text-xl group-hover:bg-amber-500 group-hover:text-black transition-all duration-300">{focus.icon}</div>
+                  <h3 className="text-base font-black text-neutral-900 uppercase tracking-wide leading-snug group-hover:text-amber-600 transition-colors duration-200">{focus.title}</h3>
+                  <p className="text-xs text-neutral-500 leading-relaxed font-normal tracking-wide text-justify">{focus.desc}</p>
                 </div>
               </div>
             ))}
@@ -637,46 +674,27 @@ export default function Home() {
         </div>
       </section>
 
-      {/* =============================================================
-          4.8 UPGRADED: IMMERSIVE LOGO MARQUEE (NO OUTLINES, MATCHES BACKGROUND)
-          ============================================================= */}
+      {/* 4.8 LOGO MARQUEE */}
       <section className="py-16 bg-white border-b border-neutral-200 overflow-hidden select-none">
         <div className="max-w-7xl mx-auto px-4 mb-8 flex items-center justify-center md:justify-start">
-          <span className="text-[10px] font-mono text-neutral-400 uppercase tracking-widest border border-neutral-200 px-3 py-1 rounded-full bg-neutral-50">
-            Our Partners & Sponsors
-          </span>
+          <span className="text-[10px] font-mono text-neutral-400 uppercase tracking-widest border border-neutral-200 px-3 py-1 rounded-full bg-neutral-50">Our Partners & Sponsors</span>
         </div>
-        
         <div className="relative w-full flex items-center">
           <div className="absolute left-0 inset-y-0 w-24 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
           <div className="absolute right-0 inset-y-0 w-24 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
-          
           <div className="animate-marquee-stream flex gap-12 items-center">
             {[...corporateSponsors, ...corporateSponsors, ...corporateSponsors].map((sponsor, sIdx) => (
-              <a 
-                key={sIdx}
-                href={sponsor.url}
-                target={sponsor.url.startsWith('http') ? '_blank' : '_self'}
-                rel="noopener noreferrer"
-                className="flex items-center justify-center p-3 rounded-2xl shrink-0 group transition-all duration-300 no-underline cursor-pointer w-44 h-24 bg-neutral-50/50 hover:bg-neutral-100/60"
-                title={sponsor.name}
-              >
-                {/* Optimized size architecture with object-contain to dynamically unify logos */}
+              <a key={sIdx} href={sponsor.url} target={sponsor.url.startsWith('http') ? '_blank' : '_self'} rel="noopener noreferrer" className="flex items-center justify-center p-3 rounded-2xl shrink-0 group transition-all duration-300 no-underline cursor-pointer w-44 h-24 bg-neutral-50/50 hover:bg-neutral-100/60" title={sponsor.name}>
                 <div className="w-full h-full flex items-center justify-center transition-transform duration-300 group-hover:scale-106">
-                  <img 
-                    src={sponsor.logoImage} 
-                    alt={sponsor.name}
-                    className="max-w-full max-h-full object-contain mix-blend-multiply transition-opacity duration-300"
-                    onError={(e) => {
-                      const target = e.target as HTMLImageElement;
-                      target.style.display = 'none';
-                      const parent = target.parentElement;
-                      if (parent) {
-                        parent.innerText = sponsor.fallbackText;
-                        parent.className = "w-16 h-10 rounded-lg bg-amber-500/10 text-amber-600 flex items-center justify-center text-xs font-mono font-black";
-                      }
-                    }}
-                  />
+                  <img src={sponsor.logoImage} alt={sponsor.name} className="max-w-full max-h-full object-contain mix-blend-multiply transition-opacity duration-300" onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.style.display = 'none';
+                    const parent = target.parentElement;
+                    if (parent) {
+                      parent.innerText = sponsor.fallbackText;
+                      parent.className = "w-16 h-10 rounded-lg bg-amber-500/10 text-amber-600 flex items-center justify-center text-xs font-mono font-black";
+                    }
+                  }} />
                 </div>
               </a>
             ))}
@@ -684,224 +702,354 @@ export default function Home() {
         </div>
       </section>
 
-      {/* =============================================================
-          5. OFFICIAL LEADERSHIP ROSTER SHOWCASE (VISIONARIES LIGHT THEME)
-          ============================================================= */}
-      <section 
-        id="visionaries" 
-        className="py-24 bg-neutral-50 border-b border-neutral-200 relative overflow-hidden transition-colors duration-500"
-      >
-        <div className="absolute top-0 right-1/4 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-amber-500/5 rounded-full blur-3xl pointer-events-none" />
-
+      {/* 5. OFFICIAL LEADERSHIP ROSTER SHOWCASE */}
+      <section id="visionaries" className="py-24 bg-neutral-50 border-b border-neutral-200 relative overflow-hidden">
         <div className="max-w-6xl mx-auto space-y-12 relative z-10 px-4 sm:px-6">
           <div className="text-center max-w-2xl mx-auto space-y-2">
             <span className="text-amber-600 font-extrabold uppercase tracking-widest text-xs block">Visionaries Team</span>
             <h2 className="text-3xl font-black text-neutral-900 tracking-tight uppercase">RY 2026-2027 Roster Administration</h2>
-            <p className="text-xs text-neutral-500 max-w-md mx-auto">Review the officers, project heads, and official team members executing change across the local sector channels.</p>
           </div>
-
           <div className="flex bg-white p-1 rounded-2xl border border-neutral-200 shadow-sm max-w-xl mx-auto">
             <button {...hydration} onClick={() => setActiveVisionaryTab('officers')} className={`flex-1 py-3 text-xs font-black uppercase tracking-wider rounded-xl transition-all duration-300 border-none cursor-pointer ${activeVisionaryTab === 'officers' ? 'bg-amber-500 text-black font-extrabold shadow-md' : 'text-neutral-500 hover:text-amber-600 bg-transparent'}`}>RY Officers</button>
             <button {...hydration} onClick={() => setActiveVisionaryTab('directors')} className={`flex-1 py-3 text-xs font-black uppercase tracking-wider rounded-xl transition-all duration-300 border-none cursor-pointer ${activeVisionaryTab === 'directors' ? 'bg-amber-500 text-black font-extrabold shadow-md' : 'text-neutral-500 hover:text-amber-600 bg-transparent'}`}>Club Directors</button>
             <button {...hydration} onClick={() => setActiveVisionaryTab('roster')} className={`flex-1 py-3 text-xs font-black uppercase tracking-wider rounded-xl transition-all duration-300 border-none cursor-pointer ${activeVisionaryTab === 'roster' ? 'bg-amber-500 text-black font-extrabold shadow-md' : 'text-neutral-500 hover:text-amber-600 bg-transparent'}`}>Official Roster</button>
           </div>
-
-          <div className="bg-white/40 backdrop-blur-xl border border-neutral-200 rounded-3xl p-6 sm:p-10 shadow-sm transition-all duration-500">
-            
+          <div className="bg-white/40 backdrop-blur-xl border border-neutral-200 rounded-3xl p-6 sm:p-10 shadow-sm">
             {activeVisionaryTab === 'roster' && (
               <div className="flex flex-col sm:flex-row items-center justify-end gap-3 mb-6 pb-4 border-b border-neutral-100 animate-fadeIn">
-                <span className="text-[11px] uppercase tracking-wider font-extrabold text-neutral-400">
-                  ⚡ Sort Algorithm Parameters:
-                </span>
+                <span className="text-[11px] uppercase tracking-wider font-extrabold text-neutral-400">⚡ Sort Algorithm Parameters:</span>
                 <div className="flex gap-2 bg-neutral-100/80 p-0.5 rounded-xl border border-neutral-200 shadow-inner">
-                  <button 
-                    {...hydration}
-                    onClick={() => setRosterSortCriteria('surname')} 
-                    className={`px-3 py-1.5 text-[10px] uppercase font-bold tracking-wider rounded-lg transition border-none cursor-pointer ${rosterSortCriteria === 'surname' ? 'bg-black text-white' : 'text-neutral-500 hover:text-black bg-transparent'}`}
-                  >
-                    By Surname
-                  </button>
-                  <button 
-                    {...hydration}
-                    onClick={() => setRosterSortCriteria('birthday')} 
-                    className={`px-3 py-1.5 text-[10px] uppercase font-bold tracking-wider rounded-lg transition border-none cursor-pointer ${rosterSortCriteria === 'birthday' ? 'bg-black text-white' : 'text-neutral-500 hover:text-black bg-transparent'}`}
-                  >
-                    By Birthday Month
-                  </button>
+                  <button {...hydration} onClick={() => setRosterSortCriteria('surname')} className={`px-3 py-1.5 text-[10px] uppercase font-bold tracking-wider rounded-lg transition border-none cursor-pointer ${rosterSortCriteria === 'surname' ? 'bg-black text-white' : 'text-neutral-500 hover:text-black bg-transparent'}`}>By Surname</button>
+                  <button {...hydration} onClick={() => setRosterSortCriteria('birthday')} className={`px-3 py-1.5 text-[10px] uppercase font-bold tracking-wider rounded-lg transition border-none cursor-pointer ${rosterSortCriteria === 'birthday' ? 'bg-black text-white' : 'text-neutral-500 hover:text-black bg-transparent'}`}>By Birthday Month</button>
                 </div>
               </div>
             )}
-
             <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 animate-fadeIn">
               {filteredVisionaries.map((officer) => {
-                // RUNTIME AUTO-NORMALIZER LAYER
-                // This converts direct paths like '/officer-name.jpg' into your nested structure automatically
-                const resolvedImagePath = officer.image.startsWith('/members/') 
-                  ? officer.image 
-                  : `/members/${officer.name.trim().replace(/\s+/g, '_')}${officer.image.endsWith('.png') ? '.png' : '.jpg'}`;
-
+                const resolvedImagePath = officer.image.startsWith('/members/') ? officer.image : `/members/${officer.name.trim().replace(/\s+/g, '_')}${officer.image.endsWith('.png') ? '.png' : '.jpg'}`;
                 return (
-                  <div 
-                    key={officer.id} 
-                    className="bg-white border border-neutral-200 rounded-2xl p-5 text-center hover:border-amber-500/50 hover:-translate-y-1.5 hover:scale-[1.02] hover:shadow-[0_12px_30px_rgba(217,119,6,0.12)] transition-all group duration-300 relative overflow-hidden flex flex-col items-center justify-between min-h-[260px]"
-                  >
+                  <div key={officer.id} className="bg-white border border-neutral-200 rounded-2xl p-5 text-center hover:border-amber-500/50 hover:-translate-y-1.5 transition-all group duration-300 relative overflow-hidden flex flex-col items-center justify-between min-h-[260px]">
                     <div className="w-24 h-24 rounded-full overflow-hidden mb-4 border-2 border-neutral-100 group-hover:border-amber-500/50 transition-colors duration-300 shadow-sm relative bg-neutral-100">
-                      <img 
-                        src={resolvedImagePath} 
-                        alt={officer.name}
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                        onError={(e) => {
-                          // Clean profile fallback if an image wasn't uploaded yet
-                          (e.target as HTMLImageElement).src = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23f5f5f5'/><text x='50%27 y='55%27 font-family='sans-serif' font-size='30' fill='%23d97706' text-anchor='middle'>👤</text></svg>";
-                        }}
-                      />
+                      <img src={resolvedImagePath} alt={officer.name} className="w-full h-full object-cover" onError={(e) => {
+                        (e.target as HTMLImageElement).src = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23f5f5f5'/><text x='50%27 y='55%27 font-family='sans-serif' font-size='30' fill='%23d97706' text-anchor='middle'>👤</text></svg>";
+                      }} />
                     </div>
-
                     <div className="space-y-1 flex-1 flex flex-col justify-center">
-                      <h3 className="text-sm font-black text-neutral-900 tracking-wide group-hover:text-amber-600 transition-colors duration-200 line-clamp-2 px-1">
-                        {officer.name}
-                      </h3>
-                      
+                      <h3 className="text-sm font-black text-neutral-900 tracking-wide group-hover:text-amber-600 transition-colors duration-200 line-clamp-2 px-1">{officer.name}</h3>
                       {activeVisionaryTab === 'roster' ? (
                         <div className="pt-2">
-                          <span className="text-[9px] font-mono uppercase tracking-widest text-neutral-400 block">
-                            Birthday
-                          </span>
-                          <p className="text-xs font-bold text-blue-600 font-sans mt-0.5">
-                            {officer.birthday || "Unspecified"}
-                          </p>
+                          <span className="text-[9px] font-mono uppercase tracking-widest text-neutral-400 block">Birthday</span>
+                          <p className="text-xs font-bold text-blue-600 font-sans mt-0.5">{officer.birthday || "Unspecified"}</p>
                         </div>
                       ) : activeVisionaryTab === 'directors' ? (
-                        <p className="text-[11px] text-blue-600 font-extrabold uppercase tracking-wider leading-tight max-w-[180px] mx-auto">
-                          {officer.directorPosition || officer.position}
-                        </p>
+                        <p className="text-[11px] text-blue-600 font-extrabold uppercase tracking-wider leading-tight max-w-[180px] mx-auto">{officer.directorPosition || officer.position}</p>
                       ) : (
-                        <p className="text-[11px] text-blue-600 font-extrabold uppercase tracking-wider leading-tight max-w-[180px] mx-auto">
-                          {officer.position}
-                        </p>
+                        <p className="text-[11px] text-blue-600 font-extrabold uppercase tracking-wider leading-tight max-w-[180px] mx-auto">{officer.position}</p>
                       )}
                     </div>
-                    
                     <div className="absolute bottom-0 inset-x-0 h-0.5 bg-gradient-to-r from-transparent via-transparent to-transparent group-hover:via-amber-500/40 transition-all duration-500" />
                   </div>
                 );
               })}
             </div>
-
-            {filteredVisionaries.length === 0 && (
-              <div className="text-center py-12 text-neutral-400 text-xs tracking-wider">
-                No verified organization members match the current display query vector filters.
-              </div>
-            )}
-
-            {/* AESTHETIC PAGINATION LAYER */}
             {activeVisionaryTab === 'roster' && totalPages > 1 && (
               <div className="mt-12 pt-6 border-t border-neutral-100 flex items-center justify-between flex-col sm:flex-row gap-4 animate-fadeIn select-none">
-                <span className="text-xs font-bold text-neutral-400 uppercase tracking-wider">
-                  Showing <span className="text-neutral-800 font-black">{filteredVisionaries.length}</span> of <span className="text-neutral-800 font-black">{allFilteredVisionaries.length}</span> Members
-                </span>
-                
+                <span className="text-xs font-bold text-neutral-400 uppercase tracking-wider">Showing <span className="text-neutral-800 font-black">{filteredVisionaries.length}</span> of <span className="text-neutral-800 font-black">{allFilteredVisionaries.length}</span> Members</span>
                 <div className="flex items-center gap-1.5">
-                  <button 
-                    {...hydration}
-                    onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-                    disabled={currentPage === 1}
-                    className="w-9 h-9 flex items-center justify-center rounded-xl bg-white border border-neutral-200 text-neutral-700 font-bold hover:border-amber-500 hover:text-amber-600 disabled:opacity-40 disabled:hover:text-neutral-700 disabled:hover:border-neutral-200 transition pointer cursor-pointer text-sm"
-                  >
-                    ‹
-                  </button>
-
-                  {Array.from({ length: totalPages }, (_, index) => {
-                    const pageNumber = index + 1;
-                    return (
-                      <button
-                        {...hydration}
-                        key={pageNumber}
-                        onClick={() => setCurrentPage(pageNumber)}
-                        className={`w-9 h-9 flex items-center justify-center rounded-xl text-xs font-black tracking-wide uppercase transition border ${
-                          currentPage === pageNumber
-                            ? 'bg-amber-500 border-amber-500 text-black shadow-md shadow-amber-500/20'
-                            : 'bg-white border-neutral-200 text-neutral-600 hover:border-amber-500 hover:text-amber-600'
-                        } cursor-pointer`}
-                      >
-                        {pageNumber}
-                      </button>
-                    );
-                  })}
-
-                  <button 
-                    {...hydration}
-                    onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
-                    disabled={currentPage === totalPages}
-                    className="w-9 h-9 flex items-center justify-center rounded-xl bg-white border border-neutral-200 text-neutral-700 font-bold hover:border-amber-500 hover:text-amber-600 disabled:opacity-40 disabled:hover:text-neutral-700 disabled:hover:border-neutral-200 transition pointer cursor-pointer text-sm"
-                  >
-                    ›
-                  </button>
+                  <button {...hydration} onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))} disabled={currentPage === 1} className="w-9 h-9 flex items-center justify-center rounded-xl bg-white border border-neutral-200 text-neutral-700 font-bold hover:border-amber-500 disabled:opacity-40 cursor-pointer text-sm">‹</button>
+                  {Array.from({ length: totalPages }, (_, index) => (
+                    <button {...hydration} key={index} onClick={() => setCurrentPage(index + 1)} className={`w-9 h-9 flex items-center justify-center rounded-xl text-xs font-black tracking-wide uppercase border ${currentPage === index + 1 ? 'bg-amber-500 border-amber-500 text-black shadow-md' : 'bg-white border-neutral-200 text-neutral-600 hover:border-amber-500'} cursor-pointer`}>{index + 1}</button>
+                  ))}
+                  <button {...hydration} onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))} disabled={currentPage === totalPages} className="w-9 h-9 flex items-center justify-center rounded-xl bg-white border border-neutral-200 text-neutral-700 font-bold hover:border-amber-500 disabled:opacity-40 cursor-pointer text-sm">›</button>
                 </div>
               </div>
             )}
-
           </div>
         </div>
       </section>
 
-      {/* 6. PROJECTS & IMPACT METRICS FEED */}
-      <section id="projects-and-news" className="py-16 sm:py-20 bg-neutral-50 px-4 sm:px-6 border-b border-neutral-200">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
-            <div>
+      {/* 6. PROJECTS & IMPACT METRICS ECOSYSTEM */}
+      <section id="projects-and-news" className="py-24 bg-white px-4 sm:px-6 border-b border-neutral-200 relative overflow-hidden">
+        <div className="max-w-7xl mx-auto space-y-10 relative">
+          
+          <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-6 pb-6 border-b border-neutral-100">
+            <div className="space-y-1">
               <span className="text-amber-500 font-bold uppercase tracking-widest text-xs block">People of Action</span>
-              <h2 className="text-2xl sm:text-3xl font-black text-neutral-900 tracking-tight">Humanitarian Program Output Metrics</h2>
+              <h2 className="text-2xl sm:text-3xl font-black text-neutral-900 tracking-tight uppercase">Humanitarian Program Output Metrics</h2>
             </div>
-            <div className="flex bg-white rounded-lg border border-neutral-200 p-1 shadow-sm w-full md:w-auto overflow-x-auto">
-              {(['All', 'Project', 'News'] as const).map((filterOpt) => (
-                <button suppressHydrationWarning key={filterOpt} onClick={() => setActivityFilter(filterOpt)} className={`flex-1 md:flex-initial px-4 py-1.5 rounded-md text-xs font-bold transition-all border-none cursor-pointer text-center ${activityFilter === filterOpt ? 'bg-black text-white' : 'text-neutral-500 hover:text-amber-500 bg-transparent'}`}>{filterOpt === 'All' ? 'View All' : `${filterOpt}`}</button>
-              ))}
+            
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full xl:w-auto">
+              <div className="relative flex-1 sm:w-64">
+                <input 
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Search project outputs..."
+                  className="w-full bg-neutral-50 text-neutral-800 text-xs font-medium pl-9 pr-4 py-3 rounded-xl border border-neutral-200 outline-none focus:border-amber-500 focus:bg-white transition-all shadow-inner"
+                />
+                <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-neutral-400 text-sm select-none pointer-events-none">🔍</span>
+                {searchQuery && (
+                  <button 
+                    onClick={() => setSearchQuery('')}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-black border-none bg-transparent cursor-pointer text-xs font-bold font-mono p-1"
+                  >
+                    ✕
+                  </button>
+                )}
+              </div>
+
+              <div className="flex bg-neutral-100/80 rounded-xl border border-neutral-200/60 p-0.5 shadow-sm overflow-x-auto shrink-0">
+                {(['All', 'Project', 'News'] as const).map((filterOpt) => (
+                  <button 
+                    suppressHydrationWarning 
+                    key={filterOpt} 
+                    onClick={() => setActivityFilter(filterOpt)} 
+                    className={`px-4 py-2.5 rounded-lg text-xs font-bold tracking-wide uppercase transition-all border-none cursor-pointer whitespace-nowrap ${
+                      activityFilter === filterOpt ? 'bg-black text-white shadow-sm' : 'text-neutral-500 hover:text-amber-600 bg-transparent'
+                    }`}
+                  >
+                    {filterOpt === 'All' ? 'View All' : filterOpt}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {initialActivities.filter(act => activityFilter === 'All' || act.type === activityFilter).map((activity) => (
-              <div key={activity.id} className="bg-white rounded-xl shadow-sm border border-neutral-200 p-5 sm:p-6 flex flex-col justify-between hover:shadow-md transition relative group">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 animate-fadeIn">
+            {paginatedActivities.map((activity) => (
+              <div 
+                key={activity.id} 
+                className="bg-neutral-50/50 hover:bg-white rounded-3xl shadow-sm hover:shadow-xl border border-neutral-200/80 hover:border-amber-500/40 p-6 flex flex-col justify-between transition-all duration-300 transform hover:-translate-y-1 group relative overflow-hidden"
+              >
                 <div>
-                  <div className="flex justify-between items-start mb-3">
-                    <span className={`text-[10px] uppercase font-extrabold tracking-wider px-2.5 py-1 rounded-full ${activity.type === 'Project' ? 'bg-neutral-100 text-neutral-800 border border-neutral-200' : 'bg-blue-50 text-blue-700 border border-blue-100'}`}>{activity.type}</span>
-                    <span className="text-xs text-neutral-400 font-medium">{activity.status}</span>
+                  <div className="flex justify-between items-center mb-4">
+                    <span className={`text-[10px] uppercase font-extrabold tracking-wider px-3 py-1 rounded-full ${
+                      activity.type === 'Project' ? 'bg-amber-500/10 text-amber-700 border border-amber-500/20' : 'bg-blue-50 text-blue-700 border border-blue-100'
+                    }`}>
+                      {activity.type}
+                    </span>
+                    <span className="text-xs text-neutral-400 font-mono font-bold uppercase tracking-wider">{activity.status}</span>
                   </div>
-                  <h3 className="text-base sm:text-lg font-black text-neutral-900 mb-1 leading-tight">{activity.title}</h3>
-                  <p className="text-xs font-bold text-amber-500 mb-3">{activity.category}</p>
-                  <p className="text-xs sm:text-sm text-neutral-600 leading-relaxed">{activity.description}</p>
+                  <h3 className="text-base sm:text-lg font-black text-neutral-900 mb-1 tracking-tight leading-snug group-hover:text-amber-600 transition-colors duration-200">
+                    {activity.title}
+                  </h3>
+                  <p className="text-[11px] font-extrabold text-blue-600 tracking-wide uppercase mb-3">{activity.category}</p>
+                  <p className="text-xs sm:text-sm text-neutral-500 leading-relaxed text-justify font-normal tracking-wide line-clamp-3">
+                    {activity.description}
+                  </p>
                 </div>
-                <div className="mt-4 pt-3 border-t border-neutral-100">
-                  <span className="text-[9px] uppercase tracking-wider font-bold text-neutral-400 block mb-0.5">Recorded Impact / Status</span>
-                  <p className="text-neutral-900 font-semibold font-mono text-[11px]">{activity.detail}</p>
+
+                <div className="mt-6 pt-4 border-t border-neutral-200/60 flex items-center justify-between">
+                  <div>
+                    <span className="text-[9px] uppercase tracking-wider font-bold text-neutral-400 block mb-0.5">Recorded Impact / Status</span>
+                    <p className="text-neutral-900 font-bold font-mono text-[11px] tracking-tight">{activity.detail}</p>
+                  </div>
+                  
+                  <button 
+                    onClick={() => openActivityModal(activity)}
+                    className="w-10 h-10 rounded-xl bg-neutral-100 group-hover:bg-amber-500 text-neutral-700 group-hover:text-black font-black text-base flex items-center justify-center transition-all duration-300 shadow-sm border-none cursor-pointer outline-none select-none hover:scale-105"
+                    title="Expand Project Portfolio"
+                  >
+                    ❯
+                  </button>
                 </div>
+                <div className="absolute bottom-0 inset-x-0 h-0.5 bg-gradient-to-r from-transparent via-transparent to-transparent group-hover:via-amber-500/40 transition-all duration-500" />
               </div>
             ))}
           </div>
+
+          {paginatedActivities.length === 0 && (
+            <div className="text-center py-20 bg-neutral-50 border border-dashed border-neutral-200 rounded-3xl text-neutral-400 text-xs font-medium uppercase tracking-widest animate-fadeIn">
+              No humanitarian logs correspond to your current index filtering nodes.
+            </div>
+          )}
+
+          {totalActivityPages > 1 && (
+            <div className="pt-6 border-t border-neutral-100 flex flex-col sm:flex-row items-center justify-between gap-4 select-none animate-fadeIn">
+              <span className="text-xs font-bold text-neutral-400 uppercase tracking-wider">
+                Displaying Index <span className="text-neutral-800 font-black">{paginatedActivities.length}</span> of <span className="text-neutral-800 font-black">{allProcessedActivities.length}</span> Total Records
+              </span>
+              <div className="flex items-center gap-1.5">
+                <button 
+                  onClick={() => setActivityPage(p => Math.max(p - 1, 1))} 
+                  disabled={activityPage === 1}
+                  className="w-9 h-9 flex items-center justify-center rounded-xl bg-neutral-50 border border-neutral-200 text-neutral-700 font-bold hover:border-amber-500 hover:text-amber-600 disabled:opacity-30 disabled:pointer-events-none transition cursor-pointer text-xs"
+                >
+                  ‹
+                </button>
+                {Array.from({ length: totalActivityPages }, (_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setActivityPage(index + 1)}
+                    className={`w-9 h-9 flex items-center justify-center rounded-xl text-xs font-black tracking-wide border transition-all duration-200 ${
+                      activityPage === index + 1
+                        ? 'bg-black border-black text-white shadow-md'
+                        : 'bg-white border-neutral-200 text-neutral-600 hover:border-amber-500 hover:text-amber-600'
+                    } cursor-pointer`}
+                  >
+                    {index + 1}
+                  </button>
+                ))}
+                <button 
+                  onClick={() => setActivityPage(p => Math.min(p + 1, totalActivityPages))} 
+                  disabled={activityPage === totalActivityPages}
+                  className="w-9 h-9 flex items-center justify-center rounded-xl bg-neutral-50 border border-neutral-200 text-neutral-700 font-bold hover:border-amber-500 hover:text-amber-600 disabled:opacity-30 disabled:pointer-events-none transition cursor-pointer text-xs"
+                >
+                  ›
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </section>
 
       {/* =============================================================
-          7. CONTACT HUB WITH HIGH CONTRAST DARK STYLING
+          MODAL INTERACTIVE INTERFACE (UPGRADED: COFFEE TABLE MAXI-CHASSIS & LIGHTBOX THEATER)
           ============================================================= */}
+      {selectedActivity && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 overflow-hidden animate-fadeIn">
+          <div 
+            onClick={() => setSelectedActivity(null)}
+            className="absolute inset-0 bg-black/75 backdrop-blur-md cursor-pointer transition-opacity duration-300"
+          />
+          
+          {/* Bigger Dynamic Modal Frame: Upgraded to max-w-6xl for maximum legibility */}
+          <div className="bg-white text-neutral-800 rounded-[32px] w-full max-w-6xl h-[85vh] shadow-2xl relative z-10 border border-neutral-200 flex flex-col animate-scaleUp overflow-hidden">
+            
+            {/* Modal Header Strip */}
+            <div className="bg-white border-b border-neutral-100 px-6 sm:px-10 py-6 flex justify-between items-center shrink-0">
+              <div className="space-y-0.5">
+                <span className="text-[10px] uppercase font-mono font-black px-3 py-1 bg-amber-500 text-black rounded-full tracking-widest inline-block shadow-sm">
+                  {selectedActivity.type} Ledger Documentation
+                </span>
+                <p className="text-xs text-blue-600 font-mono font-bold uppercase tracking-wider pt-1">{selectedActivity.category}</p>
+              </div>
+              <button 
+                onClick={() => setSelectedActivity(null)}
+                className="w-10 h-10 rounded-full bg-neutral-100 hover:bg-black text-neutral-500 hover:text-white flex items-center justify-center transition-all duration-200 font-mono text-xs font-bold border-none cursor-pointer outline-none shadow-sm"
+              >
+                ✕
+              </button>
+            </div>
+
+            {/* Modal Body Area with internal scrolling wrapper */}
+            <div className="flex-1 p-6 sm:p-10 overflow-y-auto custom-magazine-scrollbar">
+              <div className="grid lg:grid-cols-12 gap-10 items-start">
+                
+                {/* Left Area Content Column */}
+                <div className="lg:col-span-7 space-y-6 text-left">
+                  <div className="space-y-4">
+                    <h3 className="text-2xl sm:text-3xl font-black text-neutral-900 tracking-tight uppercase border-b-4 border-black pb-3">
+                      {selectedActivity.title}
+                    </h3>
+                    <p className="text-sm sm:text-base text-neutral-600 leading-relaxed text-justify font-normal tracking-wide">
+                      {selectedActivity.fullDescription}
+                    </p>
+                  </div>
+                  
+                  <div className="bg-neutral-50 rounded-2xl p-5 border border-neutral-200/60 grid grid-cols-2 gap-6 shadow-inner">
+                    <div>
+                      <span className="text-[9px] font-mono font-bold text-neutral-400 uppercase tracking-widest block mb-0.5">Operations State</span>
+                      <span className="text-xs font-extrabold text-amber-600 uppercase tracking-wide bg-amber-500/5 border border-amber-500/20 px-2.5 py-1 rounded-md inline-block">{selectedActivity.status}</span>
+                    </div>
+                    <div>
+                      <span className="text-[9px] font-mono font-bold text-neutral-400 uppercase tracking-widest block mb-0.5">Ledger Detail Vector</span>
+                      <span className="text-xs font-mono font-bold text-neutral-800 block pt-1 line-clamp-2 leading-tight">{selectedActivity.detail}</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Right Area Media Deck Column */}
+                <div className="lg:col-span-5 space-y-4 flex flex-col">
+                  <span className="text-[10px] font-mono text-neutral-400 uppercase tracking-widest block border-b border-neutral-100 pb-1 text-left">
+                    🖼️ Media Portfolio Gallery (Click to Expand Fullscreen)
+                  </span>
+                  
+                  {/* Active Slide Display Container Frame with Fullscreen Trigger Layout */}
+                  <div 
+                    onClick={() => setIsFullscreenLightbox(true)}
+                    className="w-full h-64 sm:h-80 bg-neutral-100 rounded-3xl overflow-hidden border border-neutral-200 relative group shadow-sm bg-cover bg-center transition-all duration-300 cursor-zoom-in"
+                    style={{ backgroundImage: `url('${modalActiveImage}')` }}
+                  >
+                    {/* Dark Fluid Layer Mask Overlay appearing on Hover state */}
+                    <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-all duration-200 flex items-center justify-center">
+                      <div className="bg-white/90 text-black text-xs font-black px-4 py-2.5 rounded-xl shadow-md uppercase tracking-wider scale-95 group-hover:scale-100 transition-transform duration-200">
+                        🔍 View Fullscreen
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Thumbnail Selector Slider row Array */}
+                  <div className="grid grid-cols-3 gap-3">
+                    {selectedActivity.galleryImages.map((imgSrc, imgIdx) => (
+                      <button
+                        key={imgIdx}
+                        onClick={() => setModalActiveImage(imgSrc)}
+                        className={`h-20 sm:h-24 bg-neutral-50 rounded-2xl overflow-hidden border-2 bg-cover bg-center transition-all duration-200 shadow-sm outline-none cursor-pointer p-0 relative hover:scale-[1.03] ${
+                          modalActiveImage === imgSrc ? 'border-amber-500 scale-[0.97] shadow-md shadow-amber-500/10' : 'border-neutral-200 hover:border-neutral-400'
+                        }`}
+                        style={{ backgroundImage: `url('${imgSrc}')` }}
+                      />
+                    ))}
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          {/* =============================================================
+              SUBORDINATE FULLSCREEN THEATER LIGHTBOX OVERLAY LAYER CONTAINER
+              ============================================================= */}
+          {isFullscreenLightbox && (
+            <div className="fixed inset-0 z-[120] flex items-center justify-center p-4 bg-black/95 backdrop-blur-xl animate-fadeIn animate-duration-200">
+              {/* Tap anywhere on empty workspace boundaries to minimize image theater layer frame safely */}
+              <div 
+                onClick={() => setIsFullscreenLightbox(false)} 
+                className="absolute inset-0 cursor-zoom-out" 
+              />
+              
+              <button
+                onClick={() => setIsFullscreenLightbox(false)}
+                className="absolute top-6 right-6 w-12 h-12 rounded-full bg-white/10 hover:bg-white text-white hover:text-black flex items-center justify-center transition-all duration-200 font-mono text-sm font-bold border-none cursor-pointer outline-none shadow-lg z-10"
+                title="Exit Fullscreen View"
+              >
+                ✕
+              </button>
+
+              {/* Central Expanded Fluid Asset Deck layout chassis view block */}
+              <div className="relative max-w-5xl max-h-[85vh] w-full h-full flex items-center justify-center p-2 select-none pointer-events-none">
+                <img 
+                  src={modalActiveImage} 
+                  alt="Fullscreen Frame View Asset" 
+                  className="max-w-full max-h-full object-contain rounded-xl shadow-2xl animate-scaleUp animate-duration-200"
+                />
+              </div>
+
+              {/* Interactive Slide Caption Indicator Cluster layout row */}
+              <div className="absolute bottom-6 bg-black/60 backdrop-blur-md px-6 py-2.5 border border-white/10 rounded-full text-white/80 text-xs font-mono tracking-wider shadow-md select-none pointer-events-none">
+                {selectedActivity.title} • Media File View
+              </div>
+            </div>
+          )}
+
+        </div>
+      )}
+
+      {/* 7. CONTACT HUB WITH HIGH CONTRAST DARK STYLING */}
       <section id="contactus" className="py-20 sm:py-28 bg-slate-950 px-4 sm:px-6 border-t border-slate-900 relative">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-8 sm:mb-12 space-y-1">
             <span className="text-amber-500 font-bold uppercase tracking-widest text-xs block">Connect With Us</span>
             <h2 className="text-3xl font-black text-white tracking-tight uppercase">Get Involved Today</h2>
-            
             <div className="flex gap-2 mt-8 max-w-md mx-auto bg-slate-900 p-1 rounded-xl border border-slate-800 shadow-inner">
               <button suppressHydrationWarning onClick={() => setActiveForm('inquiry')} className={`flex-1 py-2.5 text-xs sm:text-sm font-bold rounded-lg transition-all cursor-pointer border-none ${activeForm === 'inquiry' ? 'bg-amber-500 text-black shadow-md' : 'text-neutral-400 hover:text-amber-500 bg-transparent'}`}>Inquiry</button>
               <button suppressHydrationWarning onClick={() => setActiveForm('member')} className={`flex-1 py-2.5 text-xs sm:text-sm font-bold rounded-lg transition-all cursor-pointer border-none ${activeForm === 'member' ? 'bg-amber-500 text-black shadow-md' : 'text-neutral-400 hover:text-amber-500 bg-transparent'}`}>Join Us</button>
               <button suppressHydrationWarning onClick={() => setActiveForm('donate')} className={`flex-1 py-2.5 text-xs sm:text-sm font-bold rounded-lg transition-all cursor-pointer border-none ${activeForm === 'donate' ? 'bg-amber-500 text-black shadow-md' : 'text-neutral-400 hover:text-amber-500 bg-transparent'}`}>Donate</button>
             </div>
           </div>
-
           <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-10 shadow-2xl relative overflow-hidden transition-all duration-500 hover:border-amber-500/30 transform hover:scale-[1.01]">
             <div className="absolute top-0 right-0 w-32 h-32 bg-amber-500/5 rounded-full blur-2xl pointer-events-none" />
-            
             {activeForm === 'inquiry' && (
               <form name="general-inquiries" method="POST" data-netlify="true" className="space-y-5 text-neutral-200 animate-fadeIn">
                 <input type="hidden" name="form-name" value="general-inquiries" />
@@ -924,7 +1072,6 @@ export default function Home() {
                 </div>
               </form>
             )}
-
             {activeForm === 'member' && (
               <form name="membership-applications" method="POST" data-netlify="true" className="space-y-5 text-neutral-200 animate-fadeIn">
                 <input type="hidden" name="form-name" value="membership-applications" />
@@ -943,7 +1090,6 @@ export default function Home() {
                 </div>
               </form>
             )}
-
             {activeForm === 'donate' && (
               <form name="donation-pledges" method="POST" data-netlify="true" className="space-y-5 text-neutral-200 animate-fadeIn">
                 <input type="hidden" name="form-name" value="donation-pledges" />
