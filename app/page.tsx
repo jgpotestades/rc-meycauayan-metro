@@ -24,7 +24,7 @@ interface ActivityItem {
   title: string;
   category: string;
   description: string;
-  status: string;
+  status?: 'Ongoing' | 'Completed'; // Made optional since News items won't map to project statuses
   detail: string;
   fullDescription: string;
   galleryImages: string[];
@@ -38,7 +38,7 @@ const initialUsers: RotaryUser[] = [
   { id: 1, name: "Arvin Jason Andaya", role: "Officer", position: "Club President", isOfficer: true, isDirector: false, image: "/members/Arvin Jayson Andaya.png", birthday: "March 9", username: "arvinjasonandaya", email: "arvin@rcmeycauayanmetro.org" },
   { id: 2, name: "Diosdado Alvarado", role: "Officer", position: "Vice President", isOfficer: true, isDirector: false, image: "/members/Diosdado Alvarado.png", birthday: "December 9", username: "diosdadoalvarado", email: "diosdado@rcmeycauayanmetro.org" },
   { id: 3, name: "Daniel Cuyos", role: "Officer", position: "President Elect", isOfficer: true, isDirector: false, image: "/members/Daniel Cuyos.png", birthday: "April 11", username: "danielcuyos", email: "daniel@rcmeycauayanmetro.org" },
-  { id: 4, name: "Rosemarie Valencia", role: "Officer", position: "Club Secretary", isOfficer: true, isDirector: true, directorPosition: "Club Administration Director", image: "/members/Rosemarie Valencia.png", birthday: "August 14", username: "rosemarievalencia", email: "rosemarievalencia@rcmeycauayanmetro.org" },
+  { id: 4, name: "Rosemarie Valencia", role: "Officer", position: "Club Secretary", isOfficer: true, isDirector: true, directorPosition: "Club Administration Director", image: "/members/Rosemarie Valencia.png", birthday: "August 14", username: "rosemarievalencia", email: "rosemarie@rcmeycauayanmetro.org" },
   { id: 5, name: "Adrian Go", role: "Officer", position: "Executive Secretary", isOfficer: true, isDirector: true, directorPosition: "Public Image Director", image: "/members/Adrian Go.png", birthday: "November 19", username: "adriango", email: "adrian@rcmeycauayanmetro.org" },
   { id: 6, name: "Mark Christian Aloran", role: "Officer", position: "Club Treasurer", isOfficer: true, isDirector: false, image: "/members/Mark Christian Aloran.png", birthday: "November 15", username: "markchristianaloran", email: "mark@rcmeycauayanmetro.org" },
   { id: 7, name: "April Homoroc", role: "Officer", position: "Club Auditor", isOfficer: true, isDirector: false, image: "/members/April Homoroc.png", birthday: "December 20", username: "aprilhomoroc", email: "april@rcmeycauayanmetro.org" },
@@ -87,8 +87,7 @@ const initialActivities: ActivityItem[] = [
     title: "24th Handover and Induction Ceremony Success", 
     category: "Club Assembly", 
     description: "The club formally convened at the Matrix Creation Events Venue to install President Arvin Jayson Andaya and the incoming board.", 
-    status: "Completed", 
-    detail: "Inaugurated on July 29, 2026",
+    detail: "Inaugurated on July 29, 2026", // Removed status key entirely for News item array parameters
     fullDescription: "Marking a momentous handover milestone in our club's history, the 24th Handover and Induction Ceremony successfully gathered district delegates, regional leaders, and corporate sponsors at the premier Matrix Creation Events Venue. Outgoing President Angelito Ferrer commemorated an exceptional year of unity before handing the ceremonial gavel over to President Arvin Jayson Andaya to spearhead the incoming administrative board's strategic vision.",
     galleryImages: ["/carousel 1.jpg", "/carousel 2.jpg", "/carousel 3.jpg"]
   },
@@ -178,10 +177,12 @@ export default function Home() {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8;
 
-  // Activities Feature States
+  // Activities Core Feature States
   const [searchQuery, setSearchQuery] = useState('');
+  const [statusFilter, setStatusFilter] = useState<'All' | 'Ongoing' | 'Completed'>('All');
   const [activityPage, setActivityPage] = useState(1);
   const activitiesPerPage = 6;
+  
   const [selectedActivity, setSelectedActivity] = useState<ActivityItem | null>(null);
   const [modalActiveImage, setModalActiveImage] = useState<string>('');
   const [isFullscreenLightbox, setIsFullscreenLightbox] = useState(false);
@@ -244,9 +245,8 @@ export default function Home() {
 
   useEffect(() => {
     setActivityPage(1);
-  }, [searchQuery, activityFilter]);
+  }, [searchQuery, activityFilter, statusFilter]);
 
-  // Handle modal escape and page body overlay locks cleanly
   useEffect(() => {
     if (selectedActivity) {
       document.body.style.overflow = 'hidden';
@@ -327,13 +327,16 @@ export default function Home() {
     ? allFilteredVisionaries.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
     : allFilteredVisionaries;
 
+  // Process data parameters for activities safely ignoring status criteria if News context is active
   const getProcessedActivities = () => {
     return initialActivities.filter((act) => {
-      const matchesFilter = activityFilter === 'All' || act.type === activityFilter;
+      const matchesType = activityFilter === 'All' || act.type === activityFilter;
+      // CRITICAL FIX: If item is News, it bypasses status filters entirely since it has no operational timeline state
+      const matchesStatus = act.type === 'News' || statusFilter === 'All' || act.status === statusFilter;
       const matchesSearch = act.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
                             act.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
                             act.description.toLowerCase().includes(searchQuery.toLowerCase());
-      return matchesFilter && matchesSearch;
+      return matchesType && matchesStatus && matchesSearch;
     });
   };
 
@@ -643,7 +646,7 @@ export default function Home() {
                   <span className="text-[10px] bg-neutral-900/80 text-amber-500 font-mono border border-neutral-800 px-4 py-1.5 rounded-full uppercase tracking-widest inline-block">Official International Blueprint</span>
                   <p className="text-xl sm:text-3xl font-light text-neutral-300 tracking-wide leading-relaxed text-center font-serif select-none">
                     "
-                    <span className="inline-block font-black bg-gradient-to-r from-amber-400 via-orange-400 to-amber-500 text-transparent bg-clip-text drop-shadow-[0_2px_8px_rgba(245,158,11,0.3)] uppercase tracking-tight mx-1">Together</span> we see a world where <span className="inline-block font-black bg-gradient-to-r from-amber-400 via-orange-400 to-amber-500 text-transparent bg-clip-text drop-shadow-[0_2px_8px_rgba(245,158,11,0.3)] uppercase tracking-tight mx-1">people</span> unite and take action to <span className="inline-block font-black bg-gradient-to-r from-amber-400 via-orange-400 to-amber-500 text-transparent bg-clip-text drop-shadow-[0_2px_8px_rgba(245,158,11,0.3)] uppercase tracking-tight mx-1">create</span> lasting <span className="inline-block font-black bg-gradient-to-r from-amber-400 via-orange-400 to-amber-500 text-transparent bg-clip-text drop-shadow-[0_2px_8px_rgba(245,158,11,0.3)] uppercase tracking-tight mx-1">change</span> across the globe, in our communities, and in ourselves."
+                    <span className="inline-block font-black bg-gradient-to-r from-amber-400 via-orange-400 to-amber-500 text-transparent bg-clip-text drop-shadow-[0_2px_8px_rgba(245,158,11,0.3)] uppercase tracking-tight mx-1">Together</span> we see a world where <span className="inline-block font-black bg-gradient-to-r from-amber-400 via-orange-400 to-orange-500 text-transparent bg-clip-text drop-shadow-[0_2px_8px_rgba(245,158,11,0.3)] uppercase tracking-tight mx-1">people</span> unite and take action to <span className="inline-block font-black bg-gradient-to-r from-amber-400 via-orange-400 to-amber-500 text-transparent bg-clip-text drop-shadow-[0_2px_8px_rgba(245,158,11,0.3)] uppercase tracking-tight mx-1">create</span> lasting <span className="inline-block font-black bg-gradient-to-r from-amber-400 via-orange-400 to-amber-500 text-transparent bg-clip-text drop-shadow-[0_2px_8px_rgba(245,158,11,0.3)] uppercase tracking-tight mx-1">change</span> across the globe, in our communities, and in ourselves."
                   </p>
                   <div className="w-16 h-0.5 bg-gradient-to-r from-transparent via-amber-500 to-transparent mx-auto shadow-md" />
                 </div>
@@ -768,7 +771,9 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 6. PROJECTS & IMPACT METRICS ECOSYSTEM */}
+      {/* =============================================================
+          6. UPGRADED PROJECTS & NEWS WITH INTEGRATED CONTEXT WORKSPACE
+          ============================================================= */}
       <section id="projects-and-news" className="py-24 bg-white px-4 sm:px-6 border-b border-neutral-200 relative overflow-hidden">
         <div className="max-w-7xl mx-auto space-y-10 relative">
           
@@ -778,7 +783,8 @@ export default function Home() {
               <h2 className="text-2xl sm:text-3xl font-black text-neutral-900 tracking-tight uppercase">Humanitarian Program Output Metrics</h2>
             </div>
             
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full xl:w-auto">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full xl:w-auto">
+              {/* Real-time Input Search Field */}
               <div className="relative flex-1 sm:w-64">
                 <input 
                   type="text"
@@ -798,12 +804,17 @@ export default function Home() {
                 )}
               </div>
 
+              {/* Core Context Filter: Project vs News Type */}
               <div className="flex bg-neutral-100/80 rounded-xl border border-neutral-200/60 p-0.5 shadow-sm overflow-x-auto shrink-0">
                 {(['All', 'Project', 'News'] as const).map((filterOpt) => (
                   <button 
                     suppressHydrationWarning 
                     key={filterOpt} 
-                    onClick={() => setActivityFilter(filterOpt)} 
+                    onClick={() => {
+                      setActivityFilter(filterOpt);
+                      // Auto reset state parameters cleanly if navigating to standalone channels
+                      if (filterOpt === 'News') setStatusFilter('All');
+                    }} 
                     className={`px-4 py-2.5 rounded-lg text-xs font-bold tracking-wide uppercase transition-all border-none cursor-pointer whitespace-nowrap ${
                       activityFilter === filterOpt ? 'bg-black text-white shadow-sm' : 'text-neutral-500 hover:text-amber-600 bg-transparent'
                     }`}
@@ -815,6 +826,33 @@ export default function Home() {
             </div>
           </div>
 
+          {/* DYNAMIC BYPASS LOGIC: Status sub-tabs only render when the view contains Projects */}
+          {activityFilter !== 'News' && (
+            <div className="flex justify-center md:justify-start">
+              <div className="flex bg-neutral-50 border border-neutral-200 p-1 rounded-2xl max-w-md w-full sm:w-auto shadow-sm">
+                <button 
+                  onClick={() => setStatusFilter('All')}
+                  className={`flex-1 sm:flex-initial px-6 py-2.5 text-xs font-black uppercase tracking-wider rounded-xl transition-all duration-300 border-none cursor-pointer ${statusFilter === 'All' ? 'bg-amber-500 text-black font-extrabold shadow-sm' : 'text-neutral-400 hover:text-amber-500 bg-transparent'}`}
+                >
+                  All Impacts
+                </button>
+                <button 
+                  onClick={() => setStatusFilter('Ongoing')}
+                  className={`flex-1 sm:flex-initial px-6 py-2.5 text-xs font-black uppercase tracking-wider rounded-xl transition-all duration-300 border-none cursor-pointer ${statusFilter === 'Ongoing' ? 'bg-amber-500 text-black font-extrabold shadow-sm' : 'text-neutral-400 hover:text-amber-500 bg-transparent'}`}
+                >
+                  Active Initiatives
+                </button>
+                <button 
+                  onClick={() => setStatusFilter('Completed')}
+                  className={`flex-1 sm:flex-initial px-6 py-2.5 text-xs font-black uppercase tracking-wider rounded-xl transition-all duration-300 border-none cursor-pointer ${statusFilter === 'Completed' ? 'bg-amber-500 text-black font-extrabold shadow-sm' : 'text-neutral-400 hover:text-amber-500 bg-transparent'}`}
+                >
+                  Completed Legacies
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* Dynamic Program Grid Block - Paginated up to max 6 entries */}
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 animate-fadeIn">
             {paginatedActivities.map((activity) => (
               <div 
@@ -828,7 +866,14 @@ export default function Home() {
                     }`}>
                       {activity.type}
                     </span>
-                    <span className="text-xs text-neutral-400 font-mono font-bold uppercase tracking-wider">{activity.status}</span>
+                    {/* CONDITIONAL FIX: Status Badge Tag renders ONLY if the item type is a Project */}
+                    {activity.type === 'Project' && activity.status && (
+                      <span className={`text-[10px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded ${
+                        activity.status === 'Completed' ? 'text-emerald-600 bg-emerald-50 border border-emerald-100' : 'text-amber-600 bg-amber-50 border border-amber-100'
+                      }`}>
+                        {activity.status}
+                      </span>
+                    )}
                   </div>
                   <h3 className="text-base sm:text-lg font-black text-neutral-900 mb-1 tracking-tight leading-snug group-hover:text-amber-600 transition-colors duration-200">
                     {activity.title}
@@ -841,7 +886,9 @@ export default function Home() {
 
                 <div className="mt-6 pt-4 border-t border-neutral-200/60 flex items-center justify-between">
                   <div>
-                    <span className="text-[9px] uppercase tracking-wider font-bold text-neutral-400 block mb-0.5">Recorded Impact / Status</span>
+                    <span className="text-[9px] uppercase tracking-wider font-bold text-neutral-400 block mb-0.5">
+                      {activity.type === 'News' ? 'Publication / Reference' : 'Recorded Impact / Status'}
+                    </span>
                     <p className="text-neutral-900 font-bold font-mono text-[11px] tracking-tight">{activity.detail}</p>
                   </div>
                   
@@ -858,12 +905,14 @@ export default function Home() {
             ))}
           </div>
 
+          {/* Empty Search/Filter Fallback State */}
           {paginatedActivities.length === 0 && (
             <div className="text-center py-20 bg-neutral-50 border border-dashed border-neutral-200 rounded-3xl text-neutral-400 text-xs font-medium uppercase tracking-widest animate-fadeIn">
               No humanitarian logs correspond to your current index filtering nodes.
             </div>
           )}
 
+          {/* Dynamic Pagination Control Layer */}
           {totalActivityPages > 1 && (
             <div className="pt-6 border-t border-neutral-100 flex flex-col sm:flex-row items-center justify-between gap-4 select-none animate-fadeIn">
               <span className="text-xs font-bold text-neutral-400 uppercase tracking-wider">
@@ -904,7 +953,7 @@ export default function Home() {
       </section>
 
       {/* =============================================================
-          MODAL INTERACTIVE INTERFACE (UPGRADED: COFFEE TABLE MAXI-CHASSIS & LIGHTBOX THEATER)
+          MODAL INTERACTIVE INTERFACE (COFFEE TABLE MAXI-CHASSIS & LIGHTBOX THEATER)
           ============================================================= */}
       {selectedActivity && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 overflow-hidden animate-fadeIn">
@@ -913,10 +962,8 @@ export default function Home() {
             className="absolute inset-0 bg-black/75 backdrop-blur-md cursor-pointer transition-opacity duration-300"
           />
           
-          {/* Bigger Dynamic Modal Frame: Upgraded to max-w-6xl for maximum legibility */}
           <div className="bg-white text-neutral-800 rounded-[32px] w-full max-w-6xl h-[85vh] shadow-2xl relative z-10 border border-neutral-200 flex flex-col animate-scaleUp overflow-hidden">
             
-            {/* Modal Header Strip */}
             <div className="bg-white border-b border-neutral-100 px-6 sm:px-10 py-6 flex justify-between items-center shrink-0">
               <div className="space-y-0.5">
                 <span className="text-[10px] uppercase font-mono font-black px-3 py-1 bg-amber-500 text-black rounded-full tracking-widest inline-block shadow-sm">
@@ -932,11 +979,9 @@ export default function Home() {
               </button>
             </div>
 
-            {/* Modal Body Area with internal scrolling wrapper */}
             <div className="flex-1 p-6 sm:p-10 overflow-y-auto custom-magazine-scrollbar">
               <div className="grid lg:grid-cols-12 gap-10 items-start">
                 
-                {/* Left Area Content Column */}
                 <div className="lg:col-span-7 space-y-6 text-left">
                   <div className="space-y-4">
                     <h3 className="text-2xl sm:text-3xl font-black text-neutral-900 tracking-tight uppercase border-b-4 border-black pb-3">
@@ -950,28 +995,34 @@ export default function Home() {
                   <div className="bg-neutral-50 rounded-2xl p-5 border border-neutral-200/60 grid grid-cols-2 gap-6 shadow-inner">
                     <div>
                       <span className="text-[9px] font-mono font-bold text-neutral-400 uppercase tracking-widest block mb-0.5">Operations State</span>
-                      <span className="text-xs font-extrabold text-amber-600 uppercase tracking-wide bg-amber-500/5 border border-amber-500/20 px-2.5 py-1 rounded-md inline-block">{selectedActivity.status}</span>
+                      {/* CONDITIONAL FIX: If item is News, display text placeholder badge directly instead of a lifecycle state */}
+                      {selectedActivity.type === 'News' ? (
+                        <span className="text-xs font-extrabold uppercase tracking-wide border border-blue-200 bg-blue-500/5 text-blue-700 px-2.5 py-1 rounded-md inline-block">Published</span>
+                      ) : (
+                        <span className={`text-xs font-extrabold uppercase tracking-wide border px-2.5 py-1 rounded-md inline-block ${
+                          selectedActivity.status === 'Completed' ? 'text-emerald-700 bg-emerald-500/5 border-emerald-500/20' : 'text-amber-700 bg-amber-500/5 border-amber-500/20'
+                        }`}>{selectedActivity.status}</span>
+                      )}
                     </div>
                     <div>
-                      <span className="text-[9px] font-mono font-bold text-neutral-400 uppercase tracking-widest block mb-0.5">Ledger Detail Vector</span>
+                      <span className="text-[9px] font-mono font-bold text-neutral-400 uppercase tracking-widest block mb-0.5">
+                        {selectedActivity.type === 'News' ? 'Log Timestamp Reference' : 'Ledger Detail Vector'}
+                      </span>
                       <span className="text-xs font-mono font-bold text-neutral-800 block pt-1 line-clamp-2 leading-tight">{selectedActivity.detail}</span>
                     </div>
                   </div>
                 </div>
 
-                {/* Right Area Media Deck Column */}
                 <div className="lg:col-span-5 space-y-4 flex flex-col">
                   <span className="text-[10px] font-mono text-neutral-400 uppercase tracking-widest block border-b border-neutral-100 pb-1 text-left">
                     🖼️ Media Portfolio Gallery (Click to Expand Fullscreen)
                   </span>
                   
-                  {/* Active Slide Display Container Frame with Fullscreen Trigger Layout */}
                   <div 
                     onClick={() => setIsFullscreenLightbox(true)}
                     className="w-full h-64 sm:h-80 bg-neutral-100 rounded-3xl overflow-hidden border border-neutral-200 relative group shadow-sm bg-cover bg-center transition-all duration-300 cursor-zoom-in"
                     style={{ backgroundImage: `url('${modalActiveImage}')` }}
                   >
-                    {/* Dark Fluid Layer Mask Overlay appearing on Hover state */}
                     <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-all duration-200 flex items-center justify-center">
                       <div className="bg-white/90 text-black text-xs font-black px-4 py-2.5 rounded-xl shadow-md uppercase tracking-wider scale-95 group-hover:scale-100 transition-transform duration-200">
                         🔍 View Fullscreen
@@ -979,7 +1030,6 @@ export default function Home() {
                     </div>
                   </div>
 
-                  {/* Thumbnail Selector Slider row Array */}
                   <div className="grid grid-cols-3 gap-3">
                     {selectedActivity.galleryImages.map((imgSrc, imgIdx) => (
                       <button
@@ -998,35 +1048,19 @@ export default function Home() {
             </div>
           </div>
 
-          {/* =============================================================
-              SUBORDINATE FULLSCREEN THEATER LIGHTBOX OVERLAY LAYER CONTAINER
-              ============================================================= */}
+          {/* LIGHTBOX THEATER FULLSCREEN CONTROLLER CONTAINER */}
           {isFullscreenLightbox && (
-            <div className="fixed inset-0 z-[120] flex items-center justify-center p-4 bg-black/95 backdrop-blur-xl animate-fadeIn animate-duration-200">
-              {/* Tap anywhere on empty workspace boundaries to minimize image theater layer frame safely */}
-              <div 
-                onClick={() => setIsFullscreenLightbox(false)} 
-                className="absolute inset-0 cursor-zoom-out" 
-              />
-              
+            <div className="fixed inset-0 z-[120] flex items-center justify-center p-4 bg-black/95 backdrop-blur-xl animate-fadeIn">
+              <div onClick={() => setIsFullscreenLightbox(false)} className="absolute inset-0 cursor-zoom-out" />
               <button
                 onClick={() => setIsFullscreenLightbox(false)}
                 className="absolute top-6 right-6 w-12 h-12 rounded-full bg-white/10 hover:bg-white text-white hover:text-black flex items-center justify-center transition-all duration-200 font-mono text-sm font-bold border-none cursor-pointer outline-none shadow-lg z-10"
-                title="Exit Fullscreen View"
               >
                 ✕
               </button>
-
-              {/* Central Expanded Fluid Asset Deck layout chassis view block */}
               <div className="relative max-w-5xl max-h-[85vh] w-full h-full flex items-center justify-center p-2 select-none pointer-events-none">
-                <img 
-                  src={modalActiveImage} 
-                  alt="Fullscreen Frame View Asset" 
-                  className="max-w-full max-h-full object-contain rounded-xl shadow-2xl animate-scaleUp animate-duration-200"
-                />
+                <img src={modalActiveImage} alt="Fullscreen Asset Preview" className="max-w-full max-h-full object-contain rounded-xl shadow-2xl animate-scaleUp" />
               </div>
-
-              {/* Interactive Slide Caption Indicator Cluster layout row */}
               <div className="absolute bottom-6 bg-black/60 backdrop-blur-md px-6 py-2.5 border border-white/10 rounded-full text-white/80 text-xs font-mono tracking-wider shadow-md select-none pointer-events-none">
                 {selectedActivity.title} • Media File View
               </div>
