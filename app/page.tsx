@@ -1,6 +1,7 @@
 /// <reference types="styled-jsx" />
 'use client';
 import React, { useState, useEffect, useRef } from 'react';
+import { CustomCursor } from '@/components/CustomCursor';
 
 // Define strict interfaces to satisfy the TypeScript compiler and prevent build failure
 interface RotaryUser {
@@ -250,6 +251,9 @@ export default function Home() {
 
   return (
     <main id="top" className="min-h-screen bg-neutral-50 text-neutral-800 font-sans scroll-smooth relative overflow-x-hidden">
+      
+      {/* GLOBAL CUSTOM CURSOR COMPONENT */}
+      <CustomCursor />
       
       <style jsx global>{`
         /* Webkit Engines (Chrome, Safari, Edge) */
@@ -803,7 +807,7 @@ export default function Home() {
                     {...hydration}
                     onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
                     disabled={currentPage === 1}
-                    className="w-9 h-9 flex items-center justify-center rounded-xl bg-white border border-neutral-200 text-neutral-700 font-bold hover:border-amber-500 hover:text-amber-600 disabled:opacity-40 disabled:hover:text-neutral-700 disabled:hover:border-neutral-200 transition cursor-pointer text-sm"
+                    className="w-9 h-9 flex items-center justify-center rounded-xl bg-white border border-neutral-200 text-neutral-700 font-bold hover:border-amber-500 hover:text-amber-600 disabled:opacity-40 disabled:hover:text-neutral-700 disabled:hover:border-neutral-200 transition pointer cursor-pointer text-sm"
                   >
                     ‹
                   </button>
@@ -830,7 +834,7 @@ export default function Home() {
                     {...hydration}
                     onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
                     disabled={currentPage === totalPages}
-                    className="w-9 h-9 flex items-center justify-center rounded-xl bg-white border border-neutral-200 text-neutral-700 font-bold hover:border-amber-500 hover:text-amber-600 disabled:opacity-40 disabled:hover:text-neutral-700 disabled:hover:border-neutral-200 transition cursor-pointer text-sm"
+                    className="w-9 h-9 flex items-center justify-center rounded-xl bg-white border border-neutral-200 text-neutral-700 font-bold hover:border-amber-500 hover:text-amber-600 disabled:opacity-40 disabled:hover:text-neutral-700 disabled:hover:border-neutral-200 transition pointer cursor-pointer text-sm"
                   >
                     ›
                   </button>
