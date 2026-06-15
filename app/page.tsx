@@ -178,11 +178,17 @@ export default function Home() {
     setCurrentMessageIndex((prev) => (prev === 0 ? officialMessages.length - 1 : prev - 1));
   };
 
+  // RESPONSIVE AUTOMATED INTERMITTENT STREAM
   useEffect(() => {
     if (!mounted || isHovered) return;
+    
+    // Explicit 5-second slide index rotation logic applied exclusively for viewports under sm breakpoint thresholds
+    const contextInterval = window.innerWidth < 640 ? 5000 : 6000;
+    
     const slideTimer = setInterval(() => {
       setCurrentSlideIndex((prevIndex) => (prevIndex + 1) % carouselSlides.length);
-    }, 6000);
+    }, contextInterval);
+    
     return () => clearInterval(slideTimer);
   }, [isHovered, mounted]);
 
@@ -366,42 +372,48 @@ export default function Home() {
         )}
       </header>
 
-      {/* 2. DYNAMIC HERO LANDING CAROUSEL */}
+      {/* 2. DYNAMIC HERO LANDING CAROUSEL (SPLIT-FOCUS NON-CROP ADAPTIVE MODULE) */}
       <section 
-        className="relative min-h-[85vh] flex items-center text-white px-4 sm:px-6 overflow-hidden bg-black"
+        className="relative flex flex-col sm:block text-white overflow-hidden bg-black"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
-        {carouselSlides.map((slide, idx) => (
-          <div 
-            key={idx}
-            className={`absolute inset-0 w-full h-full bg-cover bg-center transition-opacity duration-1000 ease-in-out ${
-              idx === currentSlideIndex ? 'opacity-100 scale-100 z-0' : 'opacity-0 scale-105 pointer-events-none'
-            }`}
-            style={{ 
-              backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.65)), url('${slide.url}')`,
-              transitionProperty: 'opacity, transform'
-            }}
-          />
-        ))}
+        {/* CAROUSEL IMAGE VIEWPORT WINDOW: DRIVEN BY NATAL PORTRAIT RATIOS ON TOUCH DEVICES */}
+        <div className="relative w-full aspect-[4/3] sm:aspect-none sm:absolute sm:inset-0 sm:h-full sm:w-full bg-neutral-950">
+          {carouselSlides.map((slide, idx) => (
+            <div 
+              key={idx}
+              className={`absolute inset-0 w-full h-full bg-cover bg-center transition-opacity duration-1000 ease-in-out ${
+                idx === currentSlideIndex ? 'opacity-100 scale-100 z-0' : 'opacity-0 scale-105 pointer-events-none'
+              }`}
+              style={{ 
+                backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.5)), url('${slide.url}')`,
+                transitionProperty: 'opacity, transform'
+              }}
+            />
+          ))}
 
-        <button {...hydration} onClick={handlePrevSlide} className="absolute left-4 top-1/2 -translate-y-1/2 w-9 h-9 items-center justify-center rounded-full bg-black/30 border border-neutral-800 hover:border-amber-500 hover:text-amber-500 text-white transition z-20 cursor-pointer hidden sm:flex select-none">‹</button>
-        <button {...hydration} onClick={handleNextSlide} className="absolute right-4 top-1/2 -translate-y-1/2 w-9 h-9 items-center justify-center rounded-full bg-black/30 border border-neutral-800 hover:border-amber-500 hover:text-amber-500 text-white transition z-20 cursor-pointer hidden sm:flex select-none">›</button>
+          {/* DIRECTIONAL TOGGLE OVERLAYS */}
+          <button {...hydration} onClick={handlePrevSlide} className="absolute left-4 top-1/2 -translate-y-1/2 w-9 h-9 items-center justify-center rounded-full bg-black/30 border border-neutral-800 hover:border-amber-500 hover:text-amber-500 text-white transition z-20 cursor-pointer hidden sm:flex select-none">‹</button>
+          <button {...hydration} onClick={handleNextSlide} className="absolute right-4 top-1/2 -translate-y-1/2 w-9 h-9 items-center justify-center rounded-full bg-black/30 border border-neutral-800 hover:border-amber-500 hover:text-amber-500 text-white transition z-20 cursor-pointer hidden sm:flex select-none">›</button>
+        </div>
 
-        <div className="max-w-7xl mx-auto w-full relative z-10 py-12 sm:py-16">
-          <div className="text-center md:text-left max-w-2xl">
-            <span className="bg-neutral-900 text-amber-500 text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-widest border border-neutral-800 shadow-sm inline-block">District 3770 • Service Above Self</span>
-            <h1 className="text-4xl sm:text-5xl md:text-7xl font-black tracking-tight text-white mt-4 mb-6 uppercase leading-none">Create Lasting Impact</h1>
-            <p className="text-sm sm:text-base text-neutral-300 mb-8 max-w-xl mx-auto md:mx-0 leading-relaxed">Guided by the enduring Rotary principle of Service Above Self, the Rotary Club of Meycauayan Metro continues to transform lives through sustainable humanitarian action.</p>
+        {/* CONTENT CAPTIONS ZONE: DROP SAFELY BENEATH ON NARROW CANVAS / COVERS ON STABLE LAYOUT */}
+        <div className="relative w-full bg-neutral-950 sm:bg-transparent px-5 py-8 sm:py-16 md:py-24 max-w-7xl mx-auto z-10 flex items-center min-h-none sm:min-h-[85vh]">
+          <div className="text-center sm:text-left max-w-2xl w-full">
+            <span className="bg-neutral-900/90 sm:bg-neutral-900 text-amber-500 text-[10px] sm:text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-widest border border-neutral-800 shadow-sm inline-block">District 3770 • Service Above Self</span>
+            <h1 className="text-3xl sm:text-5xl md:text-7xl font-black tracking-tight text-white mt-4 mb-4 sm:mb-6 uppercase leading-tight sm:leading-none">Create Lasting Impact</h1>
+            <p className="text-xs sm:text-base text-neutral-300 mb-6 sm:mb-8 max-w-xl mx-auto md:mx-0 leading-relaxed">Guided by the enduring Rotary principle of Service Above Self, the Rotary Club of Meycauayan Metro continues to transform lives through sustainable humanitarian action.</p>
             
-            <div className="grid grid-cols-2 sm:flex gap-3 max-w-sm mx-auto md:max-w-none md:mx-0">
-              <a href="#projects-and-news" onClick={(e) => scrollToSection(e, 'projects-and-news')} className="bg-white text-black font-black py-3 rounded-lg hover:bg-amber-500 hover:text-black transition -300 shadow-md text-center text-xs sm:text-sm px-4 sm:px-6">Show Impact</a>
-              <a href="#who-we-are" onClick={(e) => scrollToSection(e, 'who-we-are')} className="border-2 border-neutral-500 text-white font-bold py-3 rounded-lg hover:bg-white/10 transition text-center text-xs sm:text-sm px-4 sm:px-6">Learn More</a>
+            <div className="grid grid-cols-2 sm:flex gap-3 max-w-xs mx-auto sm:max-w-none sm:mx-0">
+              <a href="#projects-and-news" onClick={(e) => scrollToSection(e, 'projects-and-news')} className="bg-white text-black font-black py-2.5 sm:py-3 rounded-lg hover:bg-amber-500 hover:text-black transition shadow-md text-center text-xs sm:text-sm px-4 sm:px-6">Show Impact</a>
+              <a href="#who-we-are" onClick={(e) => scrollToSection(e, 'who-we-are')} className="border-2 border-neutral-500 text-white font-bold py-2.5 sm:py-3 rounded-lg hover:bg-white/10 transition text-center text-xs sm:text-sm px-4 sm:px-6">Learn More</a>
             </div>
           </div>
         </div>
 
-        <div className="absolute bottom-5 left-1/2 -translate-x-1/2 flex gap-2 z-20">
+        {/* INDICATOR TRACK DOTS MESH */}
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 sm:bottom-5 flex gap-2 z-20">
           {carouselSlides.map((_, dotIdx) => (
             <button {...hydration} key={dotIdx} onClick={() => setCurrentSlideIndex(dotIdx)} className={`h-1.5 rounded-full transition-all border-none outline-none cursor-pointer ${dotIdx === currentSlideIndex ? 'bg-amber-500 w-6' : 'bg-neutral-600 w-1.5'}`} />
           ))}
@@ -475,7 +487,7 @@ export default function Home() {
                           </p>
                         </div>
                         
-                        <div className="mt-4 pt-4 border-t border-neutral-900">
+                        <div className="mt-4 pt-4 border-t border-neutral-100">
                           <h4 className="font-black text-amber-500 text-sm tracking-wide uppercase leading-none">
                             {msg.author}
                           </h4>
@@ -488,7 +500,7 @@ export default function Home() {
                   </div>
                 </div>
 
-                <div className="mt-8 pt-4 border-t border-neutral-900 flex justify-between items-center relative z-10">
+                <div className="mt-8 pt-4 border-t border-neutral-100 flex justify-between items-center relative z-10">
                   <div className="flex gap-2">
                     {officialMessages.map((_, dIdx) => (
                       <button
@@ -631,7 +643,7 @@ export default function Home() {
       </section>
 
       {/* =============================================================
-          4.5 ADDED ROTARY AREAS OF FOCUS INTERACTIVE MESH WORKSPACE
+          4.5 ROTARY AREAS OF FOCUS INTERACTIVE MESH WORKSPACE
           ============================================================= */}
       <section id="focus-channels" className="py-24 bg-white border-b border-neutral-200 relative overflow-hidden">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 space-y-12 relative z-10">
@@ -665,7 +677,7 @@ export default function Home() {
       </section>
 
       {/* =============================================================
-          4.8 UPGRADED: IMMERSIVE LOGO MARQUEE (NO OUTLINES, MATCHES BACKGROUND)
+          4.8 IMMERSIVE LOGO MARQUEE (NO OUTLINES, MATCHES BACKGROUND)
           ============================================================= */}
       <section className="py-16 bg-white border-b border-neutral-200 overflow-hidden select-none">
         <div className="max-w-7xl mx-auto px-4 mb-8 flex items-center justify-center md:justify-start">
@@ -688,7 +700,6 @@ export default function Home() {
                 className="flex items-center justify-center p-3 rounded-2xl shrink-0 group transition-all duration-300 no-underline cursor-pointer w-44 h-24 bg-neutral-50/50 hover:bg-neutral-100/60"
                 title={sponsor.name}
               >
-                {/* Optimized size architecture with object-contain to dynamically unify logos */}
                 <div className="w-full h-full flex items-center justify-center transition-transform duration-300 group-hover:scale-106">
                   <img 
                     src={sponsor.logoImage} 
@@ -760,9 +771,8 @@ export default function Home() {
               </div>
             )}
 
-            <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 animate-fadeIn">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6 animate-fadeIn">
               {filteredVisionaries.map((officer) => {
-                // RUNTIME AUTO-NORMALIZER LAYER
                 const resolvedImagePath = officer.image.startsWith('/members/') 
                   ? officer.image 
                   : `/members/${officer.name.trim().replace(/\s+/g, '_')}${officer.image.endsWith('.png') ? '.png' : '.jpg'}`;
@@ -798,11 +808,11 @@ export default function Home() {
                           </p>
                         </div>
                       ) : activeVisionaryTab === 'directors' ? (
-                        <p className="text-[11px] text-blue-600 font-extrabold uppercase tracking-wider leading-tight max-w-[180px] mx-auto">
+                        <p className="text-[11px] text-blue-600 font-extrabold uppercase tracking-wider leading-tight max-w-[140px] mx-auto">
                           {officer.directorPosition || officer.position}
                         </p>
                       ) : (
-                        <p className="text-[11px] text-blue-600 font-extrabold uppercase tracking-wider leading-tight max-w-[180px] mx-auto">
+                        <p className="text-[11px] text-blue-600 font-extrabold uppercase tracking-wider leading-tight max-w-[140px] mx-auto">
                           {officer.position}
                         </p>
                       )}
@@ -820,7 +830,6 @@ export default function Home() {
               </div>
             )}
 
-            {/* AESTHETIC PAGINATION LAYER */}
             {activeVisionaryTab === 'roster' && totalPages > 1 && (
               <div className="mt-12 pt-6 border-t border-neutral-100 flex items-center justify-between flex-col sm:flex-row gap-4 animate-fadeIn select-none">
                 <span className="text-xs font-bold text-neutral-400 uppercase tracking-wider">
@@ -866,7 +875,6 @@ export default function Home() {
                 </div>
               </div>
             )}
-
           </div>
         </div>
       </section>
@@ -962,9 +970,7 @@ export default function Home() {
                     {activity.type === 'Project' && activity.status && (
                       <span className={`text-[10px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded ${
                         activity.status === 'Completed' ? 'text-emerald-600 bg-emerald-50 border border-emerald-100' : 'text-amber-600 bg-amber-50 border border-amber-100'
-                      }`}>
-                        {activity.status}
-                      </span>
+                      }`}>{activity.status}</span>
                     )}
                   </div>
                   <h3 className="text-base sm:text-lg font-black text-neutral-900 mb-1 tracking-tight leading-snug group-hover:text-amber-600 transition-colors duration-200">
