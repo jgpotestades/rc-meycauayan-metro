@@ -35,7 +35,7 @@ const initialUsers: RotaryUser[] = [
   { id: 9, name: "Angelito Ferrer", role: "Super Admin", position: "Immediate Past President", isOfficer: false, isDirector: true, directorPosition: "Rotary Foundation Director", image: "/members/Angelito Ferrer.png", birthday: "November 2", username: "angelitoferrer", email: "angelito@rcmeycauayanmetro.org" },
   { id: 10, name: "Jaquelyn Jacob", role: "Officer", position: "Active Member", isOfficer: false, isDirector: true, directorPosition: "Club Membership Director", image: "/members/Jackie Halasan.png", birthday: "July 21", username: "jackiehalasan", email: "jackie@rcmeycauayanmetro.org" },
   { id: 11, name: "Raymond Peralta", role: "Officer", position: "Active Member", isOfficer: false, isDirector: true, directorPosition: "Service Project Director", image: "/members/Raymond Peralta.png", birthday: "January 10", username: "raymondperalta", email: "raymond@rcmeycauayanmetro.org" },
-  { id: 12, name: "Severino Pascual Jr.", role: "Officer", position: "Active Member", isOfficer: false, isDirector: true, directorPosition: "Youth Service Director", image: "/members/Severino Pascual Jr.png", birthday: "July 27", username: "severinopascual", email: "severino@rcmeycauayanmetro.org" },
+  { id: 12, name: "Severino Pascual Jr.", role: "Officer", position: "Active Member", isOfficer: false, isDirector: true, directorPosition: "Youth Service Director", image: "/members/Severino Pascual Jr.png", birthday: "July 27", username: "severinopascual", email: "severinopascual@rcmeycauayanmetro.org" },
   { id: 13, name: "Jayson Fernandez", role: "Officer", position: "Assistant Governor", isOfficer: false, isDirector: true, directorPosition: "Protocol Officer", image: "/members/Jayson Fernandez.png", birthday: "July 13", username: "jaysonfernandez", email: "jayson@rcmeycauayanmetro.org" },
   { id: 14, name: "Francis Jay Dela Cruz", role: "Officer", position: "Active Member", isOfficer: false, isDirector: true, directorPosition: "Club Learning Facilitator", image: "/members/Francis Jay Dela Cruz.png", birthday: "December 21", username: "francisjaydelacruz", email: "francis@rcmeycauayanmetro.org" },
   { id: 18, name: "Felix Domigpe", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/members/Felix Domigpe.png", birthday: "November 5", username: "felixdomigpe", email: "felix@rcmeycauayanmetro.org" },
@@ -545,20 +545,37 @@ export default function Home() {
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
 
-        <div className="max-w-5xl mx-auto space-y-12 relative z-10">
+        <div className="max-w-5xl mx-auto space-y-12 relative z-10 px-4 sm:px-6">
           <div className="text-center max-w-2xl mx-auto space-y-2">
             <span className="text-amber-500 font-extrabold uppercase tracking-widest text-xs block">Guiding Frameworks</span>
             <h2 className="text-3xl font-black text-white tracking-tight uppercase">The Objectives & Vision Matrix</h2>
             <p className="text-xs text-neutral-400 max-w-md mx-auto">Explore the fundamental tenets and structural philosophy that steer our global network of service leaders.</p>
           </div>
 
-          <div className="flex bg-slate-900/80 backdrop-blur-md p-1 rounded-2xl border border-slate-800 shadow-xl max-w-xl mx-auto">
-            <button {...hydration} onClick={() => setActiveTab('fourway')} className={`flex-1 py-3 text-xs font-black uppercase tracking-wider rounded-xl transition-all duration-300 border-none cursor-pointer ${activeTab === 'fourway' ? 'bg-amber-500 text-black font-extrabold shadow-lg' : 'text-neutral-400 hover:text-amber-500 bg-transparent'}`}>The 4-Way Test</button>
-            <button {...hydration} onClick={() => setActiveTab('objectives')} className={`flex-1 py-3 text-xs font-black uppercase tracking-wider rounded-xl transition-all duration-300 border-none cursor-pointer ${activeTab === 'objectives' ? 'bg-amber-500 text-black font-extrabold shadow-lg' : 'text-neutral-400 hover:text-amber-500 bg-transparent'}`}>Rotary Objectives</button>
-            <button {...hydration} onClick={() => setActiveTab('vision')} className={`flex-1 py-3 text-xs font-black uppercase tracking-wider rounded-xl transition-all duration-300 border-none cursor-pointer ${activeTab === 'vision' ? 'bg-amber-500 text-black font-extrabold shadow-lg' : 'text-neutral-400 hover:text-amber-500 bg-transparent'}`}>Our Vision</button>
+          {/* MOBILE VIEW DROP-DOWN SELECT ELEMENT */}
+          <div className="block sm:hidden max-w-xs mx-auto relative">
+            <select
+              value={activeTab}
+              onChange={(e) => setActiveTab(e.target.value as any)}
+              className="w-full bg-slate-900 text-amber-500 font-black uppercase tracking-wider pl-4 pr-10 py-3 rounded-xl border border-slate-800 shadow-xl focus:outline-none focus:border-amber-500 appearance-none text-center"
+            >
+              <option value="fourway">The 4-Way Test</option>
+              <option value="objectives">Rotary Objectives</option>
+              <option value="vision">Our Vision</option>
+            </select>
+            <div className="pointer-events-none absolute inset-y-0 right-4 flex items-center">
+              <span className="w-0 h-0 border-l-[5px] border-l-transparent border-r-[5px] border-r-transparent border-t-[6px] border-t-amber-500 transition-transform duration-300"></span>
+            </div>
           </div>
 
-          <div className="bg-neutral-900/30 backdrop-blur-xl border border-neutral-800/60 rounded-3xl p-6 sm:p-12 shadow-2xl min-h-[300px] flex items-center justify-center transition-all duration-500 hover:border-neutral-700/40">
+          {/* TABLET & DESKTOP BREAKPOINT TABS MATRIX */}
+          <div className="hidden sm:flex bg-slate-900/80 backdrop-blur-md p-1 rounded-2xl border border-slate-800 shadow-xl max-w-xl mx-auto">
+            <button {...hydration} onClick={() => setActiveTab('fourway')} className={`flex-1 py-2 text-xs font-black uppercase tracking-wider rounded-xl transition-all duration-300 border-none cursor-pointer ${activeTab === 'fourway' ? 'bg-amber-500 text-black font-extrabold shadow-lg' : 'text-neutral-400 hover:text-amber-500 bg-transparent'}`}>The 4-Way Test</button>
+            <button {...hydration} onClick={() => setActiveTab('objectives')} className={`flex-1 py-2 text-xs font-black uppercase tracking-wider rounded-xl transition-all duration-300 border-none cursor-pointer ${activeTab === 'objectives' ? 'bg-amber-500 text-black font-extrabold shadow-lg' : 'text-neutral-400 hover:text-amber-500 bg-transparent'}`}>Rotary Objectives</button>
+            <button {...hydration} onClick={() => setActiveTab('vision')} className={`flex-1 py-2 text-xs font-black uppercase tracking-wider rounded-xl transition-all duration-300 border-none cursor-pointer ${activeTab === 'vision' ? 'bg-amber-500 text-black font-extrabold shadow-lg' : 'text-neutral-400 hover:text-amber-500 bg-transparent'}`}>Our Vision</button>
+          </div>
+
+          <div className="bg-neutral-900/30 backdrop-blur-xl border border-neutral-800/60 rounded-3xl p-6 sm:p-12 shadow-2xl min-h-[340px] flex items-center justify-center transition-all duration-500 hover:border-neutral-700/40">
             
             {activeTab === 'fourway' && (
               <div className="w-full space-y-8 animate-fadeIn">
@@ -566,15 +583,14 @@ export default function Home() {
                   <span className="text-[10px] bg-slate-900 text-slate-400 font-mono border border-slate-800 px-3 py-1 rounded-full uppercase tracking-widest inline-block mb-2">Ethical Baseline</span>
                   <h3 className="text-xl font-black text-white uppercase tracking-wide">Of the things we think, say, or do:</h3>
                 </div>
-                <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
                   {[
                     { title: "01", desc: "Is it the truth?" },
                     { title: "02", desc: "Is it fair to all concerned?" },
                     { title: "03", desc: "Will it build goodwill and better friendships?" },
                     { title: "04", desc: "Will it be beneficial to all concerned?" }
                   ].map((item, idx) => (
-                    <div key={idx} className="bg-slate-950/80 backdrop-blur-md border border-slate-900 rounded-2xl p-5 hover:border-amber-500/40 hover:-translate-y-1 hover:scale-[1.03] hover:shadow-[0_10px_25px_-5px_rgba(245,158,11,0.1)] transition-all group duration-300 relative overflow-hidden">
-                      <div className="text-3xl font-black text-amber-500/5 font-mono absolute top-2 right-3 group-hover:text-amber-500/30 transition-all duration-300 transform group-hover:scale-110 select-none">{item.title}</div>
+                    <div key={idx} className="bg-slate-950/80 backdrop-blur-md border border-slate-900 Regel rounded-2xl p-5 hover:border-amber-500/40 hover:-translate-y-1 hover:scale-[1.03] hover:shadow-[0_10px_25px_-5px_rgba(245,158,11,0.1)] transition-all group duration-300 relative overflow-hidden">
                       <h4 className="text-xs font-black tracking-widest text-amber-500 mb-1.5 uppercase font-mono group-hover:text-amber-400 transition-colors">{item.title}</h4>
                       <p className="text-xs text-neutral-300 leading-relaxed font-normal">{item.desc}</p>
                     </div>
@@ -589,7 +605,7 @@ export default function Home() {
                   <span className="text-[10px] bg-slate-900 text-slate-400 font-mono border border-slate-800 px-3 py-1 rounded-full uppercase tracking-widest inline-block mb-2">Core Purpose</span>
                   <h3 className="text-xl font-black text-white uppercase tracking-wide mb-4">To encourage and foster the ideal of service:</h3>
                 </div>
-                <div className="grid md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {[
                     "The development of acquaintance as an opportunity for service.",
                     "High ethical standards in business and professions; the recognition of worthiness of all useful occupations; and the dignifying of each Rotarian's occupation as an opportunity to serve society.",
@@ -661,12 +677,12 @@ export default function Home() {
               >
                 <div className="space-y-4">
                   <div className="w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-amber-600 flex items-center justify-center font-bold text-xl group-hover:bg-amber-500 group-hover:text-black group-hover:scale-105 transition-all duration-300">
-                    {focus.icon}
+                    {focus.id === 2 ? "𚚰" : focus.icon}
                   </div>
                   <h3 className="text-base font-black text-neutral-900 uppercase tracking-wide leading-snug group-hover:text-amber-600 transition-colors duration-200">
                     {focus.title}
                   </h3>
-                  <p className="text-xs text-neutral-500 leading-relaxed font-normal tracking-wide text-justify">
+                  <p className="text-xs text-neutral-500 leading-relaxed text-justify font-normal tracking-wide">
                     {focus.desc}
                   </p>
                 </div>
@@ -1094,16 +1110,18 @@ export default function Home() {
                     <div className="flex items-center justify-between gap-3">
                       <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-neutral-400">📤 Distribute This Document Ledger Node:</span>
                       
-                      <div className="relative inline-block text-left" ref={shareMenuRef}>
+                      {/* RELATIVE CUSTOM DROPDOWN TRIGGER MODULE */}
+                      <div className="relative inline-block text-left w-full sm:w-auto" ref={shareMenuRef}>
                         <button 
                           onClick={() => setIsShareMenuOpen(!isShareMenuOpen)}
-                          className="px-5 py-2.5 bg-amber-500 hover:bg-amber-600 text-black text-[11px] font-black uppercase tracking-wider rounded-xl transition duration-200 border-none cursor-pointer shadow-md flex items-center gap-1.5 select-none"
+                          className="w-full sm:w-48 px-5 py-2.5 bg-amber-500 hover:bg-amber-600 text-black text-[11px] font-black uppercase tracking-wider rounded-xl transition duration-200 border-none cursor-pointer shadow-md flex items-center justify-center gap-2 select-none relative"
                         >
-                          Share <span>{isShareMenuOpen ? '▴' : '▾'}</span>
+                          <span className="flex-1 text-center pl-4">Share</span>
+                          <span className={`w-0 h-0 border-l-[4px] border-l-transparent border-r-[4px] border-r-transparent transition-transform duration-300 shrink-0 ${isShareMenuOpen ? 'border-b-[5px] border-b-black rotate-0' : 'border-t-[5px] border-t-black'}`}></span>
                         </button>
 
                         {isShareMenuOpen && (
-                          <div className="absolute right-0 bottom-full mb-2 w-48 bg-white border border-neutral-200 rounded-xl shadow-xl z-50 overflow-hidden animate-fadeIn py-1">
+                          <div className="absolute left-0 bottom-full mb-2 w-full sm:w-48 bg-white border border-neutral-200 rounded-xl shadow-xl z-50 overflow-hidden animate-fadeIn py-1">
                             <a 
                               href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent('https://rcmeycauayanmetro.org')}&quote=${encodeURIComponent(`Check out the latest from Rotary Club of Meycauayan Metro: ${selectedActivity.title}`)}`}
                               target="_blank"
