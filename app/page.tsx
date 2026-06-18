@@ -783,7 +783,28 @@ export default function Home() {
             <p className="text-xs text-neutral-500 max-w-md mx-auto">Review the officers, project heads, and official team members executing change across the local sector channels.</p>
           </div>
 
-          <div className="flex bg-white p-1 rounded-2xl border border-neutral-200 shadow-sm max-w-xl mx-auto">
+          {/* MOBILE VIEW DROP-DOWN SELECT ELEMENT (WHITE BACKGROUND COMPLEMENT FOR VISIONARIES) */}
+          <div className="block sm:hidden max-w-xs mx-auto relative group">
+            <div className="absolute -inset-0.5 bg-gradient-to-r from-amber-500 to-orange-600 rounded-xl blur opacity-25 group-hover:opacity-40 transition duration-300"></div>
+            <div className="relative">
+              <select
+                value={activeVisionaryTab}
+                onChange={(e) => setActiveVisionaryTab(e.target.value as any)}
+                className="w-full bg-white text-neutral-900 font-black text-xs uppercase tracking-widest pl-5 pr-12 py-3.5 rounded-xl border border-neutral-200 shadow-xl focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500/30 appearance-none text-left transition-all duration-300"
+              >
+                <option value="officers" className="bg-white text-neutral-800 uppercase tracking-wider">RY Officers</option>
+                <option value="directors" className="bg-white text-neutral-800 uppercase tracking-wider">Club Directors</option>
+                <option value="roster" className="bg-white text-neutral-800 uppercase tracking-wider">Official Roster</option>
+              </select>
+              <div className="pointer-events-none absolute inset-y-0 right-4 flex items-center gap-1.5 border-l border-neutral-200 pl-3">
+                <span className="text-[9px] text-amber-600/60 font-mono font-bold uppercase tracking-wider">View</span>
+                <span className="w-1.5 h-1.5 border-r-2 border-b-2 border-neutral-800/80 transform rotate-45 -translate-y-px transition-transform duration-300"></span>
+              </div>
+            </div>
+          </div>
+
+          {/* TABLET & DESKTOP BREAKPOINT TABS MATRIX */}
+          <div className="hidden sm:flex bg-white p-1 rounded-2xl border border-neutral-200 shadow-sm max-w-xl mx-auto">
             <button {...hydration} onClick={() => setActiveVisionaryTab('officers')} className={`flex-1 py-3 text-xs font-black uppercase tracking-wider rounded-xl transition-all duration-300 border-none cursor-pointer ${activeVisionaryTab === 'officers' ? 'bg-amber-500 text-black font-extrabold shadow-md' : 'text-neutral-500 hover:text-amber-600 bg-transparent'}`}>RY Officers</button>
             <button {...hydration} onClick={() => setActiveVisionaryTab('directors')} className={`flex-1 py-3 text-xs font-black uppercase tracking-wider rounded-xl transition-all duration-300 border-none cursor-pointer ${activeVisionaryTab === 'directors' ? 'bg-amber-500 text-black font-extrabold shadow-md' : 'text-neutral-500 hover:text-amber-600 bg-transparent'}`}>Club Directors</button>
             <button {...hydration} onClick={() => setActiveVisionaryTab('roster')} className={`flex-1 py-3 text-xs font-black uppercase tracking-wider rounded-xl transition-all duration-300 border-none cursor-pointer ${activeVisionaryTab === 'roster' ? 'bg-amber-500 text-black font-extrabold shadow-md' : 'text-neutral-500 hover:text-amber-600 bg-transparent'}`}>Official Roster</button>
