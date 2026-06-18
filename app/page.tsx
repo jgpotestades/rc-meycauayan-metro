@@ -113,9 +113,16 @@ const monthMap: { [key: string]: number } = {
 
 export default function Home() {
   const [mounted, setMounted] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   
   useEffect(() => {
     setMounted(true);
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 640);
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   const hydration = { suppressHydrationWarning: true };
@@ -294,9 +301,11 @@ export default function Home() {
   const allFilteredVisionaries = getFilteredAndSortedVisionaries();
   
   const totalPages = Math.ceil(allFilteredVisionaries.length / itemsPerPage);
+  
+  // Conditionally restrict viewable array sizes dynamically for mobile interfaces
   const filteredVisionaries = activeVisionaryTab === 'roster'
     ? allFilteredVisionaries.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
-    : allFilteredVisionaries;
+    : (isMobile ? allFilteredVisionaries.slice(0, 4) : allFilteredVisionaries);
 
   if (!mounted) {
     return (
