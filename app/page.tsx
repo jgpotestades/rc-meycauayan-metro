@@ -208,6 +208,7 @@ export default function Home() {
       } else if (currentScrollY > lastScrollY.current) {
         if (!mobileMenuOpen) setNavVisible(false);
       } else {
+        navVisible;
         setNavVisible(true);
       }
 
@@ -576,18 +577,22 @@ export default function Home() {
           </div>
 
           {/* MOBILE VIEW DROP-DOWN SELECT ELEMENT */}
-          <div className="block sm:hidden max-w-xs mx-auto relative">
-            <select
-              value={activeTab}
-              onChange={(e) => setActiveTab(e.target.value as any)}
-              className="w-full bg-slate-900 text-amber-500 font-black uppercase tracking-wider pl-4 pr-10 py-3 rounded-xl border border-slate-800 shadow-xl focus:outline-none focus:border-amber-500 appearance-none text-center"
-            >
-              <option value="fourway">The 4-Way Test</option>
-              <option value="objectives">Rotary Objectives</option>
-              <option value="vision">Our Vision</option>
-            </select>
-            <div className="pointer-events-none absolute inset-y-0 right-4 flex items-center">
-              <span className="w-0 h-0 border-l-[5px] border-l-transparent border-r-[5px] border-r-transparent border-t-[6px] border-t-amber-500 transition-transform duration-300"></span>
+          <div className="block sm:hidden max-w-xs mx-auto relative group">
+            <div className="absolute -inset-0.5 bg-gradient-to-r from-amber-500 to-orange-600 rounded-xl blur opacity-25 group-hover:opacity-40 transition duration-300"></div>
+            <div className="relative">
+              <select
+                value={activeTab}
+                onChange={(e) => setActiveTab(e.target.value as any)}
+                className="w-full bg-slate-950 text-amber-400 font-black text-xs uppercase tracking-widest pl-5 pr-12 py-3.5 rounded-xl border border-slate-800/80 shadow-2xl focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500/30 appearance-none text-left transition-all duration-300"
+              >
+                <option value="fourway" className="bg-slate-950 text-neutral-200 uppercase tracking-wider">The 4-Way Test</option>
+                <option value="objectives" className="bg-slate-950 text-neutral-200 uppercase tracking-wider">Rotary Objectives</option>
+                <option value="vision" className="bg-slate-950 text-neutral-200 uppercase tracking-wider">Our Vision</option>
+              </select>
+              <div className="pointer-events-none absolute inset-y-0 right-4 flex items-center gap-1.5 border-l border-slate-800/80 pl-3">
+                <span className="text-[9px] text-amber-500/50 font-mono font-bold uppercase tracking-wider">View</span>
+                <span className="w-1.5 h-1.5 border-r-2 border-b-2 border-amber-400/80 transform rotate-45 -translate-y-px transition-transform duration-300"></span>
+              </div>
             </div>
           </div>
 
@@ -1108,7 +1113,7 @@ export default function Home() {
                 <span className="text-[10px] uppercase font-mono font-black px-3 py-1 bg-amber-500 text-black rounded-full tracking-widest inline-block shadow-sm">
                   {selectedActivity.type} Ledger Documentation
                 </span>
-                <p className="text-xs text-blue-600 font-mono font-bold uppercase tracking-wider pt-1">{selectedActivity.category}</p>
+                <p className="text-xs text-blue-600 font-mono font-bold uppercase tracking-wider pt-1">{selectedActivity.cause || selectedActivity.category}</p>
               </div>
               <button 
                 onClick={() => setSelectedActivity(null)}
