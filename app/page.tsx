@@ -1428,9 +1428,9 @@ export default function Home() {
                     Please transfer your donation amount using your preferred banking dashboard or electronic wallet to the following destination parameters below:
                   </p>
                   <div className="pt-2 grid grid-cols-1 sm:grid-cols-3 gap-2 font-mono text-[11px] text-slate-400">
-                    <div><span className="text-slate-500 font-bold">Bank Name:</span> Bank of the Philippine Islands (BPI)</div>
+                    <div><span className="text-slate-500 font-bold">Bank Name:</span> Asia United Bank (AUB)</div>
                     <div><span className="text-slate-500 font-bold">Account Name:</span> Rotary Club of Meycauayan Metro</div>
-                    <div><span className="text-slate-500 font-bold">Account Number:</span> 1234-5678-90</div>
+                    <div><span className="text-slate-500 font-bold">Account Number:</span> 122-01-00110-8</div>
                   </div>
                 </div>
 
