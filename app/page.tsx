@@ -713,7 +713,7 @@ export default function Home() {
                 href={sponsor.url}
                 target={sponsor.url.startsWith('http') ? '_blank' : '_self'}
                 rel="noopener noreferrer"
-                className="flex items-center justify-center p-3 rounded-2xl shrink-0 group transition-all duration-300 no-underline cursor-pointer w-44 h-24 bg-neutral-50/50 hover:bg-neutral-100/60"
+                className="flex items-center justify-center p-3 rounded-2xl shrink-0 group transition-all duration-300 no-underline cursor-pointer w-28 h-16 sm:w-44 sm:h-24 bg-neutral-50/50 hover:bg-neutral-100/60"
                 title={sponsor.name}
               >
                 <div className="w-full h-full flex items-center justify-center transition-transform duration-300 group-hover:scale-106">
