@@ -82,7 +82,7 @@ const officialMessages = [
 
 const areasOfFocus = [
   { id: 1, title: "Disease Prevention & Treatment", desc: "Setting up continuous diagnostic networks, mobile medical supply grids, and regional health immunity block camps.", icon: "🩺" },
-  { id: 2, title: "Water, Sanitation, & Hygiene", desc: "Constructing long-term scalable clean water delivery systems and sustainable micro-filtration infrastructure segments.", icon: "𚚰" },
+  { id: 2, title: "Water, Sanitation, & Hygiene", desc: "Constructing long-term scalable clean water delivery systems and sustainable micro-filtration infrastructure segments.", icon: "💧" },
   { id: 3, title: "Supporting Education", desc: "Expanding text material blocks, structural micro-libraries, and continuous adult learning environments.", icon: "📚" },
   { id: 4, title: "Growing Local Economies", desc: "Formulating scalable alternative livelihood micro-grants and strategic cooperative development framework blocks.", icon: "📊" },
   { id: 5, title: "Peacebuilding & Conflict Prevention", desc: "Training municipal community leaders to identify threat triggers and formulate legal integration paradigms.", icon: "🕊️" },
@@ -610,7 +610,7 @@ export default function Home() {
                     "The development of acquaintance as an opportunity for service.",
                     "High ethical standards in business and professions; the recognition of worthiness of all useful occupations; and the dignifying of each Rotarian's occupation as an opportunity to serve society.",
                     "The application of the ideal of service in each Rotarian's personal, business, and community life.",
-                    "The advancement of international understanding, goodwill, and peace through a world fellowship of business and professional persons united in the ideal of service."
+                    "The advancement of international understand, goodwill, and peace through a world fellowship of business and professional persons united in the ideal of service."
                   ].map((text, idx) => (
                     <div key={idx} className="bg-slate-950/50 backdrop-blur-md border border-slate-900/60 rounded-2xl p-5 flex gap-4 items-start hover:bg-slate-950/90 hover:scale-[1.01] hover:border-blue-500/30 shadow-md transition-all duration-300 group">
                       <span className="w-6 h-6 bg-blue-600/10 rounded-full flex items-center justify-center shrink-0 border border-blue-500/20 text-blue-400 font-mono font-bold text-[10px] mt-0.5 group-hover:bg-blue-600 group-hover:text-white group-hover:scale-110 transition-all duration-300">{idx + 1}</span>
@@ -661,28 +661,28 @@ export default function Home() {
       {/* =============================================================
           4.5 ROTARY AREAS OF FOCUS INTERACTIVE MESH WORKSPACE
           ============================================================= */}
-      <section id="focus-channels" className="py-24 bg-white border-b border-neutral-200 relative overflow-hidden">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 space-y-12 relative z-10">
+      <section id="focus-channels" className="py-16 sm:py-24 bg-white border-b border-neutral-200 relative overflow-hidden">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 space-y-10 relative z-10">
           <div className="text-center max-w-2xl mx-auto space-y-2">
-            <span className="text-amber-600 font-extrabold uppercase tracking-widest text-xs block">Strategic Pillars</span>
-            <h2 className="text-3xl font-black text-neutral-900 tracking-tight uppercase">Rotary Areas of Focus</h2>
+            <span className="text-amber-600 font-extrabold uppercase tracking-widest text-[10px] sm:text-xs block">Strategic Pillars</span>
+            <h2 className="text-2xl sm:text-3xl font-black text-neutral-900 tracking-tight uppercase">Rotary Areas of Focus</h2>
             <p className="text-xs text-neutral-500 max-w-md mx-auto">Our humanitarian targets optimize specific tactical focus nodes across seven globally recognized development vector bands.</p>
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
             {areasOfFocus.map((focus) => (
               <div 
                 key={focus.id}
-                className="bg-neutral-50 border border-neutral-200 rounded-3xl p-6 sm:p-8 hover:border-amber-500/50 hover:bg-white hover:-translate-y-1 hover:shadow-[0_15px_35px_rgba(217,119,6,0.08)] transition-all group duration-300 flex flex-col justify-between"
+                className="bg-neutral-50/70 border border-neutral-200 rounded-xl sm:rounded-3xl p-3.5 sm:p-8 hover:border-amber-500/50 hover:bg-white hover:-translate-y-1 hover:shadow-[0_12px_30px_rgba(217,119,6,0.06)] transition-all group duration-300 flex flex-col justify-between text-left"
               >
-                <div className="space-y-4">
-                  <div className="w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-amber-600 flex items-center justify-center font-bold text-xl group-hover:bg-amber-500 group-hover:text-black group-hover:scale-105 transition-all duration-300">
-                    {focus.id === 2 ? "𚚰" : focus.icon}
+                <div className="space-y-2.5 sm:space-y-4">
+                  <div className="w-8 h-8 sm:w-12 sm:h-12 rounded-lg sm:rounded-2xl bg-amber-500/10 border border-amber-500/20 text-amber-600 flex items-center justify-center font-bold text-base sm:text-xl group-hover:bg-amber-500 group-hover:text-black group-hover:scale-105 transition-all duration-300 shrink-0">
+                    {focus.id === 2 ? "💧" : focus.icon}
                   </div>
-                  <h3 className="text-base font-black text-neutral-900 uppercase tracking-wide leading-snug group-hover:text-amber-600 transition-colors duration-200">
+                  <h3 className="text-[11px] sm:text-base font-black text-neutral-900 uppercase tracking-wide leading-tight sm:leading-snug group-hover:text-amber-600 transition-colors duration-200 line-clamp-2">
                     {focus.title}
                   </h3>
-                  <p className="text-xs text-neutral-500 leading-relaxed text-justify font-normal tracking-wide">
+                  <p className="text-[10px] sm:text-xs text-neutral-500 leading-relaxed text-left font-normal tracking-wide line-clamp-4 sm:line-clamp-none">
                     {focus.desc}
                   </p>
                 </div>
@@ -763,7 +763,7 @@ export default function Home() {
 
           <div className="bg-white/40 backdrop-blur-xl border border-neutral-200 rounded-3xl p-6 sm:p-10 shadow-sm transition-all duration-500">
             
-            {activeVisionaryTab === 'roster' && (
+            {activeTab === 'roster' && (
               <div className="flex flex-col sm:flex-row items-center justify-end gap-3 mb-6 pb-4 border-b border-neutral-100 animate-fadeIn">
                 <span className="text-[11px] uppercase tracking-wider font-extrabold text-neutral-400">
                   ⚡ Sort Algorithm Parameters:
@@ -871,7 +871,7 @@ export default function Home() {
                         onClick={() => setCurrentPage(pageNumber)}
                         className={`w-9 h-9 flex items-center justify-center rounded-xl text-xs font-black tracking-wide uppercase transition border ${
                           currentPage === pageNumber
-                            ? 'bg-amber-500 border-amber-500 text-black shadow-md shadow-amber-500/20'
+                            ? 'bg-amber-50 border-amber-500 text-black shadow-md shadow-amber-500/20'
                             : 'bg-white border-neutral-200 text-neutral-600 hover:border-amber-500 hover:text-amber-600'
                         } cursor-pointer`}
                       >
@@ -1179,7 +1179,7 @@ export default function Home() {
                 {/* Right Area Media Deck Column */}
                 <div className="lg:col-span-5 space-y-4 flex flex-col">
                   <span className="text-[10px] font-mono text-neutral-400 uppercase tracking-widest block border-b border-neutral-100 pb-1 text-left">
-                    🖼️ Media Portfolio Gallery (Click to Expand Fullscreen)
+                    Ref 🖼️ Media Portfolio Gallery (Click to Expand Fullscreen)
                   </span>
                   
                   <div 
@@ -1319,8 +1319,8 @@ export default function Home() {
                     <label className="block text-xs font-bold text-slate-400 uppercase mb-1.5 tracking-wider">Target Project Cause</label>
                     <select suppressHydrationWarning name="cause" className="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-3 text-xs text-slate-300 focus:outline-none focus:border-amber-500 transition bg-transparent">
                       <option value="maternal-health">Disease Prevention</option>
-                      <option value="education">Supporting Education</option>
                       <option value="environment">Clean Water Facility</option>
+                      <option value="education">Supporting Education</option>
                     </select>
                   </div>
                 </div>
