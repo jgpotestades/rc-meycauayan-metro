@@ -16,6 +16,8 @@ interface RotaryUser {
   username?: string; // Optional to prevent missing property errors
   email?: string;    // Optional to prevent missing property errors
   directorPosition?: string;
+  lastName?: string;  // Added for future explicit overrides
+  suffix?: string;    // Added for clean separation if needed
 }
 
 // =================================================================
@@ -35,7 +37,7 @@ const initialUsers: RotaryUser[] = [
   { id: 9, name: "Angelito Ferrer", role: "Super Admin", position: "Immediate Past President", isOfficer: false, isDirector: true, directorPosition: "Rotary Foundation Director", image: "/members/Angelito Ferrer.png", birthday: "November 2", username: "angelitoferrer", email: "angelito@rcmeycauayanmetro.org" },
   { id: 10, name: "Jaquelyn Jacob", role: "Officer", position: "Active Member", isOfficer: false, isDirector: true, directorPosition: "Club Membership Director", image: "/members/Jackie Halasan.png", birthday: "July 21", username: "jackiehalasan", email: "jackie@rcmeycauayanmetro.org" },
   { id: 11, name: "Raymond Peralta", role: "Officer", position: "Active Member", isOfficer: false, isDirector: true, directorPosition: "Service Project Director", image: "/members/Raymond Peralta.png", birthday: "January 10", username: "raymondperalta", email: "raymond@rcmeycauayanmetro.org" },
-  { id: 12, name: "Severino Pascual Jr.", role: "Officer", position: "Active Member", isOfficer: false, isDirector: true, directorPosition: "Youth Service Director", image: "/members/Severino Pascual Jr.png", birthday: "July 27", username: "severinopascual", email: "severinopascual@rcmeycauayanmetro.org" },
+  { id: 12, name: "Severino Pascual", suffix: "Jr.", role: "Officer", position: "Active Member", isOfficer: false, isDirector: true, directorPosition: "Youth Service Director", image: "/members/Severino Pascual Jr.png", birthday: "July 27", username: "severinopascual", email: "severinopascual@rcmeycauayanmetro.org" },
   { id: 13, name: "Jayson Fernandez", role: "Officer", position: "Assistant Governor", isOfficer: false, isDirector: true, directorPosition: "Protocol Officer", image: "/members/Jayson Fernandez.png", birthday: "July 13", username: "jaysonfernandez", email: "jayson@rcmeycauayanmetro.org" },
   { id: 14, name: "Francis Jay Dela Cruz", role: "Officer", position: "Active Member", isOfficer: false, isDirector: true, directorPosition: "Club Learning Facilitator", image: "/members/Francis Jay Dela Cruz.png", birthday: "December 21", username: "francisjaydelacruz", email: "francis@rcmeycauayanmetro.org" },
   { id: 18, name: "Felix Domigpe", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/members/Felix Domigpe.png", birthday: "November 5", username: "felixdomigpe", email: "felix@rcmeycauayanmetro.org" },
@@ -43,7 +45,10 @@ const initialUsers: RotaryUser[] = [
   { id: 20, name: "Frederick Malapit", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/members/Frederick Malapit.png", birthday: "July 12", username: "frederickmalapit", email: "frederick@rcmeycauayanmetro.org" },
   { id: 21, name: "Enrique Milan", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/members/Enrique Milan.png", birthday: "March 1", username: "enriquemilan", email: "enrique@rcmeycauayanmetro.org" },
   { id: 22, name: "Ma. Carmela Osiones", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/members/Ma Carmela Osiones.png", birthday: "July 7", username: "macarmelaosiones", email: "carmela@rcmeycauayanmetro.org" },
-  { id: 23, name: "Willy Sy", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/members/Willy Sy.png", birthday: "March 12", username: "willysy", email: "willy@rcmeycauayanmetro.org" }
+  { id: 23, name: "Willy Sy", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/members/Willy Sy.png", birthday: "March 12", username: "willysy", email: "willy@rcmeycauayanmetro.org" },
+  { id: 24, name: "Richard Becerro", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/members/Richard Becerro.png", birthday: "May 16", username: "richardbecerro", email: "richard@rcmeycauayanmetro.org" },
+  { id: 25, name: "Ramil Inopia Burdin", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/members/Ramil Inopia Burdin.png", birthday: "August 16", username: "ramilinopia", email: "ramil@rcmeycauayanmetro.org" },
+  { id: 26, name: "Morris Delos Santos", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/members/Morris Delos Santos.png", birthday: "November 17", username: "morrisdelossantos", email: "morris@rcmeycauayanmetro.org" }
 ];
 
 const initialActivities = [
@@ -244,11 +249,29 @@ export default function Home() {
     if (activeVisionaryTab === 'roster') {
       return [...subset].sort((a, b) => {
         if (rosterSortCriteria === 'surname') {
-          const namePartsA = a.name.trim().split(/\s+/);
-          const namePartsB = b.name.trim().split(/\s+/);
-          const surnameA = namePartsA[namePartsA.length - 1].toLowerCase();
-          const surnameB = namePartsB[namePartsB.length - 1].toLowerCase();
-          return surnameA.localeCompare(surnameB);
+          // Extraction helper dealing with trailing suffixes and unique custom Filipino multipart surnames
+          const parseLastName = (u: RotaryUser) => {
+            if (u.lastName) return u.lastName.toLowerCase().trim();
+            
+            // Clean common suffix abbreviations out of evaluation pool
+            const cleaned = u.name.replace(/\s+(jr\.|sr\.|iii|ii|iv|v|juniour)(\s+|$)/i, '').trim();
+            const tokens = cleaned.split(/\s+/);
+            if (tokens.length <= 1) return cleaned.toLowerCase();
+
+            // Evaluate specific prefix configurations
+            const lowSec = tokens[tokens.length - 2].toLowerCase();
+            const lowThird = tokens.length > 2 ? tokens[tokens.length - 3].toLowerCase() : "";
+
+            if (lowSec === "delos" || lowSec === "dela" || lowSec === "de" || lowSec === "san") {
+              return tokens.slice(tokens.length - 2).join(" ").toLowerCase();
+            }
+            if (lowThird === "de" && lowSec === "los") {
+              return tokens.slice(tokens.length - 3).join(" ").toLowerCase();
+            }
+            return tokens[tokens.length - 1].toLowerCase();
+          };
+
+          return parseLastName(a).localeCompare(parseLastName(b));
         } else {
           const [monthStrA, dayStrA] = a.birthday.trim().toLowerCase().split(/\s+/);
           const [monthStrB, dayStrB] = b.birthday.trim().toLowerCase().split(/\s+/);
@@ -793,6 +816,9 @@ export default function Home() {
                   ? officer.image 
                   : `/members/${officer.name.trim().replace(/\s+/g, '_')}${officer.image.endsWith('.png') ? '.png' : '.jpg'}`;
 
+                // Display formatting that appends isolated suffixes contextually back to UI
+                const renderedFullName = officer.suffix ? `${officer.name} ${officer.suffix}` : officer.name;
+
                 return (
                   <div 
                     key={officer.id} 
@@ -811,7 +837,7 @@ export default function Home() {
 
                     <div className="space-y-1 flex-1 flex flex-col justify-center">
                       <h3 className="text-sm font-black text-neutral-900 tracking-wide group-hover:text-amber-600 transition-colors duration-200 line-clamp-2 px-1">
-                        {officer.name}
+                        {renderedFullName}
                       </h3>
                       
                       {activeVisionaryTab === 'roster' ? (
