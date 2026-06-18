@@ -155,6 +155,9 @@ export default function Home() {
   const [navVisible, setNavVisible] = useState(true);
   const lastScrollY = useRef(0);
 
+  // State handles for updated project donations tab
+  const [selectedCause, setSelectedCause] = useState<string>('disease-prevention');
+
   const allProcessedActivities = initialActivities.filter(item => {
     const matchesSearch = item.title.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesType = activityFilter === 'All' || item.type === activityFilter;
@@ -1037,14 +1040,14 @@ export default function Home() {
                 className="bg-neutral-50/50 hover:bg-white rounded-3xl shadow-sm hover:shadow-xl border border-neutral-200/80 hover:border-amber-500/40 p-6 flex flex-col justify-between transition-all duration-300 transform hover:-translate-y-1 group relative overflow-hidden"
               >
                 <div>
-                  <div className="flex justify-between items-center mb-4">
-                    <span className={`text-[10px] uppercase font-extrabold tracking-wider px-3 py-1 rounded-full ${
+                  <div className="flex flex-col sm:flex-row gap-2 justify-between sm:items-center mb-4">
+                    <span className={`text-[10px] uppercase font-extrabold tracking-wider px-3 py-1 rounded-full w-max ${
                       activity.type === 'Project' ? 'bg-amber-500/10 text-amber-700 border border-amber-500/20' : 'bg-blue-50 text-blue-700 border border-blue-100'
                     }`}>
                       {activity.type}
                     </span>
                     {activity.type === 'Project' && activity.status && (
-                      <span className={`text-[10px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded ${
+                      <span className={`text-[10px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded w-max ${
                         activity.status === 'Completed' ? 'text-emerald-600 bg-emerald-50 border border-emerald-100' : 'text-amber-600 bg-amber-50 border border-amber-100'
                       }`}>{activity.status}</span>
                     )}
@@ -1387,13 +1390,64 @@ export default function Home() {
                   </div>
                   <div>
                     <label className="block text-xs font-bold text-slate-400 uppercase mb-1.5 tracking-wider">Target Project Cause</label>
-                    <select suppressHydrationWarning name="cause" className="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-3 text-xs text-slate-300 focus:outline-none focus:border-amber-500 transition bg-transparent">
-                      <option value="maternal-health">Disease Prevention</option>
-                      <option value="environment">Clean Water Facility</option>
-                      <option value="education">Supporting Education</option>
+                    <select 
+                      suppressHydrationWarning 
+                      name="cause" 
+                      value={selectedCause}
+                      onChange={(e) => setSelectedCause(e.target.value)}
+                      className="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-3 text-xs text-slate-300 focus:outline-none focus:border-amber-500 transition bg-transparent"
+                    >
+                      <option value="disease-prevention">Disease Prevention & Treatment</option>
+                      <option value="water-sanitation">Water, Sanitation, & Hygiene</option>
+                      <option value="supporting-education">Supporting Education</option>
+                      <option value="local-economies">Growing Local Economies</option>
+                      <option value="peacebuilding">Peacebuilding & Conflict Prevention</option>
+                      <option value="maternal-child-health">Maternal & Child Health</option>
+                      <option value="other">Other</option>
                     </select>
                   </div>
                 </div>
+
+                {selectedCause === 'other' && (
+                  <div className="animate-fadeIn">
+                    <label className="block text-xs font-bold text-slate-400 uppercase mb-1.5 tracking-wider">Specify Project Cause</label>
+                    <input 
+                      suppressHydrationWarning 
+                      type="text" 
+                      name="custom_cause" 
+                      required 
+                      className="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-3 text-xs text-white focus:outline-none focus:border-amber-500 transition" 
+                      placeholder="Enter the custom project or initiative name..." 
+                    />
+                  </div>
+                )}
+
+                <div className="bg-slate-950 border border-slate-800/80 rounded-xl p-4 space-y-2">
+                  <span className="block text-xs font-black text-amber-500 uppercase tracking-wider">Fund Transfer Instructions</span>
+                  <p className="text-[11px] text-slate-300 leading-relaxed font-sans">
+                    Please transfer your donation amount using your preferred banking dashboard or electronic wallet to the following destination parameters below:
+                  </p>
+                  <div className="pt-2 grid grid-cols-1 sm:grid-cols-3 gap-2 font-mono text-[11px] text-slate-400">
+                    <div><span className="text-slate-500 font-bold">Bank Name:</span> Bank of the Philippine Islands (BPI)</div>
+                    <div><span className="text-slate-500 font-bold">Account Name:</span> Rotary Club of Meycauayan Metro</div>
+                    <div><span className="text-slate-500 font-bold">Account Number:</span> 1234-5678-90</div>
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-slate-400 uppercase mb-1.5 tracking-wider">Upload Receipt Attachment</label>
+                  <p className="text-[10px] text-slate-500 mb-2 leading-tight">
+                    Please attach your verified digital transaction remittance slip snapshot or banking snapshot. Accepted formats include: JPG, JPEG, and PNG only.
+                  </p>
+                  <input 
+                    type="file" 
+                    name="receipt_attachment" 
+                    required 
+                    accept="image/png, image/jpeg, image/jpg"
+                    className="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-2.5 text-xs text-slate-400 focus:outline-none focus:border-amber-500 transition file:mr-4 file:py-1 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-bold file:bg-amber-500 file:text-black hover:file:bg-amber-600 file:cursor-pointer"
+                  />
+                </div>
+
                 <div className="w-full block">
                   <button suppressHydrationWarning type="submit" className="w-full bg-amber-500 hover:bg-amber-600 text-black font-black py-4 rounded-xl shadow-lg transition border-none cursor-pointer text-xs uppercase tracking-wider">Submit Donation Pledge</button>
                 </div>
