@@ -146,7 +146,7 @@ export default function Home() {
 
   // Pagination State Variables
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 8;
+  const itemsPerPage = isMobile ? 4 : 8;
 
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
@@ -228,7 +228,7 @@ export default function Home() {
 
   useEffect(() => {
     setCurrentPage(1);
-  }, [activeVisionaryTab, rosterSortCriteria]);
+  }, [activeVisionaryTab, rosterSortCriteria, isMobile]);
 
   const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement> | React.MouseEvent<HTMLButtonElement>, sectionId: string) => {
     e.preventDefault();
@@ -302,10 +302,8 @@ export default function Home() {
   
   const totalPages = Math.ceil(allFilteredVisionaries.length / itemsPerPage);
   
-  // Conditionally restrict viewable array sizes dynamically for mobile interfaces
-  const filteredVisionaries = activeVisionaryTab === 'roster'
-    ? allFilteredVisionaries.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
-    : (isMobile ? allFilteredVisionaries.slice(0, 4) : allFilteredVisionaries);
+  // Dynamic slice allocation for consistent visual balance across all tab options
+  const filteredVisionaries = allFilteredVisionaries.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
   if (!mounted) {
     return (
@@ -908,7 +906,7 @@ export default function Home() {
               </div>
             )}
 
-            {activeVisionaryTab === 'roster' && totalPages > 1 && (
+            {totalPages > 1 && (
               <div className="mt-12 pt-6 border-t border-neutral-100 flex items-center justify-between flex-col sm:flex-row gap-4 animate-fadeIn select-none">
                 <span className="text-xs font-bold text-neutral-400 uppercase tracking-wider">
                   Showing <span className="text-neutral-800 font-black">{filteredVisionaries.length}</span> of <span className="text-neutral-800 font-black">{allFilteredVisionaries.length}</span> Members
