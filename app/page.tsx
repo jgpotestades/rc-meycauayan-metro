@@ -810,7 +810,8 @@ export default function Home() {
               </div>
             )}
 
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6 animate-fadeIn">
+            {/* RESPONSIVE LAYOUT MATRIX CHANGE APPIED HERE */}
+            <div className="flex flex-col sm:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6 animate-fadeIn">
               {filteredVisionaries.map((officer) => {
                 const resolvedImagePath = officer.image.startsWith('/members/') 
                   ? officer.image 
@@ -822,9 +823,9 @@ export default function Home() {
                 return (
                   <div 
                     key={officer.id} 
-                    className="bg-white border border-neutral-200 rounded-2xl p-5 text-center hover:border-amber-500/50 hover:-translate-y-1.5 hover:scale-[1.02] hover:shadow-[0_12px_30px_rgba(217,119,6,0.12)] transition-all group duration-300 relative overflow-hidden flex flex-col items-center justify-between min-h-[260px]"
+                    className="bg-white border border-neutral-200 rounded-2xl p-4 sm:p-5 text-left sm:text-center hover:border-amber-500/50 hover:-translate-y-1.5 hover:scale-[1.02] hover:shadow-[0_12px_30px_rgba(217,119,6,0.12)] transition-all group duration-300 relative overflow-hidden flex flex-row sm:flex-col items-center sm:justify-between min-h-0 sm:min-h-[260px] gap-4 sm:gap-0"
                   >
-                    <div className="w-24 h-24 rounded-full overflow-hidden mb-4 border-2 border-neutral-100 group-hover:border-amber-500/50 transition-colors duration-300 shadow-sm relative bg-neutral-100">
+                    <div className="w-16 h-16 sm:w-24 sm:h-24 rounded-full overflow-hidden border-2 border-neutral-100 group-hover:border-amber-500/50 transition-colors duration-300 shadow-sm relative bg-neutral-100 shrink-0">
                       <img 
                         src={resolvedImagePath} 
                         alt={officer.name}
@@ -835,14 +836,14 @@ export default function Home() {
                       />
                     </div>
 
-                    <div className="space-y-1 flex-1 flex flex-col justify-center">
-                      <h3 className="text-sm font-black text-neutral-900 tracking-wide group-hover:text-amber-600 transition-colors duration-200 line-clamp-2 px-1">
+                    <div className="space-y-1 flex-1 flex flex-col justify-center sm:items-center">
+                      <h3 className="text-sm font-black text-neutral-900 tracking-wide group-hover:text-amber-600 transition-colors duration-200 line-clamp-2 sm:px-1">
                         {renderedFullName}
                       </h3>
                       
                       {activeVisionaryTab === 'roster' ? (
-                        <div className="pt-2">
-                          <span className="text-[9px] font-mono uppercase tracking-widest text-neutral-400 block">
+                        <div className="pt-0.5 sm:pt-2">
+                          <span className="text-[9px] font-mono uppercase tracking-widest text-neutral-400 block sm:hidden">
                             Birthday
                           </span>
                           <p className="text-xs font-bold text-blue-600 font-sans mt-0.5">
@@ -850,11 +851,11 @@ export default function Home() {
                           </p>
                         </div>
                       ) : activeVisionaryTab === 'directors' ? (
-                        <p className="text-[11px] text-blue-600 font-extrabold uppercase tracking-wider leading-tight max-w-[140px] mx-auto">
+                        <p className="text-[11px] text-blue-600 font-extrabold uppercase tracking-wider leading-tight max-w-[140px]">
                           {officer.directorPosition || officer.position}
                         </p>
                       ) : (
-                        <p className="text-[11px] text-blue-600 font-extrabold uppercase tracking-wider leading-tight max-w-[140px] mx-auto">
+                        <p className="text-[11px] text-blue-600 font-extrabold uppercase tracking-wider leading-tight max-w-[140px]">
                           {officer.position}
                         </p>
                       )}
