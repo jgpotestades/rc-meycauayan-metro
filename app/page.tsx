@@ -763,7 +763,7 @@ export default function Home() {
 
           <div className="bg-white/40 backdrop-blur-xl border border-neutral-200 rounded-3xl p-6 sm:p-10 shadow-sm transition-all duration-500">
             
-            {activeTab === 'roster' && (
+            {activeVisionaryTab === 'roster' && (
               <div className="flex flex-col sm:flex-row items-center justify-end gap-3 mb-6 pb-4 border-b border-neutral-100 animate-fadeIn">
                 <span className="text-[11px] uppercase tracking-wider font-extrabold text-neutral-400">
                   ⚡ Sort Algorithm Parameters:
