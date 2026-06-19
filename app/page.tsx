@@ -1463,6 +1463,16 @@ export default function Home() {
           <div>
             <h4 className="font-bold text-base text-white">Rotary Club of Meycauayan Metro</h4>
             <p className="text-xs text-neutral-400 mt-1">Rotary International District 3770 • Bulacan, Philippines</p>
+            <div className="mt-3 flex items-center justify-center md:justify-start gap-4 text-xs font-mono">
+              <a href="mailto:rcmeycauayanmetro@gmail.com" className="text-neutral-400 hover:text-amber-500 transition duration-300 no-underline">
+                📧 rcmeycauayanmetro@gmail.com
+              </a>
+              <a href="https://www.facebook.com/rotaryclubofmeycauayanmetro" target="_blank" rel="noopener noreferrer" className="hover:scale-110 transition duration-300 inline-block align-middle" title="Visit our Facebook Page">
+                <svg className="w-5 h-5 fill-current text-neutral-400 hover:text-[#1877F2] transition duration-300" viewBox="0 0 24 24">
+                  <path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c4.56-.93 8-4.96 8-9.8z"/>
+                </svg>
+              </a>
+            </div>
           </div>
           <div className="text-neutral-400">© {new Date().getFullYear()} All Rights Reserved. Service Above Self.</div>
         </div>
