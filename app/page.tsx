@@ -104,7 +104,9 @@ const corporateSponsors = [
   { name: "Rotary International", logoImage: "/partner-rotary-international.png", fallbackText: "RI", url: "https://www.rotary.org/en" },
   { name: "Cityblinds Enterprises", logoImage: "/partner-cityblinds-logo.png", fallbackText: "CE", url: "#" },
   { name: "EM Builders", logoImage: "/partner-em-builders-logo.jpg", fallbackText: "EMB", url: "https://www.facebook.com/profile.php?id=100063686025704" },
-  { name: "J4 Squad Events & Management", logoImage: "/partner-j4-squad-logo.jpeg", fallbackText: "J4S", url: "#" }
+  { name: "J4 Squad Events & Management", logoImage: "/partner-j4-squad-logo.jpeg", fallbackText: "J4S", url: "#" },
+  { name: "Suds Go - Project 6", logoImage: "/partner-suds-go-project-6.jpg", fallbackText: "SGP6", url: "https://www.facebook.com/sudsgoproject6" },
+  { name: "Metrogreen Technologies Corporation", logoImage: "/partner-metrogreen-technologies-corporation.jpg", fallbackText: "MCG", url: "https://www.facebook.com/metrogreentech" }
 ];
 
 const monthMap: { [key: string]: number } = {
