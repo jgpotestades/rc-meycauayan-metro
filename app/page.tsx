@@ -48,7 +48,8 @@ const initialUsers: RotaryUser[] = [
   { id: 23, name: "Willy Sy", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/members/Willy Sy.png", birthday: "March 12", username: "willysy", email: "willy@rcmeycauayanmetro.org" },
   { id: 24, name: "Richard Becerro", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/members/Richard Becerro.png", birthday: "May 16", username: "richardbecerro", email: "richard@rcmeycauayanmetro.org" },
   { id: 25, name: "Ramil Inopia Burdin", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/members/Ramil Inopia Burdin.png", birthday: "August 16", username: "ramilinopia", email: "ramil@rcmeycauayanmetro.org" },
-  { id: 26, name: "Morris Delos Santos", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/members/Morris Delos Santos.png", birthday: "November 17", username: "morrisdelossantos", email: "morris@rcmeycauayanmetro.org" }
+  { id: 26, name: "Morris Delos Santos", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/members/Morris Delos Santos.png", birthday: "November 17", username: "morrisdelossantos", email: "morris@rcmeycauayanmetro.org" },
+  { id: 27, name: "Edgardo Ambray", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/members/Edgardo Ambray.jpeg", birthday: "December 29", username: "edgardoombray", email: "edgardo@rcmeycauayanmetro.org" }
 ];
 
 const initialActivities = [
@@ -157,6 +158,83 @@ export default function Home() {
 
   // State handles for updated project donations tab
   const [selectedCause, setSelectedCause] = useState<string>('disease-prevention');
+
+  // =================================================================
+  // MASONRY GRID ADAPTIVE LOCAL COMPONENT AND ASSET POOL CONFIGURATION
+  // =================================================================
+  // Absolute fallback path reference catalog for unique static image assets inside /public/masonry/
+  const masonryImages = [
+    '/masonry/connect.jpg',
+    '/masonry/fight-hunger.jpg',
+    '/masonry/inspire.jpg',
+    '/masonry/mentor.jpg',
+    '/masonry/transform.jpg',
+    '/masonry/image-1.jpg',
+    '/masonry/image-2.jpg',
+    '/masonry/image-3.jpg',
+    '/masonry/image-4.jpg',
+    '/masonry/image-5.jpg',
+    '/masonry/image-6.jpg',
+    '/masonry/image-7.jpg',
+    '/masonry/image-8.jpg',
+    '/masonry/image-9.jpg',
+    '/masonry/image-10.jpg',
+    '/masonry/image-11.jpg',
+    '/masonry/image-12.jpg',
+    '/masonry/image-13.jpg',
+    '/masonry/image-14.jpg',
+    '/masonry/image-15.jpg',
+    '/masonry/image-16.jpg',
+    '/masonry/image-17.jpg',
+    '/masonry/image-18.jpg',
+    '/masonry/image-19.jpg',
+    '/masonry/image-20.jpg'
+  ];
+
+  // Extended premium configuration layout mapping structural tile specs without strings to avoid walls/empty gaps
+  const initialTiles = [
+    { id: 0, frontImg: '/masonry/fight-hunger.jpg', backImg: '/masonry/connect.jpg', gridClass: 'col-span-2 row-span-2 min-h-[280px] sm:min-h-[340px]', flipped: false },
+    { id: 1, frontImg: '/masonry/inspire.jpg', backImg: '/masonry/mentor.jpg', gridClass: 'col-span-1 row-span-1 min-h-[140px] sm:min-h-[160px]', flipped: false },
+    { id: 2, frontImg: '/masonry/transform.jpg', backImg: '/masonry/fight-hunger.jpg', gridClass: 'col-span-1 row-span-2 min-h-[280px] sm:min-h-[340px]', flipped: false },
+    { id: 3, frontImg: '/masonry/mentor.jpg', backImg: '/masonry/inspire.jpg', gridClass: 'col-span-1 row-span-1 min-h-[140px] sm:min-h-[160px]', flipped: false },
+    { id: 4, frontImg: '/masonry/connect.jpg', backImg: '/masonry/transform.jpg', gridClass: 'col-span-2 row-span-1 min-h-[140px] sm:min-h-[160px]', flipped: false },
+    { id: 5, frontImg: '/masonry/fight-hunger.jpg', backImg: '/masonry/mentor.jpg', gridClass: 'col-span-1 row-span-1 min-h-[140px] sm:min-h-[160px]', flipped: false },
+    { id: 6, frontImg: '/masonry/inspire.jpg', backImg: '/masonry/connect.jpg', gridClass: 'col-span-1 row-span-1 min-h-[140px] sm:min-h-[160px]', flipped: false }
+  ];
+
+  const [tiles, setTiles] = useState(initialTiles);
+
+  useEffect(() => {
+    if (!mounted) return;
+
+    // Staggered intervals with relaxed 6 to 9 second timing thresholds to slow down excessive speed variations
+    const intervals = tiles.map((tile, index) => {
+      const timingOptions = [6000, 7500, 9000];
+      const selectedDelay = timingOptions[index % timingOptions.length];
+
+      return setInterval(() => {
+        setTiles(prevTiles => {
+          return prevTiles.map(t => {
+            if (t.id === tile.id) {
+              // Extract a truly random replacement photo track sitting inside our directory pool layout
+              const randomPick = masonryImages[Math.floor(Math.random() * masonryImages.length)];
+              
+              // Dynamically load the random replacement specifically onto the upcoming side profile layer
+              return {
+                ...t,
+                frontImg: t.flipped ? randomPick : t.frontImg,
+                backImg: !t.flipped ? randomPick : t.backImg,
+                flipped: !t.flipped
+              };
+            }
+            return t;
+          });
+        });
+      }, selectedDelay);
+    });
+
+    return () => intervals.forEach(clearInterval);
+  }, [mounted]);
 
   const allProcessedActivities = initialActivities.filter(item => {
     const matchesSearch = item.title.toLowerCase().includes(searchQuery.toLowerCase());
@@ -357,6 +435,20 @@ export default function Home() {
         }
         .animate-marquee-stream:hover {
           animation-play-state: paused;
+        }
+
+        /* 3D Flips Mesh Support Layouts */
+        .perspective-1000 {
+          perspective: 1000px;
+        }
+        .transform-style-3d {
+          transform-style: preserve-3d;
+        }
+        .backface-hidden {
+          backface-visibility: hidden;
+        }
+        .rotate-y-180 {
+          transform: rotateY(180deg);
         }
       `}</style>
 
@@ -650,7 +742,7 @@ export default function Home() {
                     "The application of the ideal of service in each Rotarian's personal, business, and community life.",
                     "The advancement of international understand, goodwill, and peace through a world fellowship of business and professional persons united in the ideal of service."
                   ].map((text, idx) => (
-                    <div key={idx} className="bg-slate-950/50 backdrop-blur-md border border-slate-900/60 rounded-2xl p-5 flex gap-4 items-start hover:bg-slate-950/90 hover:scale-[1.01] hover:border-blue-500/30 shadow-md transition-all duration-300 group">
+                    <div key={idx} className="bg-slate-955/50 backdrop-blur-md border border-slate-900/60 rounded-2xl p-5 flex gap-4 items-start hover:bg-slate-950/90 hover:scale-[1.01] hover:border-blue-500/30 shadow-md transition-all duration-300 group">
                       <span className="w-6 h-6 bg-blue-600/10 rounded-full flex items-center justify-center shrink-0 border border-blue-500/20 text-blue-400 font-mono font-bold text-[10px] mt-0.5 group-hover:bg-blue-600 group-hover:text-white group-hover:scale-110 transition-all duration-300">{idx + 1}</span>
                       <p className="text-xs text-neutral-300 leading-relaxed font-normal tracking-wide group-hover:text-white transition-colors">{text}</p>
                     </div>
@@ -1128,6 +1220,42 @@ export default function Home() {
       </section>
 
       {/* =============================================================
+          🆕 BRAND NEW FLIPPING MASONRY INTUITIVE SHOWCASE GRID MODULE
+          ============================================================= */}
+      <section id="action-showcase" className="py-24 bg-neutral-900 border-b border-neutral-950 overflow-hidden relative text-center">
+        <div className="absolute top-0 left-1/3 w-80 h-80 bg-amber-500/5 rounded-full blur-3xl pointer-events-none" />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 space-y-12 relative z-10">
+          
+          <div className="max-w-2xl mx-auto space-y-2">
+            <span className="text-amber-500 font-extrabold uppercase tracking-widest text-xs block">Humanitarian Focus In Motion</span>
+            <h2 className="text-3xl font-black text-white tracking-tight uppercase">Our Core Mission Mosaic</h2>
+            <p className="text-xs text-neutral-400 max-w-md mx-auto">Watch our active service paradigms shift dynamically across our operational ecosystem landscape metrics.</p>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 auto-rows-fr gap-4 max-w-5xl mx-auto perspective-1000">
+            {tiles.map((tile) => (
+              <div 
+                key={tile.id} 
+                className={`${tile.gridClass} relative transform-style-3d transition-transform duration-1000 cursor-pointer ${tile.flipped ? 'rotate-y-180' : ''}`}
+              >
+                {/* CARD FRONT LAYER */}
+                <div 
+                  className="absolute inset-0 w-full h-full rounded-2xl overflow-hidden backface-hidden bg-cover bg-center shadow-lg border border-neutral-800 flex items-end p-4"
+                  style={{ backgroundImage: `url('${tile.frontImg}')` }}
+                />
+
+                {/* CARD BACK LAYER (FLIPPED STATE) */}
+                <div 
+                  className="absolute inset-0 w-full h-full rounded-2xl overflow-hidden backface-hidden rotate-y-180 bg-cover bg-center shadow-2xl border border-neutral-800 flex items-end p-4"
+                  style={{ backgroundImage: `url('${tile.backImg}')` }}
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* =============================================================
           MODAL INTERACTIVE INTERFACE WITH DROP-DOWN TRIGGER PORTAL
           ============================================================= */}
       {selectedActivity && (
@@ -1177,7 +1305,7 @@ export default function Home() {
                       <div className="relative inline-block text-left w-full sm:w-auto" ref={shareMenuRef}>
                         <button 
                           onClick={() => setIsShareMenuOpen(!isShareMenuOpen)}
-                          className="w-full sm:w-48 px-5 py-2.5 bg-amber-500 hover:bg-amber-600 text-black text-[11px] font-black uppercase tracking-wider rounded-xl transition duration-200 border-none cursor-pointer shadow-md flex items-center justify-center gap-2 select-none relative"
+                          className="w-full sm:w-48 px-5 py-2.5 bg-amber-500 hover:bg-amber-600 text-black [11px] font-black uppercase tracking-wider rounded-xl transition duration-200 border-none cursor-pointer shadow-md flex items-center justify-center gap-2 select-none relative"
                         >
                           <span className="flex-1 text-center pl-4">Share</span>
                           <span className={`w-0 h-0 border-l-[4px] border-l-transparent border-r-[4px] border-r-transparent transition-transform duration-300 shrink-0 ${isShareMenuOpen ? 'border-b-[5px] border-b-black rotate-0' : 'border-t-[5px] border-t-black'}`}></span>
