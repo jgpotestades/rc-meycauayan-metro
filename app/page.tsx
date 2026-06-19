@@ -116,6 +116,12 @@ export default function Home() {
   const [mounted, setMounted] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   
+  // =================================================================
+  // BIRTHDAY ANNOUNCEMENT STATE & COMPLIANCE PARAMS
+  // =================================================================
+  const [celebratedUser, setCelebratedUser] = useState<RotaryUser | null>(null);
+  const [showBirthdayModal, setShowBirthdayModal] = useState(false);
+
   useEffect(() => {
     setMounted(true);
     const handleResize = () => {
@@ -123,6 +129,26 @@ export default function Home() {
     };
     handleResize();
     window.addEventListener('resize', handleResize);
+    
+    // Dynamic verification engine scanning rosters matching the current client calendar timeline date strings
+    const today = new Date();
+    const currentDay = today.getDate();
+    const currentMonthIndex = today.getMonth() + 1; // 1-12 range conversion
+
+    const birthdayMatch = initialUsers.find(user => {
+      if (!user.birthday) return false;
+      const tokens = user.birthday.trim().toLowerCase().split(/\s+/);
+      if (tokens.length < 2) return false;
+      const userMonthValue = monthMap[tokens[0]] || 0;
+      const userDayValue = parseInt(tokens[1], 10) || 0;
+      return userMonthValue === currentMonthIndex && userDayValue === currentDay;
+    });
+
+    if (birthdayMatch) {
+      setCelebratedUser(birthdayMatch);
+      setShowBirthdayModal(true);
+    }
+    
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
@@ -450,7 +476,90 @@ export default function Home() {
         .rotate-y-180 {
           transform: rotateY(180deg);
         }
+        
+        /* Confetti Streams for Birthday Modals */
+        @keyframes floatConfetti {
+          0% { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+          100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+        .confetti-piece {
+          position: absolute; width: 8px; height: 16px; top: -20px;
+          animation: floatConfetti 4s linear infinite; pointer-events: none; z-index: 60;
+        }
       `}</style>
+
+      {/* =============================================================
+          🆕 PRE-ENTRY BIRTHDAY POP-UP COMPONENT (COMPLIANCE MODULE)
+          ============================================================= */}
+      {showBirthdayModal && celebratedUser && (
+        <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-black/90 backdrop-blur-xl animate-fadeIn">
+          
+          {/* Confetti Generation Deck */}
+          {Array.from({ length: 40 }).map((_, i) => {
+            const colors = ['#f59e0b', '#3b82f6', '#10b981', '#ec4899', '#8b5cf6'];
+            const randomColor = colors[i % colors.length];
+            const randomLeft = Math.random() * 100;
+            const randomDelay = Math.random() * 4;
+            const randomTransform = Math.random() * 15 + 5;
+            return (
+              <div 
+                key={i} 
+                className="confetti-piece"
+                style={{
+                  left: `${randomLeft}%`,
+                  backgroundColor: randomColor,
+                  animationDelay: `${randomDelay}s`,
+                  width: `${randomTransform}px`,
+                  height: `${randomTransform / 2}px`,
+                  transform: `rotate(${Math.random() * 360}deg)`
+                }}
+              />
+            );
+          })}
+
+          <div className="bg-white rounded-[32px] w-full max-w-lg p-8 sm:p-10 shadow-2xl text-center border border-neutral-200 relative overflow-hidden animate-scaleUp flex flex-col items-center">
+            <div className="absolute top-0 inset-x-0 h-2 bg-gradient-to-r from-amber-500 via-orange-500 to-blue-600" />
+            
+            <span className="text-3xl sm:text-4xl mb-4 select-none animate-bounce">🎉🎂🥳</span>
+            <span className="text-[10px] font-mono bg-amber-500/10 text-amber-700 border border-amber-500/20 px-4 py-1.5 rounded-full uppercase font-black tracking-widest inline-block shadow-sm mb-4">
+              Rotary Birthday Celebration
+            </span>
+            
+            <h2 className="text-2xl sm:text-3xl font-black text-neutral-900 tracking-tight uppercase leading-tight">
+              Happy Birthday!
+            </h2>
+            
+            <div className="my-6 w-28 h-28 rounded-full overflow-hidden border-4 border-amber-500/30 shadow-md relative bg-neutral-100">
+              <img 
+                src={celebratedUser.image.startsWith('/members/') ? celebratedUser.image : `/members/${celebratedUser.name.trim().replace(/\s+/g, '_')}.png`}
+                alt={celebratedUser.name}
+                className="w-full h-full object-cover"
+                onError={(e) => {
+                  (e.target as HTMLImageElement).src = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23f5f5f5'/><text x='50%27 y='55%27 font-family='sans-serif' font-size='30' fill='%23d97706' text-anchor='middle'>👤</text></svg>";
+                }}
+              />
+            </div>
+
+            <h3 className="text-lg font-black text-amber-600 tracking-wide uppercase">
+              {celebratedUser.name} {celebratedUser.suffix || ''}
+            </h3>
+            <p className="text-xs font-mono font-bold text-blue-600 uppercase tracking-widest mt-1">
+              {celebratedUser.directorPosition || celebratedUser.position}
+            </p>
+
+            <p className="text-xs sm:text-sm text-neutral-500 leading-relaxed max-w-xs mt-4 mb-6 font-normal">
+              Wishing our fellow Rotarian a wonderful day filled with fellowship, joy, and service! Thank you for creating lasting impact.
+            </p>
+
+            <button
+              onClick={() => setShowBirthdayModal(false)}
+              className="w-full bg-black hover:bg-amber-500 text-white hover:text-black font-black py-4 rounded-xl transition border-none cursor-pointer text-xs uppercase tracking-wider shadow-lg outline-none select-none"
+            >
+              Enter Official Portal
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* 1. SMART STICKY NAVIGATION BAR */}
       <header className={`sticky top-0 z-50 bg-black text-white shadow-md border-b border-neutral-800 transition-transform duration-300 transform ${
@@ -566,7 +675,7 @@ export default function Home() {
                   Guided by the enduring Rotary principle of Service Above Self, the Rotary International community continues to transform lives through meaningful service and strong fellowship. Each Rotary year offers a renewed opportunity for Rotarians to make a difference in their communities and beyond.
                 </p>
                 <p>
-                  As we celebrate the 23rd Handover and Induction Ceremony of the Rotary Club of Meycauayan Club, we reflect on the remarkable journey of service that has shaped our club. This milestone marks not only the transition of leadership but also a reaffirmation of our shared commitment to Rotary’s mission.
+                  As we celebrate the 24th Handover and Induction Ceremony of the Rotary Club of Meycauayan Club, we reflect on the remarkable journey of service that has shaped our club. This milestone marks not only the transition of leadership but also a reaffirmation of our shared commitment to Rotary’s mission.
                 </p>
                 <p>
                   Anchored in this year’s Rotary theme, “Create Lasting Impact,” our club continues to pursue initiatives that bring sustainable and meaningful change to the communities we serve. Through collaborative projects, humanitarian programs, and the dedication of our members, we strive to ensure that our efforts today will leave a positive legacy for generations to come.
