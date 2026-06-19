@@ -1227,9 +1227,9 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 space-y-12 relative z-10">
           
           <div className="max-w-2xl mx-auto space-y-2">
-            <span className="text-amber-500 font-extrabold uppercase tracking-widest text-xs block">Humanitarian Focus In Motion</span>
-            <h2 className="text-3xl font-black text-white tracking-tight uppercase">Our Core Mission Mosaic</h2>
-            <p className="text-xs text-neutral-400 max-w-md mx-auto">Watch our active service paradigms shift dynamically across our operational ecosystem landscape metrics.</p>
+            <span className="text-amber-500 font-extrabold uppercase tracking-widest text-xs block">Our Core Mission in Action</span>
+            <h2 className="text-3xl font-black text-white tracking-tight uppercase">Stories of Service: A Visual Journey</h2>
+            <p className="text-xs text-neutral-400 max-w-md mx-auto">A dynamic chronicle of our hands-on projects, sustainable initiatives, and the Rotarians making them happen.</p>
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 auto-rows-fr gap-4 max-w-5xl mx-auto perspective-1000">
