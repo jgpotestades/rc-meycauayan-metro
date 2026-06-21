@@ -56,7 +56,7 @@ const initialActivities = [
   { id: 1, type: 'Project', title: "Global Grant Health Initiative (GG2517783)", category: "Disease Prevention & Treatment", description: "Deploying targeted diagnostic facility clusters and essential clinical resources to localized sectors.", fullDescription: "This targeted global grant health blueprint coordinates specialized cluster installations alongside active diagnostic operations across dense municipal hubs.", status: "Completed", detail: "Global Grant Verification Compliance Complete", galleryImages: ["/carousel 3.jpg"] },
   { id: 2, type: 'Project', title: "WASH Clean Water Hub Infrastructure", category: "Water, Sanitation, & Hygiene", description: "Constructing physical water delivery nodes and comprehensive sanitation framework units for high-need zones.", fullDescription: "Deploying physical resource delivery terminals coupled with multi-stage micro-filtration block architecture grids for surrounding residential pockets.", status: "Ongoing", detail: "WASH Infrastructure Deployment Grid", galleryImages: ["/carousel 2.jpg"] },
   { id: 3, type: 'News', title: "24th Handover and Induction Ceremony Success", category: "Club Assembly", description: "The club formally convened at the Matrix Creation Events Venue to install President Arvin Jayson Andaya and the incoming board.", fullDescription: "Formally convening incoming legislative executives and club directors into operational alignment benchmarks for the current administrative calendar layout.", status: "Completed", detail: "Inaugurated on July 29, 2026", galleryImages: ["/carousel 1.jpg"] },
-  { id: 4, type: 'Project', title: "Meycauayan Youth Textbook & Literacy Drive", category: "Supporting Education", description: "Distributing full core primary catalog book blocks and implementing reading systems in public facilities.", fullDescription: "Distributing robust foundational media blocks and textual libraries to expand primary development track records within localized school clusters.", status: "Completed", detail: "Empowering Next-Gen Scholars", galleryImages: ["/carousel 1.jpg"] }
+  { id: 4, type: 'Project', title: "Meycauayan Youth Textbook & Literacy Drive", category: "Basic Education and Literacy", description: "Distributing full core primary catalog book blocks and implementing reading systems in public facilities.", fullDescription: "Distributing robust foundational media blocks and textual libraries to expand primary development track records within localized school clusters.", status: "Completed", detail: "Empowering Next-Gen Scholars", galleryImages: ["/carousel 1.jpg"] }
 ];
 
 const carouselSlides = [
@@ -87,12 +87,14 @@ const officialMessages = [
 ];
 
 const areasOfFocus = [
-  { id: 1, title: "Disease Prevention & Treatment", desc: "Setting up continuous diagnostic networks, mobile medical supply grids, and regional health immunity block camps.", icon: "🩺" },
-  { id: 2, title: "Water, Sanitation, & Hygiene", desc: "Constructing long-term scalable clean water delivery systems and sustainable micro-filtration infrastructure segments.", icon: "💧" },
-  { id: 3, title: "Supporting Education", desc: "Expanding text material blocks, structural micro-libraries, and continuous adult learning environments.", icon: "📚" },
-  { id: 4, title: "Growing Local Economies", desc: "Formulating scalable alternative livelihood micro-grants and strategic cooperative development framework blocks.", icon: "📊" },
-  { id: 5, title: "Peacebuilding & Conflict Prevention", desc: "Training municipal community leaders to identify threat triggers and formulate legal integration paradigms.", icon: "🕊️" },
-  { id: 6, title: "Maternal & Child Health", desc: "Supplying comprehensive clean delivery kits and optimizing early infantile health tracking mechanisms.", icon: "👶" }
+  { id: 1, title: "Disease Prevention & Treatment", desc: "To educate and equip communities to stop the spread of life-threatening diseases like polio and to improve and expand access to low-cost and free health care in developing areas.", icon: "🩺" },
+  { id: 2, title: "Water Sanitation and Hygiene", desc: "To support local solutions to bring clean water, sanitation, and hygiene to more people everyday.", icon: "💧" },
+  { id: 3, title: "Basic Education and Literacy", desc: "To strengthen the capacity of communities to support basic education and literacy, reduce gender disparity in education, and increase adult literacy.", icon: "📚" },
+  { id: 4, title: "Community Economic Development", desc: "To enhance economic and community development and create opportunities for decent and productive work for young and old, and to strengthen local entrepreneurs and community leaders, particularly women, in impoverished communities.", icon: "📊" },
+  { id: 5, title: "Peacebuilding & Conflict Prevention", desc: "To encourage conversations to foster understanding within and across cultures. To train adults and young leaders to prevent and mediate conflict.", icon: "🕊️" },
+  { id: 6, title: "Maternal & Child Health", desc: "To expand access to quality care, so mothers and their children can live and grow stronger.", icon: "👶" },
+  { id: 7, title: "Environment", desc: "To tackle environmental issues the way they always do: coming up with projects, using their connections to change policy and planning for the future.", icon: "🌍" },
+  { id: 8, title: "End Polio Now Campaign", desc: "To achieve a polio-free world by mobilizing global resource networks, deploying targeted immunization drops, and sustaining clinical surveillance cluster chains until eradication is permanent.", icon: "🛡️" }
 ];
 
 // DATA MATRIX: VERIFIED RELATIVE PUBLIC IMAGE DOMAIN REFERENCES
@@ -1638,7 +1640,7 @@ export default function Home() {
                     >
                       <option value="disease-prevention">Disease Prevention & Treatment</option>
                       <option value="water-sanitation">Water, Sanitation, & Hygiene</option>
-                      <option value="supporting-education">Supporting Education</option>
+                      <option value="supporting-education">Basic Education and Literacy</option>
                       <option value="local-economies">Growing Local Economies</option>
                       <option value="peacebuilding">Peacebuilding & Conflict Prevention</option>
                       <option value="maternal-child-health">Maternal & Child Health</option>
