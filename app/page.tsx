@@ -104,7 +104,7 @@ const corporateSponsors = [
   { name: "The Pixels Inc.", logoImage: "/partner-thepixelsinc-logo.png", fallbackText: "TPI", url: "https://www.thepixelsinc.com/" },
   { name: "Dr. H Centro Estetico", logoImage: "/partner-dr-h-centro-estetico-logo.jpg", fallbackText: "DRH", url: "https://www.facebook.com/DrHCentroEstetico" },
   { name: "Rotary International", logoImage: "/partner-rotary-international.png", fallbackText: "RI", url: "https://www.rotary.org/en" },
-  { name: "Cityblinds Enterprises", logoImage: "/partner-cityblinds-logo.png", fallbackText: "CE", url: "#" },
+  { name: "Cityblinds Enterprises", logoImage: "/partner-cityblinds-logo.png", fallbackText: "CE", url: "https://www.facebook.com/profile.php?id=61591280907892" },
   { name: "EM Builders", logoImage: "/partner-em-builders-logo.jpg", fallbackText: "EMB", url: "https://www.facebook.com/profile.php?id=100063686025704" },
   { name: "J4 Squad Events & Management", logoImage: "/partner-j4-squad-logo.jpeg", fallbackText: "J4S", url: "#" },
   { name: "Suds Go - Project 6", logoImage: "/partner-suds-go-project-6.jpg", fallbackText: "SGP6", url: "https://www.facebook.com/sudsgoproject6" },
