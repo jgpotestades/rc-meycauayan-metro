@@ -28,7 +28,7 @@ const initialUsers: RotaryUser[] = [
   { id: 1, name: "Arvin Jason Andaya", role: "Officer", position: "Club President", isOfficer: true, isDirector: false, image: "/members/Arvin Jayson Andaya.png", birthday: "March 9", username: "arvinjasonandaya", email: "arvin@rcmeycauayanmetro.org" },
   { id: 2, name: "Diosdado Alvarado", role: "Officer", position: "Vice President", isOfficer: true, isDirector: false, image: "/members/Diosdado Alvarado.png", birthday: "December 9", username: "diosdadoalvarado", email: "diosdado@rcmeycauayanmetro.org" },
   { id: 3, name: "Daniel Cuyos", role: "Officer", position: "President Elect", isOfficer: true, isDirector: false, image: "/members/Daniel Cuyos.png", birthday: "April 11", username: "danielcuyos", email: "daniel@rcmeycauayanmetro.org" },
-  { id: 4, name: "Rosemarie Valencia", role: "Officer", position: "Club Secretary", isOfficer: true, isDirector: true, directorPosition: "Club Administration Director", image: "/members/Rosemarie Valencia.png", birthday: "August 14", username: "rosemarievalencia", email: "rosemarie@rcmeycauayanmetro.org" },
+  { id: 4, name: "Rosemarie Valencia", role: "Officer", position: "Club Secretary", isOfficer: true, isDirector: true, directorPosition: "Club Administration Director", image: "/members/Rosemarie Valencia.png", birthday: "July 3", username: "rosemarievalencia", email: "rosemarie@rcmeycauayanmetro.org" },
   { id: 5, name: "Adrian Go", role: "Officer", position: "Executive Secretary", isOfficer: true, isDirector: true, directorPosition: "Public Image Director", image: "/members/Adrian Go.png", birthday: "November 19", username: "adriango", email: "adrian@rcmeycauayanmetro.org" },
   { id: 6, name: "Mark Christian Aloran", role: "Officer", position: "Club Treasurer", isOfficer: true, isDirector: false, image: "/members/Mark Christian Aloran.png", birthday: "November 15", username: "markchristianaloran", email: "mark@rcmeycauayanmetro.org" },
   { id: 7, name: "April Homoroc", role: "Officer", position: "Club Auditor", isOfficer: true, isDirector: false, image: "/members/April Homoroc.png", birthday: "December 20", username: "aprilhomoroc", email: "april@rcmeycauayanmetro.org" },
@@ -666,7 +666,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto">
           <div className="grid lg:grid-cols-5 gap-12 lg:gap-16 items-start">
             
-            {/* LEFT COLUMN: INTRODUCTION TEXT COPY */}
+            {/* LEFT COLUMN: INTRODUCTION TEXT COPY & PORTFOLIO BANNER */}
             <div className="lg:col-span-3 space-y-6">
               <div className="space-y-2">
                 <span className="text-amber-500 font-black uppercase tracking-widest text-xs block">Who We Are</span>
@@ -674,6 +674,23 @@ export default function Home() {
                   Introduction
                 </h2>
               </div>
+              
+              {/* EMBEDDED EDITORIAL IMAGERY NODE */}
+              <div className="w-full h-48 sm:h-64 rounded-2xl overflow-hidden shadow-md border border-neutral-200 bg-neutral-100 relative group select-none">
+                <img 
+                  src="/carousel 1.jpg" 
+                  alt="Rotary Club community assembly framework layout"
+                  className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).style.display = 'none';
+                  }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none" />
+                <span className="absolute bottom-3 left-4 text-[10px] sm:text-xs font-mono font-bold text-white tracking-wide drop-shadow-sm">
+                  ⚡ Rotary Club of Meycauayan Metro — Roster assembly catalog preview
+                </span>
+              </div>
+
               <div className="text-neutral-600 leading-relaxed space-y-5 text-justify text-sm sm:text-base font-normal">
                 <p>
                   Guided by the enduring Rotary principle of Service Above Self, the Rotary International community continues to transform lives through meaningful service and strong fellowship. Each Rotary year offers a renewed opportunity for Rotarians to make a difference in their communities and beyond.
@@ -833,7 +850,7 @@ export default function Home() {
                     { title: "03", desc: "Will it build goodwill and better friendships?" },
                     { title: "04", desc: "Will it be beneficial to all concerned?" }
                   ].map((item, idx) => (
-                    <div key={idx} className="bg-slate-950/80 backdrop-blur-md border border-slate-900 Regel rounded-2xl p-5 hover:border-amber-500/40 hover:-translate-y-1 hover:scale-[1.03] hover:shadow-[0_10px_25px_-5px_rgba(245,158,11,0.1)] transition-all group duration-300 relative overflow-hidden">
+                    <div key={idx} className="bg-slate-955/80 backdrop-blur-md border border-slate-900 Regel rounded-2xl p-5 hover:border-amber-500/40 hover:-translate-y-1 hover:scale-[1.03] hover:shadow-[0_10px_25px_-5px_rgba(245,158,11,0.1)] transition-all group duration-300 relative overflow-hidden">
                       <h4 className="text-xs font-black tracking-widest text-amber-500 mb-1.5 uppercase font-mono group-hover:text-amber-400 transition-colors">{item.title}</h4>
                       <p className="text-xs text-neutral-300 leading-relaxed font-normal">{item.desc}</p>
                     </div>
@@ -1260,7 +1277,6 @@ export default function Home() {
                   <h3 className="text-base sm:text-lg font-black text-neutral-900 mb-1 tracking-tight leading-snug group-hover:text-amber-600 transition-colors duration-200">
                     {activity.title}
                   </h3>
-                  <p className="text-[11px] font-extrabold text-blue-600 tracking-wide uppercase mb-3">{activity.category}</p>
                   <p className="text-xs sm:text-sm text-neutral-500 leading-relaxed text-justify font-normal tracking-wide line-clamp-3">
                     {activity.description}
                   </p>
@@ -1566,7 +1582,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-10 shadow-2xl relative overflow-hidden transition-all duration-500 hover:border-amber-500/30 transform hover:scale-[1.01]">
+          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-10 shadow-2xl relative overflow-hidden transition-all duration-500 hover:border-amber-500/30 transform scale-[1.01]">
             <div className="absolute top-0 right-0 w-32 h-32 bg-amber-500/5 rounded-full blur-2xl pointer-events-none" />
             
             {activeForm === 'inquiry' && (
