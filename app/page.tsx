@@ -70,19 +70,22 @@ const officialMessages = [
     title: "Message from the Assistant Governor",
     text: "It is both an honor and a privilege to serve as Assistant Governor for Rotary Year 2026–2027. Having previously served as President of the Rotary Club of Meycauayan Metro, I take great pride in seeing our club continue to grow in strength, fellowship, and service to the community. Rotary has always been about people coming together with a shared commitment to make a difference. As we embrace this year’s Rotary theme, “Create Lasting Impact,” we are reminded that our service should not only address present needs but also create meaningful and sustainable change that will benefit future generations. Our district continues to thrive because of the dedication of Rotarians who give their time, resources, and passion to serve others. Through strong collaboration among clubs, innovative community projects, and a spirit of fellowship, we can amplify the impact of Rotary in the communities we serve. I extend my warm congratulations to the officers and members of the Rotary Club of Meycauayan Metro as you celebrate your 23rd Handover and Induction Ceremony. May this milestone inspire every member to continue pursuing excellence in service and leadership. To the incoming President Arvin Jayson Andaya and the new set of officers, I wish you a successful and impactful Rotary year ahead. May your leadership further strengthen the club’s commitment to the ideals of Rotary International and its guiding principle of Service Above Self. Together, let us continue to serve with purpose, inspire others through our actions, and truly create lasting impact in our communities.",
     author: "Jayson Fernandez",
-    meta: "Assistant Governor, RY 2026–2027 • District 3770"
+    meta: "Assistant Governor, RY 2026–2027 • District 3770",
+    image: "/members/Jayson Fernandez.png"
   },
   {
     title: "Message from the Immediate Past President",
     text: "It has been both an honor and a privilege to serve as President of the Rotary Club of Meycauayan Metro during Rotary Year 2025–2026. Guided by the inspiring Rotary theme “Unite for Good,” our club came together with a shared purpose—to strengthen our fellowship and expand our service to the community. This Rotary year has shown us the true power of unity. When individuals come together with the same vision and dedication to service, extraordinary things can be achieved. Through the collective efforts of our members, partners, and supporters, we were able to carry out meaningful projects that addressed community needs and uplifted the lives of those we serve. I am deeply grateful to every Rotarian of our club whose commitment and passion made our initiatives possible. Your willingness to serve, your generosity, and your dedication to the Rotary ideals continue to embody the spirit of Service Above Self that defines the mission of Rotary International. As we gather for our 23rd Handover and Induction Ceremony, we celebrate not only the accomplishments of the past year but also the enduring legacy of service that our club continues to build. I extend my heartfelt congratulations to the incoming leaders and officers who will guide the club forward under the theme “Create Lasting Impact.” May we continue to stand together in fellowship and service, united in our commitment to make a difference in our community and beyond. Maraming salamat, and may Rotary continue to inspire us all to serve with compassion, integrity, and unity.",
     author: "Angelito Ferrer",
-    meta: "Immediate Past President, RY 2025–2026"
+    meta: "Immediate Past President, RY 2025–2026",
+    image: "/members/Angelito Ferrer.png"
   },
   {
     title: "Message from the President",
     text: "It is with great humility and gratitude that I accept the responsibility of serving as President of the Rotary Club of Meycauayan Metro for Rotary Year 2026–2027. I am deeply honored by the trust and confidence given to me by my fellow Rotarians, and I look forward to leading our club in another meaningful year of service and fellowship. As we begin this new Rotary year, we are inspired by the Rotary theme “Create Lasting Impact.” This theme reminds us that the true value of our service is not only measured by what we accomplish today, but by the lasting difference we make in the lives of the people and communities we serve. Building on the strong foundation laid by our past leaders and members, our club will continue to pursue projects that address real community needs, promote sustainable development, and strengthen partnerships with organizations that share our vision. Through collaboration, dedication, and the unwavering commitment of our members, we will strive to create programs that leave a meaningful and lasting legacy. I extend my heartfelt appreciation to our Immediate Past President, Angelito Ferrer, whose leadership under the theme “Unite for Good” has further strengthened the spirit of unity and service within our club. Because of this strong foundation, we move forward with renewed energy and purpose. As we celebrate our 23rd Handover and Induction Ceremony, I invite every member of the Rotary Club of Meycauayan Metro to continue working together with passion and commitment. Let us deepen our fellowship, expand our service, and remain steadfast in upholding the ideals of Rotary International and its guiding principle of Service Above Self. Together, let us continue to serve with purpose, lead with integrity, and truly create lasting impact in our community and beyond.",
     author: "Arvin Jayson Andaya",
-    meta: "Club President, RY 2026–2027"
+    meta: "Club President, RY 2026–2027",
+    image: "/members/Arvin Jayson Andaya.png"
   }
 ];
 
@@ -743,14 +746,28 @@ export default function Home() {
                           </p>
                         </div>
                         
-                        <div className="mt-4 pt-4 border-t border-neutral-100">
-                          <h4 className="font-black text-amber-500 text-sm tracking-wide uppercase leading-none">
-                            {msg.author}
-                          </h4>
-                          <p className="text-[11px] font-mono text-neutral-500 mt-1 uppercase tracking-widest leading-none">
-                            {msg.meta}
-                          </p>
+                        {/* UPDATED: Flex layout incorporating the speaker's rounded portrait side-by-side with metadata */}
+                        <div className="mt-4 pt-4 border-t border-neutral-800 flex items-center gap-3">
+                          <div className="w-10 h-10 rounded-full overflow-hidden border border-neutral-700 bg-neutral-900 shrink-0">
+                            <img 
+                              src={msg.image} 
+                              alt={msg.author} 
+                              className="w-full h-full object-cover"
+                              onError={(e) => {
+                                (e.target as HTMLImageElement).src = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23171717'/><text x='50%27 y='65%27 font-family='sans-serif' font-size='35' fill='%23d97706' text-anchor='middle'>👤</text></svg>";
+                              }}
+                            />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <h4 className="font-black text-amber-500 text-xs sm:text-sm tracking-wide uppercase leading-tight truncate">
+                              {msg.author}
+                            </h4>
+                            <p className="text-[10px] font-mono text-neutral-400 mt-0.5 uppercase tracking-wider leading-none truncate">
+                              {msg.meta}
+                            </p>
+                          </div>
                         </div>
+
                       </div>
                     ))}
                   </div>
@@ -1575,7 +1592,7 @@ export default function Home() {
             <span className="text-amber-500 font-bold uppercase tracking-widest text-xs block">Connect With Us</span>
             <h2 className="text-3xl font-black text-white tracking-tight uppercase">Get Involved Today</h2>
             
-            <div className="flex gap-2 mt-8 max-w-md mx-auto bg-slate-900 p-1 rounded-xl border border-slate-800 shadow-inner">
+            <div className="flex gap-2 mt-8 max-w-md mx-auto bg-slate-900/90 p-1 rounded-xl border border-slate-800 shadow-inner">
               <button suppressHydrationWarning onClick={() => setActiveForm('inquiry')} className={`flex-1 py-2.5 text-xs sm:text-sm font-bold rounded-lg transition-all cursor-pointer border-none ${activeForm === 'inquiry' ? 'bg-amber-500 text-black shadow-md' : 'text-neutral-400 hover:text-amber-500 bg-transparent'}`}>Inquiry</button>
               <button suppressHydrationWarning onClick={() => setActiveForm('member')} className={`flex-1 py-2.5 text-xs sm:text-sm font-bold rounded-lg transition-all cursor-pointer border-none ${activeForm === 'member' ? 'bg-amber-500 text-black shadow-md' : 'text-neutral-400 hover:text-amber-500 bg-transparent'}`}>Join Us</button>
               <button suppressHydrationWarning onClick={() => setActiveForm('donate')} className={`flex-1 py-2.5 text-xs sm:text-sm font-bold rounded-lg transition-all cursor-pointer border-none ${activeForm === 'donate' ? 'bg-amber-500 text-black shadow-md' : 'text-neutral-400 hover:text-amber-500 bg-transparent'}`}>Donate</button>
