@@ -113,7 +113,7 @@ const corporateSponsors = [
   { name: "Metrogreen Technologies Corporation", logoImage: "/partner-metrogreen-technologies-corporation.jpg", fallbackText: "MCG", url: "https://www.facebook.com/metrogreentech" },
   { name: "ADS Modular Concept", logoImage: "/partner-ads-modular-concept.jpeg", fallbackText: "ADC", url: "https://www.facebook.com/profile.php?id=61560490317848" },
   { name: "Kornbeats Manila Music Production", logoImage: "/partner-kornbeats-manila.jpeg", fallbackText: "KMM", url: "https://www.facebook.com/profile.php?id=100083273196111" },
-  { name: "Cuyos' Arts and Customized Frames", logoImage: "/partner-cuyos.jpg", fallbackText: "CAF", url: "https://www.facebook.com/cuyosartsandframes" },
+  { name: "Cuyos' Arts and Customized Frames", logoImage: "/partner-cuyos.JPG", fallbackText: "CAF", url: "https://www.facebook.com/cuyosartsandframes" },
   { name: "TFDS UPVC Windows & Doors", logoImage: "/partner-tfds-upvc-windows-and-doors.jpg", fallbackText: "TFDS", url: "https://www.facebook.com/tfdsupvcsupply" }
 ];
 
