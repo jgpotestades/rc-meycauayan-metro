@@ -111,7 +111,9 @@ const corporateSponsors = [
   { name: "EM Builders", logoImage: "/partner-em-builders-logo.jpg", fallbackText: "EMB", url: "https://www.facebook.com/profile.php?id=100063686025704" },
   { name: "J4 Squad Events & Management", logoImage: "/partner-j4-squad-logo.jpeg", fallbackText: "J4S", url: "#" },
   { name: "Suds Go - Project 6", logoImage: "/partner-suds-go-project-6.jpg", fallbackText: "SGP6", url: "https://www.facebook.com/sudsgoproject6" },
-  { name: "Metrogreen Technologies Corporation", logoImage: "/partner-metrogreen-technologies-corporation.jpg", fallbackText: "MCG", url: "https://www.facebook.com/metrogreentech" }
+  { name: "Metrogreen Technologies Corporation", logoImage: "/partner-metrogreen-technologies-corporation.jpg", fallbackText: "MCG", url: "https://www.facebook.com/metrogreentech" },
+  { name: "ADS Modular Concept", logoImage: "/partner-ads-modular-concept.jpeg", fallbackText: "ADC", url: "https://www.facebook.com/profile.php?id=61560490317848" },
+  { name: "Kornbeats Manila Music Production", logoImage: "/partner-kornbeats-manila.jpeg", fallbackText: "KMM", url: "https://www.facebook.com/profile.php?id=100083273196111" }
 ];
 
 const monthMap: { [key: string]: number } = {
