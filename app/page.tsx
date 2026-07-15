@@ -127,6 +127,55 @@ export default function Home() {
   const [isMobile, setIsMobile] = useState(false);
   
   // =================================================================
+  // BACKGROUND AUDIO HANDLERS
+  // =================================================================
+  const [isMuted, setIsMuted] = useState(true); // Default to muted to comply with browser autoplay blocks
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  // Initialize and load the audio context safely on the client side
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const audio = new Audio('/background-music.wav');
+      audio.loop = true;
+      audioRef.current = audio;
+
+      // Unmute/Play attempt on user's first document click engagement to bypass strict autoplay policies
+      const handleFirstUserEngagement = () => {
+        if (audioRef.current && isMuted) {
+          audioRef.current.play()
+            .then(() => {
+              // Successfully started playback muted; now remove the listener
+              window.removeEventListener('click', handleFirstUserEngagement);
+            })
+            .catch((err) => console.log("Autoplay block still active:", err));
+        }
+      };
+
+      window.addEventListener('click', handleFirstUserEngagement);
+      return () => {
+        window.removeEventListener('click', handleFirstUserEngagement);
+        if (audioRef.current) {
+          audioRef.current.pause();
+        }
+      };
+    }
+  }, []);
+
+  // Sync state mute switches with the element target
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.muted = isMuted;
+      if (!isMuted) {
+        audioRef.current.play().catch((err) => console.log("Playback interaction failed:", err));
+      }
+    }
+  }, [isMuted]);
+
+  const toggleMute = () => {
+    setIsMuted((prev) => !prev);
+  };
+  
+  // =================================================================
   // BIRTHDAY ANNOUNCEMENT STATE & COMPLIANCE PARAMS
   // =================================================================
   const [celebratedUser, setCelebratedUser] = useState<RotaryUser | null>(null);
@@ -168,7 +217,7 @@ export default function Home() {
   const [showScrollButton, setShowScrollButton] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const [activeTab, setActiveTab] = useState<'fourway' | 'objectives' | 'vision' | 'endpolio'>('fourway');
+  const [activeTab, setActiveTab] = useState<'fourway' | 'objectives' | 'vision' | 'endpolio' >('fourway');
   const [activeVisionaryTab, setActiveVisionaryTab] = useState<'officers' | 'directors' | 'roster'>('officers');
   
   const [rosterSortCriteria, setRosterSortCriteria] = useState<'surname' | 'birthday'>('surname');
@@ -497,6 +546,18 @@ export default function Home() {
           animation: floatConfetti 4s linear infinite; pointer-events: none; z-index: 60;
         }
       `}</style>
+
+      {/* FLOATING AUDIO CONTROLLER - RIGHT ALIGNED STACK (SITS EXACTLY ABOVE THE SCROLL BUTTON) */}
+      <div className="fixed bottom-16 right-4 sm:bottom-20 sm:right-6 z-[90] flex flex-row-reverse items-center gap-2">
+        <button
+          onClick={toggleMute}
+          className="w-10 h-10 sm:w-12 sm:h-12 bg-black hover:bg-amber-500 text-white hover:text-black rounded-full flex items-center justify-center shadow-xl transition-all duration-300 transform font-bold select-none cursor-pointer border border-neutral-800 outline-none hover:scale-105"
+          title={isMuted ? "Unmute Portal Audio" : "Mute Portal Audio"}
+        >
+          {isMuted ? "🔇" : "🔊"}
+        </button>
+        
+      </div>
 
       {/* =============================================================
           🆕 PRE-ENTRY BIRTHDAY POP-UP COMPONENT (COMPLIANCE MODULE)
