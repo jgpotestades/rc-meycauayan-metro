@@ -166,7 +166,7 @@ export default function Home() {
   const [showScrollButton, setShowScrollButton] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const [activeTab, setActiveTab] = useState<'fourway' | 'objectives' | 'vision'>('fourway');
+  const [activeTab, setActiveTab] = useState<'fourway' | 'objectives' | 'vision' | 'endpolio'>('fourway');
   const [activeVisionaryTab, setActiveVisionaryTab] = useState<'officers' | 'directors' | 'roster'>('officers');
   
   const [rosterSortCriteria, setRosterSortCriteria] = useState<'surname' | 'birthday'>('surname');
@@ -838,6 +838,7 @@ export default function Home() {
                 <option value="fourway" className="bg-slate-950 text-neutral-200 uppercase tracking-wider">The 4-Way Test</option>
                 <option value="objectives" className="bg-slate-950 text-neutral-200 uppercase tracking-wider">Rotary Objectives</option>
                 <option value="vision" className="bg-slate-950 text-neutral-200 uppercase tracking-wider">Our Vision</option>
+                <option value="endpolio" className="bg-slate-950 text-neutral-200 uppercase tracking-wider">End Polio Now</option>
               </select>
               <div className="pointer-events-none absolute inset-y-0 right-4 flex items-center gap-1.5 border-l border-slate-800/80 pl-3">
                 <span className="text-[9px] text-amber-500/50 font-mono font-bold uppercase tracking-wider">View</span>
@@ -847,10 +848,11 @@ export default function Home() {
           </div>
 
           {/* TABLET & DESKTOP BREAKPOINT TABS MATRIX */}
-          <div className="hidden sm:flex bg-slate-900/80 backdrop-blur-md p-1 rounded-2xl border border-slate-800 shadow-xl max-w-xl mx-auto">
-            <button {...hydration} onClick={() => setActiveTab('fourway')} className={`flex-1 py-2 text-xs font-black uppercase tracking-wider rounded-xl transition-all duration-300 border-none cursor-pointer ${activeTab === 'fourway' ? 'bg-amber-500 text-black font-extrabold shadow-lg' : 'text-neutral-400 hover:text-amber-500 bg-transparent'}`}>The 4-Way Test</button>
-            <button {...hydration} onClick={() => setActiveTab('objectives')} className={`flex-1 py-2 text-xs font-black uppercase tracking-wider rounded-xl transition-all duration-300 border-none cursor-pointer ${activeTab === 'objectives' ? 'bg-amber-500 text-black font-extrabold shadow-lg' : 'text-neutral-400 hover:text-amber-500 bg-transparent'}`}>Rotary Objectives</button>
-            <button {...hydration} onClick={() => setActiveTab('vision')} className={`flex-1 py-2 text-xs font-black uppercase tracking-wider rounded-xl transition-all duration-300 border-none cursor-pointer ${activeTab === 'vision' ? 'bg-amber-500 text-black font-extrabold shadow-lg' : 'text-neutral-400 hover:text-amber-500 bg-transparent'}`}>Our Vision</button>
+          <div className="hidden sm:flex bg-slate-900/80 backdrop-blur-md p-1 rounded-2xl border border-slate-800 shadow-xl max-w-2xl mx-auto">
+            <button {...hydration} onClick={() => setActiveTab('fourway')} className={`flex-1 py-2 text-[10px] lg:text-xs font-black uppercase tracking-wider rounded-xl transition-all duration-300 border-none cursor-pointer ${activeTab === 'fourway' ? 'bg-amber-500 text-black font-extrabold shadow-lg' : 'text-neutral-400 hover:text-amber-500 bg-transparent'}`}>The 4-Way Test</button>
+            <button {...hydration} onClick={() => setActiveTab('objectives')} className={`flex-1 py-2 text-[10px] lg:text-xs font-black uppercase tracking-wider rounded-xl transition-all duration-300 border-none cursor-pointer ${activeTab === 'objectives' ? 'bg-amber-500 text-black font-extrabold shadow-lg' : 'text-neutral-400 hover:text-amber-500 bg-transparent'}`}>Rotary Objectives</button>
+            <button {...hydration} onClick={() => setActiveTab('vision')} className={`flex-1 py-2 text-[10px] lg:text-xs font-black uppercase tracking-wider rounded-xl transition-all duration-300 border-none cursor-pointer ${activeTab === 'vision' ? 'bg-amber-500 text-black font-extrabold shadow-lg' : 'text-neutral-400 hover:text-amber-500 bg-transparent'}`}>Our Vision</button>
+            <button {...hydration} onClick={() => setActiveTab('endpolio')} className={`flex-1 py-2 text-[10px] lg:text-xs font-black uppercase tracking-wider rounded-xl transition-all duration-300 border-none cursor-pointer ${activeTab === 'endpolio' ? 'bg-amber-500 text-black font-extrabold shadow-lg' : 'text-neutral-400 hover:text-amber-500 bg-transparent'}`}>End Polio Now</button>
           </div>
 
           <div className="bg-neutral-900/30 backdrop-blur-xl border border-neutral-800/60 rounded-3xl p-6 sm:p-12 shadow-2xl min-h-[340px] flex items-center justify-center transition-all duration-500 hover:border-neutral-700/40">
@@ -928,6 +930,36 @@ export default function Home() {
                   </p>
                   
                   <div className="w-16 h-0.5 bg-gradient-to-r from-transparent via-amber-500 to-transparent mx-auto shadow-md" />
+                </div>
+              </div>
+            )}
+
+            {activeTab === 'endpolio' && (
+              <div className="w-full space-y-6 animate-fadeIn">
+                <div className="text-center md:text-left">
+                  <span className="text-[10px] bg-red-600/20 text-red-400 font-mono border border-red-500/30 px-3 py-1 rounded-full uppercase tracking-widest inline-block mb-2">Global Initiative</span>
+                  <h3 className="text-xl font-black text-white uppercase tracking-wide">Ending Polio Worldwide</h3>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+                  <div className="space-y-4 text-justify text-xs sm:text-sm text-neutral-300 leading-relaxed font-normal">
+                    <p>
+                      Rotary and its partners have reduced polio cases by 99.9% worldwide since our first project to immunize children in the Philippines in 1979. We are close to making polio the second human disease in history to be eradicated globally.
+                    </p>
+                    <p>
+                      As a founding partner of the Global Polio Eradication Initiative, we have helped immunize more than 2.5 billion children in 122 countries. Rotarians have contributed more than $2.1 billion and countless volunteer hours to protect children from this devastating vaccine-preventable disease.
+                    </p>
+                  </div>
+                  <div className="bg-neutral-950/50 border border-neutral-800 rounded-2xl p-5 space-y-4">
+                    <h4 className="text-xs font-black uppercase text-amber-500 tracking-wider">Why Eradication Matters</h4>
+                    <ul className="text-xs text-neutral-400 space-y-2 list-none p-0 m-0">
+                      <li className="flex gap-2 items-start"><span className="text-red-500">✔</span> <strong>Humanitarian Legacy:</strong> No child will ever suffer the paralyzing effects of polio again.</li>
+                      <li className="flex gap-2 items-start"><span className="text-red-500">✔</span> <strong>Economic Dividend:</strong> Eradication saves an estimated $40-$50 billion in healthcare costs.</li>
+                      <li className="flex gap-2 items-start"><span className="text-red-500">✔</span> <strong>Global Health Security:</strong> Polio infrastructure is actively used to fight other infectious diseases.</li>
+                    </ul>
+                    <a href="https://www.rotary.org/our-work/ending-polio" target="_blank" rel="noopener noreferrer" className="inline-block text-xs font-black uppercase tracking-wider text-amber-500 hover:text-amber-400 pt-2 transition-colors">
+                      Learn More on rotary.org ↗
+                    </a>
+                  </div>
                 </div>
               </div>
             )}
