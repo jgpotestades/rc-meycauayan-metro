@@ -18,6 +18,19 @@ interface RotaryUser {
   directorPosition?: string;
   lastName?: string;  // Added for future explicit overrides
   suffix?: string;    // Added for clean separation if needed
+  // Phase 2 Fields
+  occupation?: string;
+  address?: string;
+  contactNumber?: string;
+}
+
+// Phase 2: System Bulletin/Announcement Interface
+interface ClubAnnouncement {
+  id: number;
+  title: string;
+  date: string;
+  content: string;
+  comments: Array<{ id: number; userName: string; text: string; date: string }>;
 }
 
 // =================================================================
@@ -25,31 +38,31 @@ interface RotaryUser {
 // =================================================================
 const initialUsers: RotaryUser[] = [
   // RY 2026-2027 OFFICERS
-  { id: 1, name: "Arvin Jason Andaya", role: "Officer", position: "Club President", isOfficer: true, isDirector: false, image: "/members/Arvin Jayson Andaya.png", birthday: "March 9", username: "arvinjasonandaya", email: "arvin@rcmeycauayanmetro.org" },
-  { id: 2, name: "Diosdado Alvarado", role: "Officer", position: "Vice President", isOfficer: true, isDirector: false, image: "/members/Diosdado Alvarado.png", birthday: "December 9", username: "diosdadoalvarado", email: "diosdado@rcmeycauayanmetro.org" },
-  { id: 3, name: "Daniel Cuyos", role: "Officer", position: "President Elect", isOfficer: true, isDirector: false, image: "/members/Daniel Cuyos.png", birthday: "April 11", username: "danielcuyos", email: "daniel@rcmeycauayanmetro.org" },
-  { id: 4, name: "Rosemarie Valencia", role: "Officer", position: "Club Secretary", isOfficer: true, isDirector: true, directorPosition: "Club Administration Director", image: "/members/Rosemarie Valencia.png", birthday: "August 14", username: "rosemarievalencia", email: "rosemarie@rcmeycauayanmetro.org" },
-  { id: 5, name: "Adrian Go", role: "Officer", position: "Executive Secretary", isOfficer: true, isDirector: true, directorPosition: "Public Image Director", image: "/members/Adrian Go.png", birthday: "November 19", username: "adriango", email: "adrian@rcmeycauayanmetro.org" },
-  { id: 6, name: "Mark Christian Aloran", role: "Officer", position: "Club Treasurer", isOfficer: true, isDirector: false, image: "/members/Mark Christian Aloran.png", birthday: "November 15", username: "markchristianaloran", email: "mark@rcmeycauayanmetro.org" },
-  { id: 7, name: "April Homoroc", role: "Officer", position: "Club Auditor", isOfficer: true, isDirector: false, image: "/members/April Homoroc.png", birthday: "December 20", username: "aprilhomoroc", email: "april@rcmeycauayanmetro.org" },
-  { id: 8, name: "Eric Homoroc", role: "Officer", position: "PRO", isOfficer: true, isDirector: false, image: "/members/Eric Homoroc.png", birthday: "October 13", username: "erichomoroc", email: "eric@rcmeycauayanmetro.org" },
+  { id: 1, name: "Arvin Jason Andaya", role: "Officer", position: "Club President", isOfficer: true, isDirector: false, image: "/members/Arvin Jayson Andaya.png", birthday: "March 9", username: "arvinjasonandaya", email: "arvin@rcmeycauayanmetro.org", occupation: "Business Executive", address: "Meycauayan, Bulacan", contactNumber: "+63 917 123 4567" },
+  { id: 2, name: "Diosdado Alvarado", role: "Officer", position: "Vice President", isOfficer: true, isDirector: false, image: "/members/Diosdado Alvarado.png", birthday: "December 9", username: "diosdadoalvarado", email: "diosdado@rcmeycauayanmetro.org", occupation: "Engineer", address: "Meycauayan, Bulacan", contactNumber: "+63 917 234 5678" },
+  { id: 3, name: "Daniel Cuyos", role: "Officer", position: "President Elect", isOfficer: true, isDirector: false, image: "/members/Daniel Cuyos.png", birthday: "April 11", username: "danielcuyos", email: "daniel@rcmeycauayanmetro.org", occupation: "Creative Director", address: "Meycauayan, Bulacan", contactNumber: "+63 917 345 6789" },
+  { id: 4, name: "Rosemarie Valencia", role: "Officer", position: "Club Secretary", isOfficer: true, isDirector: true, directorPosition: "Club Administration Director", image: "/members/Rosemarie Valencia.png", birthday: "August 14", username: "rosemarievalencia", email: "rosemarie@rcmeycauayanmetro.org", occupation: "Administrator", address: "Meycauayan, Bulacan", contactNumber: "+63 917 456 7890" },
+  { id: 5, name: "Adrian Go", role: "Officer", position: "Executive Secretary", isOfficer: true, isDirector: true, directorPosition: "Public Image Director", image: "/members/Adrian Go.png", birthday: "November 19", username: "adriango", email: "adrian@rcmeycauayanmetro.org", occupation: "Public Relations Specialist", address: "Meycauayan, Bulacan", contactNumber: "+63 917 567 8901" },
+  { id: 6, name: "Mark Christian Aloran", role: "Officer", position: "Club Treasurer", isOfficer: true, isDirector: false, image: "/members/Mark Christian Aloran.png", birthday: "November 15", username: "markchristianaloran", email: "mark@rcmeycauayanmetro.org", occupation: "Financial Officer", address: "Meycauayan, Bulacan", contactNumber: "+63 917 678 9012" },
+  { id: 7, name: "April Homoroc", role: "Officer", position: "Club Auditor", isOfficer: true, isDirector: false, image: "/members/April Homoroc.png", birthday: "December 20", username: "aprilhomoroc", email: "april@rcmeycauayanmetro.org", occupation: "Certified Public Accountant", address: "Meycauayan, Bulacan", contactNumber: "+63 917 789 0123" },
+  { id: 8, name: "Eric Homoroc", role: "Officer", position: "PRO", isOfficer: true, isDirector: false, image: "/members/Eric Homoroc.png", birthday: "October 13", username: "erichomoroc", email: "eric@rcmeycauayanmetro.org", occupation: "Marketing Consultant", address: "Meycauayan, Bulacan", contactNumber: "+63 917 890 1234" },
   // INDEPENDENT CLUB DIRECTORS / LEADERSHIP MARGINS
-  { id: 9, name: "Angelito Ferrer", role: "Super Admin", position: "Immediate Past President", isOfficer: false, isDirector: true, directorPosition: "Rotary Foundation Director", image: "/members/Angelito Ferrer.png", birthday: "November 2", username: "angelitoferrer", email: "angelito@rcmeycauayanmetro.org" },
-  { id: 10, name: "Jaquelyn Jacob", role: "Officer", position: "Active Member", isOfficer: false, isDirector: true, directorPosition: "Club Membership Director", image: "/members/Jackie Halasan.png", birthday: "July 21", username: "jackiehalasan", email: "jackie@rcmeycauayanmetro.org" },
-  { id: 11, name: "Raymond Peralta", role: "Officer", position: "Active Member", isOfficer: false, isDirector: true, directorPosition: "Service Project Director", image: "/members/Raymond Peralta.png", birthday: "January 10", username: "raymondperalta", email: "raymond@rcmeycauayanmetro.org" },
-  { id: 12, name: "Severino Pascual", suffix: "Jr.", role: "Officer", position: "Active Member", isOfficer: false, isDirector: true, directorPosition: "Youth Service Director", image: "/members/Severino Pascual Jr.png", birthday: "July 27", username: "severinopascual", email: "severinopascual@rcmeycauayanmetro.org" },
-  { id: 13, name: "Jayson Fernandez", role: "Officer", position: "Assistant Governor", isOfficer: false, isDirector: true, directorPosition: "Protocol Officer", image: "/members/Jayson Fernandez.png", birthday: "July 13", username: "jaysonfernandez", email: "jayson@rcmeycauayanmetro.org" },
-  { id: 14, name: "Francis Jay Dela Cruz", role: "Officer", position: "Active Member", isOfficer: false, isDirector: true, directorPosition: "Club Learning Facilitator", image: "/members/Francis Jay Dela Cruz.png", birthday: "December 21", username: "francisjaydelacruz", email: "francis@rcmeycauayanmetro.org" },
-  { id: 18, name: "Felix Domigpe", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/members/Felix Domigpe.png", birthday: "November 5", username: "felixdomigpe", email: "felix@rcmeycauayanmetro.org" },
-  { id: 19, name: "Pablito Javier", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/members/Pablito Javier.png", birthday: "January 5", username: "pablitojavier", email: "pablito@rcmeycauayanmetro.org" },
-  { id: 20, name: "Frederick Malapit", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/members/Frederick Malapit.png", birthday: "July 12", username: "frederickmalapit", email: "frederick@rcmeycauayanmetro.org" },
-  { id: 21, name: "Enrique Milan", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/members/Enrique Milan.png", birthday: "March 1", username: "enriquemilan", email: "enrique@rcmeycauayanmetro.org" },
-  { id: 22, name: "Ma. Carmela Osiones", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/members/Ma Carmela Osiones.png", birthday: "July 7", username: "macarmelaosiones", email: "carmela@rcmeycauayanmetro.org" },
-  { id: 23, name: "Willy Sy", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/members/Willy Sy.png", birthday: "March 12", username: "willysy", email: "willy@rcmeycauayanmetro.org" },
-  { id: 24, name: "Richard Becerro", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/members/Richard Becerro.png", birthday: "May 16", username: "richardbecerro", email: "richard@rcmeycauayanmetro.org" },
-  { id: 25, name: "Ramil Inopia Burdin", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/members/Ramil Inopia Burdin.png", birthday: "August 16", username: "ramilinopia", email: "ramil@rcmeycauayanmetro.org" },
-  { id: 26, name: "Morris Delos Santos", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/members/Morris Delos Santos.png", birthday: "November 17", username: "morrisdelossantos", email: "morris@rcmeycauayanmetro.org" },
-  { id: 27, name: "Edgardo Ambray", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/members/Edgardo Ambray.jpeg", birthday: "December 29", username: "edgardoombray", email: "edgardo@rcmeycauayanmetro.org" }
+  { id: 9, name: "Angelito Ferrer", role: "Super Admin", position: "Immediate Past President", isOfficer: false, isDirector: true, directorPosition: "Rotary Foundation Director", image: "/members/Angelito Ferrer.png", birthday: "November 2", username: "angelitoferrer", email: "angelito@rcmeycauayanmetro.org", occupation: "Consultant", address: "Meycauayan, Bulacan", contactNumber: "+63 917 901 2345" },
+  { id: 10, name: "Jaquelyn Jacob", role: "Officer", position: "Active Member", isOfficer: false, isDirector: true, directorPosition: "Club Membership Director", image: "/members/Jackie Halasan.png", birthday: "July 21", username: "jackiehalasan", email: "jackie@rcmeycauayanmetro.org", occupation: "Corporate Manager", address: "Meycauayan, Bulacan", contactNumber: "+63 917 012 3456" },
+  { id: 11, name: "Raymond Peralta", role: "Officer", position: "Active Member", isOfficer: false, isDirector: true, directorPosition: "Service Project Director", image: "/members/Raymond Peralta.png", birthday: "January 10", username: "raymondperalta", email: "raymond@rcmeycauayanmetro.org", occupation: "Business Owner", address: "Meycauayan, Bulacan", contactNumber: "+63 917 123 4500" },
+  { id: 12, name: "Severino Pascual", suffix: "Jr.", role: "Officer", position: "Active Member", isOfficer: false, isDirector: true, directorPosition: "Youth Service Director", image: "/members/Severino Pascual Jr.png", birthday: "July 27", username: "severinopascual", email: "severinopascual@rcmeycauayanmetro.org", occupation: "Educator", address: "Meycauayan, Bulacan", contactNumber: "+63 917 123 4511" },
+  { id: 13, name: "Jayson Fernandez", role: "Officer", position: "Assistant Governor", isOfficer: false, isDirector: true, directorPosition: "Protocol Officer", image: "/members/Jayson Fernandez.png", birthday: "July 13", username: "jaysonfernandez", email: "jayson@rcmeycauayanmetro.org", occupation: "Public Servant", address: "Meycauayan, Bulacan", contactNumber: "+63 917 123 4522" },
+  { id: 14, name: "Francis Jay Dela Cruz", role: "Officer", position: "Active Member", isOfficer: false, isDirector: true, directorPosition: "Club Learning Facilitator", image: "/members/Francis Jay Dela Cruz.png", birthday: "December 21", username: "francisjaydelacruz", email: "francis@rcmeycauayanmetro.org", occupation: "Corporate Trainer", address: "Meycauayan, Bulacan", contactNumber: "+63 917 123 4533" },
+  { id: 18, name: "Felix Domigpe", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/members/Felix Domigpe.png", birthday: "November 5", username: "felixdomigpe", email: "felix@rcmeycauayanmetro.org", occupation: "Entrepreneur", address: "Meycauayan, Bulacan", contactNumber: "+63 917 123 4544" },
+  { id: 19, name: "Pablito Javier", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/members/Pablito Javier.png", birthday: "January 5", username: "pablitojavier", email: "pablito@rcmeycauayanmetro.org", occupation: "Merchant", address: "Meycauayan, Bulacan", contactNumber: "+63 917 123 4555" },
+  { id: 20, name: "Frederick Malapit", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/members/Frederick Malapit.png", birthday: "July 12", username: "frederickmalapit", email: "frederick@rcmeycauayanmetro.org", occupation: "Real Estate Agent", address: "Meycauayan, Bulacan", contactNumber: "+63 917 123 4566" },
+  { id: 21, name: "Enrique Milan", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/members/Enrique Milan.png", birthday: "March 1", username: "enriquemilan", email: "enrique@rcmeycauayanmetro.org", occupation: "Medical Practitioner", address: "Meycauayan, Bulacan", contactNumber: "+63 917 123 4577" },
+  { id: 22, name: "Ma. Carmela Osiones", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/members/Ma Carmela Osiones.png", birthday: "July 7", username: "macarmelaosiones", email: "carmela@rcmeycauayanmetro.org", occupation: "Financier", address: "Meycauayan, Bulacan", contactNumber: "+63 917 123 4588" },
+  { id: 23, name: "Willy Sy", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/members/Willy Sy.png", birthday: "March 12", username: "willysy", email: "willy@rcmeycauayanmetro.org", occupation: "Retailer", address: "Meycauayan, Bulacan", contactNumber: "+63 917 123 4599" },
+  { id: 24, name: "Richard Becerro", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/members/Richard Becerro.png", birthday: "May 16", username: "richardbecerro", email: "richard@rcmeycauayanmetro.org", occupation: "Supplier", address: "Meycauayan, Bulacan", contactNumber: "+63 917 123 4611" },
+  { id: 25, name: "Ramil Inopia Burdin", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/members/Ramil Inopia Burdin.png", birthday: "August 16", username: "ramilinopia", email: "ramil@rcmeycauayanmetro.org", occupation: "Contractor", address: "Meycauayan, Bulacan", contactNumber: "+63 917 123 4622" },
+  { id: 26, name: "Morris Delos Santos", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/members/Morris Delos Santos.png", birthday: "November 17", username: "morrisdelossantos", email: "morris@rcmeycauayanmetro.org", occupation: "Designer", address: "Meycauayan, Bulacan", contactNumber: "+63 917 123 4633" },
+  { id: 27, name: "Edgardo Ambray", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/members/Edgardo Ambray.jpeg", birthday: "December 29", username: "edgardoombray", email: "edgardo@rcmeycauayanmetro.org", occupation: "Technologist", address: "Meycauayan, Bulacan", contactNumber: "+63 917 123 4644" }
 ];
 
 const initialActivities = [
@@ -132,6 +145,101 @@ export default function Home() {
   const [celebratedUser, setCelebratedUser] = useState<RotaryUser | null>(null);
   const [showBirthdayModal, setShowBirthdayModal] = useState(false);
 
+  // =================================================================
+  // PHASE 2 PORTAL STATE MANAGEMENT
+  // =================================================================
+  const [users, setUsers] = useState<RotaryUser[]>(initialUsers);
+  const [currentUser, setCurrentUser] = useState<RotaryUser | null>(null);
+  const [loginModalOpen, setLoginModalOpen] = useState(false);
+  const [dashboardOpen, setDashboardOpen] = useState(false);
+  const [loginUsername, setLoginUsername] = useState('');
+  const [loginError, setLoginError] = useState('');
+  
+  // Custom Background Music Path Track State
+  const [bgMusic, setBgMusic] = useState<string>('/audio/rotary-anthem.mp3');
+
+  // WordPress-Style Content Customizer State (ACF-like)
+  const [editableSections, setEditableSections] = useState({
+    carousel: [...carouselSlides],
+    whoWeAre: {
+      title: "Introduction",
+      body: [
+        "Guided by the enduring Rotary principle of Service Above Self, the Rotary International community continues to transform lives through meaningful service and strong fellowship. Each Rotary year offers a renewed opportunity for Rotarians to make a difference in their communities and beyond.",
+        "As we celebrate the 24th Handover and Induction Ceremony of the Rotary Club of Meycauayan Club, we reflect on the remarkable journey of service that has shaped our club. This milestone marks not only the transition of leadership but also a reaffirmation of our shared commitment to Rotary’s mission.",
+        "Anchored in this year’s Rotary theme, “Create Lasting Impact,” our club continues to pursue initiatives that bring sustainable and meaningful change to the communities we serve. Through collaborative projects, humanitarian programs, and the dedication of our members, we strive to ensure that our efforts today will leave a positive legacy for generations to come."
+      ]
+    },
+    rotaryCode: {
+      fourwayTest: [
+        "Is it the truth?",
+        "Is it fair to all concerned?",
+        "Will it build goodwill and better friendships?",
+        "Will it be beneficial to all concerned?"
+      ]
+    },
+    areasOfFocus: [...areasOfFocus]
+  });
+
+  // Bulletins / Club Announcements State
+  const [announcements, setAnnouncements] = useState<ClubAnnouncement[]>([
+    {
+      id: 1,
+      title: "Upcoming Community Medical & Diagnostic Mission",
+      date: "August 15, 2026",
+      content: "We will coordinate targeted clinic operations to service local sectors. Volunteer shifts are open.",
+      comments: [
+        { id: 1, userName: "Arvin Jason Andaya", text: "Looking forward to working alongside all units on this drive.", date: "2026-07-15" }
+      ]
+    },
+    {
+      id: 2,
+      title: "RY 2026-2027 General Membership Assembly Meeting",
+      date: "September 02, 2026",
+      content: "Convening incoming committee alignment parameters. Physical attendance is expected.",
+      comments: []
+    }
+  ]);
+
+  // Activity Database State
+  const [activities, setActivities] = useState(initialActivities);
+
+  // Administrative / User Creator States
+  const [newUserName, setNewUserName] = useState('');
+  const [newUserRole, setNewUserRole] = useState('Member');
+  const [newUserPosition, setNewUserPosition] = useState('Active Member');
+  const [newUserBirthday, setNewUserBirthday] = useState('January 1');
+  const [newUserUsername, setNewUserUsername] = useState('');
+  const [newUserEmail, setNewUserEmail] = useState('');
+
+  // Comment Creation States
+  const [newCommentText, setNewCommentText] = useState<{ [announcementId: number]: string }>({});
+
+  // ACF Editor Overlay Control
+  const [isAcfEditorOpen, setIsAcfEditorOpen] = useState(false);
+
+  // Profile Edit States
+  const [editFirstName, setEditFirstName] = useState('');
+  const [editLastName, setEditLastName] = useState('');
+  const [editSuffix, setEditSuffix] = useState('');
+  const [editOccupation, setEditOccupation] = useState('');
+  const [editBirthday, setEditBirthday] = useState('');
+  const [editAddress, setEditAddress] = useState('');
+  const [editEmail, setEditEmail] = useState('');
+  const [editContact, setEditContact] = useState('');
+  const [editImage, setEditImage] = useState('');
+
+  // Announcement Creation States (For Dashboard)
+  const [newAnnTitle, setNewAnnTitle] = useState('');
+  const [newAnnDate, setNewAnnDate] = useState('');
+  const [newAnnContent, setNewAnnContent] = useState('');
+
+  // Project Creation States
+  const [newProjTitle, setNewProjTitle] = useState('');
+  const [newProjCategory, setNewProjCategory] = useState('Disease Prevention & Treatment');
+  const [newProjDesc, setNewProjDesc] = useState('');
+  const [newProjType, setNewProjType] = useState<'Project' | 'News'>('Project');
+  const [newProjDetail, setNewProjDetail] = useState('');
+
   useEffect(() => {
     setMounted(true);
     const handleResize = () => {
@@ -161,6 +269,22 @@ export default function Home() {
     
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+  // Sync profile editing inputs when currentUser shifts
+  useEffect(() => {
+    if (currentUser) {
+      const nameParts = currentUser.name.split(' ');
+      setEditFirstName(nameParts[0] || '');
+      setEditLastName(nameParts.slice(1).join(' ') || '');
+      setEditSuffix(currentUser.suffix || '');
+      setEditOccupation(currentUser.occupation || '');
+      setEditBirthday(currentUser.birthday || '');
+      setEditAddress(currentUser.address || '');
+      setEditEmail(currentUser.email || '');
+      setEditContact(currentUser.contactNumber || '');
+      setEditImage(currentUser.image || '');
+    }
+  }, [currentUser]);
 
   const hydration = { suppressHydrationWarning: true };
   const [activeForm, setActiveForm] = useState<'inquiry' | 'member' | 'donate'>('inquiry');
@@ -198,7 +322,6 @@ export default function Home() {
   // =================================================================
   // MASONRY GRID ADAPTIVE LOCAL COMPONENT AND ASSET POOL CONFIGURATION
   // =================================================================
-  // Absolute fallback path reference catalog for unique static image assets inside /public/masonry/
   const masonryImages = [
     '/masonry/connect.jpg',
     '/masonry/fight-hunger.jpg',
@@ -227,7 +350,6 @@ export default function Home() {
     '/masonry/image-20.jpg'
   ];
 
-  // Extended premium configuration layout mapping structural tile specs without strings to avoid walls/empty gaps
   const initialTiles = [
     { id: 0, frontImg: '/masonry/fight-hunger.jpg', backImg: '/masonry/connect.jpg', gridClass: 'col-span-2 row-span-2 min-h-[280px] sm:min-h-[340px]', flipped: false },
     { id: 1, frontImg: '/masonry/inspire.jpg', backImg: '/masonry/mentor.jpg', gridClass: 'col-span-1 row-span-1 min-h-[140px] sm:min-h-[160px]', flipped: false },
@@ -243,7 +365,6 @@ export default function Home() {
   useEffect(() => {
     if (!mounted) return;
 
-    // Staggered intervals with relaxed 6 to 9 second timing thresholds to slow down excessive speed variations
     const intervals = tiles.map((tile, index) => {
       const timingOptions = [6000, 7500, 9000];
       const selectedDelay = timingOptions[index % timingOptions.length];
@@ -252,10 +373,7 @@ export default function Home() {
         setTiles(prevTiles => {
           return prevTiles.map(t => {
             if (t.id === tile.id) {
-              // Extract a truly random replacement photo track sitting inside our directory pool layout
               const randomPick = masonryImages[Math.floor(Math.random() * masonryImages.length)];
-              
-              // Dynamically load the random replacement specifically onto the upcoming side profile layer
               return {
                 ...t,
                 frontImg: t.flipped ? randomPick : t.frontImg,
@@ -272,7 +390,7 @@ export default function Home() {
     return () => intervals.forEach(clearInterval);
   }, [mounted]);
 
-  const allProcessedActivities = initialActivities.filter(item => {
+  const allProcessedActivities = activities.filter(item => {
     const matchesSearch = item.title.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesType = activityFilter === 'All' || item.type === activityFilter;
     const matchesStatus = statusFilter === 'All' || item.status === statusFilter;
@@ -292,11 +410,11 @@ export default function Home() {
   };
 
   const handleNextSlide = () => {
-    setCurrentSlideIndex((prev) => (prev + 1) % carouselSlides.length);
+    setCurrentSlideIndex((prev) => (prev + 1) % editableSections.carousel.length);
   };
 
   const handlePrevSlide = () => {
-    setCurrentSlideIndex((prev) => (prev === 0 ? carouselSlides.length - 1 : prev - 1));
+    setCurrentSlideIndex((prev) => (prev === 0 ? editableSections.carousel.length - 1 : prev - 1));
   };
 
   const handleNextMessage = () => {
@@ -310,16 +428,12 @@ export default function Home() {
   // RESPONSIVE AUTOMATED INTERMITTENT STREAM
   useEffect(() => {
     if (!mounted || isHovered) return;
-    
-    // Explicit 5-second slide index rotation logic applied exclusively for viewports under sm breakpoint thresholds
     const contextInterval = window.innerWidth < 640 ? 5000 : 6000;
-    
     const slideTimer = setInterval(() => {
-      setCurrentSlideIndex((prevIndex) => (prevIndex + 1) % carouselSlides.length);
+      setCurrentSlideIndex((prevIndex) => (prevIndex + 1) % editableSections.carousel.length);
     }, contextInterval);
-    
     return () => clearInterval(slideTimer);
-  }, [isHovered, mounted]);
+  }, [isHovered, mounted, editableSections.carousel]);
 
   useEffect(() => {
     if (!mounted) return;
@@ -332,7 +446,6 @@ export default function Home() {
       } else if (currentScrollY > lastScrollY.current) {
         if (!mobileMenuOpen) setNavVisible(false);
       } else {
-        navVisible;
         setNavVisible(true);
       }
 
@@ -365,7 +478,7 @@ export default function Home() {
   };
 
   const getFilteredAndSortedVisionaries = () => {
-    const subset = initialUsers.filter(user => {
+    const subset = users.filter(user => {
       if (activeVisionaryTab === 'officers') return user.isOfficer;
       if (activeVisionaryTab === 'directors') return user.isDirector;
       return true;
@@ -374,16 +487,12 @@ export default function Home() {
     if (activeVisionaryTab === 'roster') {
       return [...subset].sort((a, b) => {
         if (rosterSortCriteria === 'surname') {
-          // Extraction helper dealing with trailing suffixes and unique custom Filipino multipart surnames
           const parseLastName = (u: RotaryUser) => {
             if (u.lastName) return u.lastName.toLowerCase().trim();
-            
-            // Clean common suffix abbreviations out of evaluation pool
             const cleaned = u.name.replace(/\s+(jr\.|sr\.|iii|ii|iv|v|juniour)(\s+|$)/i, '').trim();
             const tokens = cleaned.split(/\s+/);
             if (tokens.length <= 1) return cleaned.toLowerCase();
 
-            // Evaluate specific prefix configurations
             const lowSec = tokens[tokens.length - 2].toLowerCase();
             const lowThird = tokens.length > 2 ? tokens[tokens.length - 3].toLowerCase() : "";
 
@@ -416,11 +525,175 @@ export default function Home() {
   };
 
   const allFilteredVisionaries = getFilteredAndSortedVisionaries();
-  
   const totalPages = Math.ceil(allFilteredVisionaries.length / itemsPerPage);
-  
-  // Dynamic slice allocation for consistent visual balance across all tab options
   const filteredVisionaries = allFilteredVisionaries.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+
+  // =================================================================
+  // PHASE 2 BUSINESS ACTIONS & SIMULATED PRIVILEGES
+  // =================================================================
+  const handleSimulatedLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoginError('');
+    const targetUser = users.find(
+      u => u.username?.toLowerCase() === loginUsername.trim().toLowerCase()
+    );
+
+    if (targetUser) {
+      setCurrentUser(targetUser);
+      setLoginModalOpen(false);
+      setDashboardOpen(true);
+    } else {
+      setLoginError("Invalid member identifier username. Please cross-reference the official roster names.");
+    }
+  };
+
+  const handleUpdateProfile = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!currentUser) return;
+
+    const updated = {
+      ...currentUser,
+      name: `${editFirstName} ${editLastName}`.trim(),
+      suffix: editSuffix,
+      occupation: editOccupation,
+      birthday: editBirthday,
+      address: editAddress,
+      email: editEmail,
+      contactNumber: editContact,
+      image: editImage || currentUser.image
+    };
+
+    setUsers(prev => prev.map(u => u.id === currentUser.id ? updated : u));
+    setCurrentUser(updated);
+    alert("Profile metrics synchronized successfully.");
+  };
+
+  const handleCreateUser = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!currentUser || (currentUser.position !== "Club President" && currentUser.position !== "Club Secretary")) {
+      alert("Unauthorized hierarchy action.");
+      return;
+    }
+
+    const newUser: RotaryUser = {
+      id: Date.now(),
+      name: newUserName,
+      role: newUserRole,
+      position: newUserPosition,
+      isOfficer: newUserRole === "Officer",
+      isDirector: newUserRole === "Director",
+      image: "/members/placeholder.png",
+      birthday: newUserBirthday,
+      username: newUserUsername.toLowerCase(),
+      email: newUserEmail
+    };
+
+    setUsers(prev => [...prev, newUser]);
+    setNewUserName('');
+    setNewUserUsername('');
+    setNewUserEmail('');
+    alert(`Success: ${newUserName} added to club portal directory.`);
+  };
+
+  const handleDeleteUser = (userId: number) => {
+    if (!currentUser || (currentUser.position !== "Club President" && currentUser.position !== "Club Secretary")) {
+      alert("Unauthorized hierarchy action.");
+      return;
+    }
+    setUsers(prev => prev.filter(u => u.id !== userId));
+  };
+
+  const handlePromoteUser = (userId: number, newRole: string, newPosition: string) => {
+    if (!currentUser || (currentUser.position !== "Club President" && currentUser.position !== "Club Secretary")) {
+      alert("Unauthorized hierarchy action.");
+      return;
+    }
+    setUsers(prev => prev.map(u => {
+      if (u.id === userId) {
+        return {
+          ...u,
+          role: newRole,
+          position: newPosition,
+          isOfficer: newRole === "Officer",
+          isDirector: newRole === "Director"
+        };
+      }
+      return u;
+    }));
+  };
+
+  const handleAddComment = (announcementId: number) => {
+    const text = newCommentText[announcementId];
+    if (!text || !text.trim() || !currentUser) return;
+
+    setAnnouncements(prev => prev.map(ann => {
+      if (ann.id === announcementId) {
+        return {
+          ...ann,
+          comments: [
+            ...ann.comments,
+            {
+              id: Date.now(),
+              userName: currentUser.name,
+              text: text.trim(),
+              date: new Date().toLocaleDateString()
+            }
+          ]
+        };
+      }
+      return ann;
+    }));
+
+    setNewCommentText(prev => ({ ...prev, [announcementId]: '' }));
+  };
+
+  const handleCreateAnnouncement = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!currentUser || !currentUser.isOfficer) {
+      alert("Unauthorized action. Only Officers have access to post announcements.");
+      return;
+    }
+
+    const newAnnouncement: ClubAnnouncement = {
+      id: Date.now(),
+      title: newAnnTitle,
+      date: newAnnDate,
+      content: newAnnContent,
+      comments: []
+    };
+
+    setAnnouncements(prev => [newAnnouncement, ...prev]);
+    setNewAnnTitle('');
+    setNewAnnDate('');
+    setNewAnnContent('');
+    alert("New bulletin successfully published on member timeline.");
+  };
+
+  const handleCreateProject = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!currentUser || (!currentUser.isDirector && !currentUser.isOfficer)) {
+      alert("Only Officers or Directors can add new projects/news.");
+      return;
+    }
+
+    const newActivityObj = {
+      id: Date.now(),
+      type: newProjType,
+      title: newProjTitle,
+      category: newProjCategory,
+      description: newProjDesc,
+      fullDescription: newProjDesc,
+      status: "Completed",
+      detail: newProjDetail,
+      galleryImages: ["/carousel 1.jpg"]
+    };
+
+    setActivities(prev => [newActivityObj, ...prev]);
+    setNewProjTitle('');
+    setNewProjDesc('');
+    setNewProjDetail('');
+    alert("Humanitarian record logged on portal pipeline.");
+  };
 
   if (!mounted) {
     return (
@@ -437,7 +710,6 @@ export default function Home() {
       <CustomCursor />
       
       <style jsx global>{`
-        /* Webkit Engines (Chrome, Safari, Edge) */
         .custom-magazine-scrollbar::-webkit-scrollbar {
           width: 5px;
         }
@@ -453,13 +725,10 @@ export default function Home() {
         .custom-magazine-scrollbar::-webkit-scrollbar-thumb:hover {
           background: #f59e0b;
         }
-
-        /* Firefox Support Layer */
         .custom-magazine-scrollbar {
           scrollbar-width: thin;
           scrollbar-color: #d97706 #171717;
         }
-
         @keyframes infiniteMarquee {
           0% { transform: translateX(0); }
           100% { transform: translateX(-50%); }
@@ -472,8 +741,6 @@ export default function Home() {
         .animate-marquee-stream:hover {
           animation-play-state: paused;
         }
-
-        /* 3D Flips Mesh Support Layouts */
         .perspective-1000 {
           perspective: 1000px;
         }
@@ -486,8 +753,6 @@ export default function Home() {
         .rotate-y-180 {
           transform: rotateY(180deg);
         }
-        
-        /* Confetti Streams for Birthday Modals */
         @keyframes floatConfetti {
           0% { transform: translateY(-20px) rotate(0deg); opacity: 1; }
           100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
@@ -499,12 +764,17 @@ export default function Home() {
       `}</style>
 
       {/* =============================================================
+          🆕 AUDIO PLAYER BACKGROUND ENGINE
+          ============================================================= */}
+      <div className="hidden">
+        <audio autoPlay loop muted src={bgMusic} id="portal-bg-audio" />
+      </div>
+
+      {/* =============================================================
           🆕 PRE-ENTRY BIRTHDAY POP-UP COMPONENT (COMPLIANCE MODULE)
           ============================================================= */}
       {showBirthdayModal && celebratedUser && (
         <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-black/90 backdrop-blur-xl animate-fadeIn">
-          
-          {/* Confetti Generation Deck */}
           {Array.from({ length: 40 }).map((_, i) => {
             const colors = ['#f59e0b', '#3b82f6', '#10b981', '#ec4899', '#8b5cf6'];
             const randomColor = colors[i % colors.length];
@@ -529,16 +799,13 @@ export default function Home() {
 
           <div className="bg-white rounded-[32px] w-full max-w-lg p-8 sm:p-10 shadow-2xl text-center border border-neutral-200 relative overflow-hidden animate-scaleUp flex flex-col items-center">
             <div className="absolute top-0 inset-x-0 h-2 bg-gradient-to-r from-amber-500 via-orange-500 to-blue-600" />
-            
             <span className="text-3xl sm:text-4xl mb-4 select-none animate-bounce">🎉🎂🥳</span>
             <span className="text-[10px] font-mono bg-amber-500/10 text-amber-700 border border-amber-500/20 px-4 py-1.5 rounded-full uppercase font-black tracking-widest inline-block shadow-sm mb-4">
               Rotary Birthday Celebration
             </span>
-            
             <h2 className="text-2xl sm:text-3xl font-black text-neutral-900 tracking-tight uppercase leading-tight">
               Happy Birthday!
             </h2>
-            
             <div className="my-6 w-28 h-28 rounded-full overflow-hidden border-4 border-amber-500/30 shadow-md relative bg-neutral-100">
               <img 
                 src={celebratedUser.image.startsWith('/members/') ? celebratedUser.image : `/members/${celebratedUser.name.trim().replace(/\s+/g, '_')}.png`}
@@ -549,18 +816,15 @@ export default function Home() {
                 }}
               />
             </div>
-
             <h3 className="text-lg font-black text-amber-600 tracking-wide uppercase">
               {celebratedUser.name} {celebratedUser.suffix || ''}
             </h3>
             <p className="text-xs font-mono font-bold text-blue-600 uppercase tracking-widest mt-1">
               {celebratedUser.directorPosition || celebratedUser.position}
             </p>
-
             <p className="text-xs sm:text-sm text-neutral-500 leading-relaxed max-w-xs mt-4 mb-6 font-normal">
               Wishing our fellow Rotarian a wonderful day filled with fellowship, joy, and service! Thank you for creating lasting impact.
             </p>
-
             <button
               onClick={() => setShowBirthdayModal(false)}
               className="w-full bg-black hover:bg-amber-500 text-white hover:text-black font-black py-4 rounded-xl transition border-none cursor-pointer text-xs uppercase tracking-wider shadow-lg outline-none select-none"
@@ -571,7 +835,9 @@ export default function Home() {
         </div>
       )}
 
-      {/* 1. SMART STICKY NAVIGATION BAR */}
+      {/* =============================================================
+          1. SMART STICKY NAVIGATION BAR
+          ============================================================= */}
       <header className={`sticky top-0 z-50 bg-black text-white shadow-md border-b border-neutral-800 transition-transform duration-300 transform ${
         navVisible ? 'translate-y-0' : '-translate-y-full'
       }`}>
@@ -598,6 +864,15 @@ export default function Home() {
           </nav>
           
           <div className="hidden md:flex items-center gap-4">
+            {currentUser ? (
+              <button onClick={() => setDashboardOpen(true)} className="bg-amber-500 border border-transparent text-black font-black px-5 py-2 rounded-full text-xs uppercase tracking-wider transition cursor-pointer">
+                Portal Dashboard
+              </button>
+            ) : (
+              <button onClick={() => setLoginModalOpen(true)} className="bg-transparent border border-neutral-700 text-neutral-200 hover:border-amber-500 hover:text-amber-500 font-bold px-5 py-2 rounded-full text-xs uppercase tracking-wider transition cursor-pointer">
+                Member Login
+              </button>
+            )}
             <button onClick={(e) => scrollToSection(e, 'contactus')} className="bg-transparent border border-neutral-700 text-neutral-200 hover:border-amber-500 hover:text-amber-500 font-bold px-5 py-2 rounded-full text-xs uppercase tracking-wider transition cursor-pointer text-center no-underline">
               Get Involved
             </button>
@@ -612,10 +887,366 @@ export default function Home() {
             <a href="#focus-channels" onClick={(e) => scrollToSection(e, 'focus-channels')} className="hover:text-amber-500 py-1">Areas of Focus</a>
             <a href="#visionaries" onClick={(e) => scrollToSection(e, 'visionaries')} className="hover:text-amber-500 py-1">Visionaries</a>
             <a href="#projects-and-news" onClick={(e) => scrollToSection(e, 'projects-and-news')} className="hover:text-amber-500 py-1">Projects & News</a>
+            <hr className="border-neutral-800" />
+            {currentUser ? (
+              <button onClick={() => { setMobileMenuOpen(false); setDashboardOpen(true); }} className="w-full text-left bg-amber-500 text-black font-black p-2 rounded text-xs uppercase tracking-wider">
+                Portal Dashboard
+              </button>
+            ) : (
+              <button onClick={() => { setMobileMenuOpen(false); setLoginModalOpen(true); }} className="w-full text-left bg-neutral-800 text-white font-black p-2 rounded text-xs uppercase tracking-wider">
+                Member Login
+              </button>
+            )}
             <a href="#contactus" onClick={(e) => scrollToSection(e, 'contactus')} className="hover:text-amber-500 py-1">Get Involved</a>
           </div>
         )}
       </header>
+
+      {/* =============================================================
+          🆕 MEMBER LOGIN GATE (MODAL)
+          ============================================================= */}
+      {loginModalOpen && (
+        <div className="fixed inset-0 z-[150] flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-fadeIn">
+          <div className="bg-white text-neutral-800 rounded-3xl w-full max-w-md p-8 border border-neutral-200 relative animate-scaleUp">
+            <button onClick={() => setLoginModalOpen(false)} className="absolute top-4 right-4 text-neutral-400 hover:text-black font-bold">✕</button>
+            <h3 className="text-xl font-black uppercase tracking-tight text-neutral-900 border-b border-neutral-100 pb-3">Portal Gateway</h3>
+            <p className="text-xs text-neutral-500 mt-2 mb-6">Access your active dashboard using your certified lowercased username handle (e.g. "arvinjasonandaya").</p>
+            <form onSubmit={handleSimulatedLogin} className="space-y-4">
+              <div>
+                <label className="block text-[10px] uppercase font-bold text-neutral-400 mb-1">Username Handle</label>
+                <input 
+                  type="text" 
+                  value={loginUsername}
+                  onChange={(e) => setLoginUsername(e.target.value)}
+                  placeholder="arvinjasonandaya"
+                  required
+                  className="w-full border border-neutral-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-amber-500"
+                />
+              </div>
+              {loginError && <p className="text-xs font-bold text-red-600 font-mono">{loginError}</p>}
+              <button type="submit" className="w-full bg-black hover:bg-amber-500 hover:text-black text-white font-black py-4 rounded-xl text-xs uppercase tracking-widest transition">
+                Authenticate Securely
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* =============================================================
+          🆕 PORTAL DASHBOARD DRAWER / INTERFACE OVERLAY
+          ============================================================= */}
+      {dashboardOpen && currentUser && (
+        <div className="fixed inset-0 z-[140] flex justify-end bg-black/75 backdrop-blur-sm animate-fadeIn">
+          <div onClick={() => setDashboardOpen(false)} className="absolute inset-0 cursor-pointer" />
+          <div className="bg-white text-neutral-800 w-full max-w-4xl h-full shadow-2xl relative z-10 flex flex-col justify-between animate-slideLeft overflow-hidden">
+            
+            {/* Header Area */}
+            <div className="bg-neutral-900 text-white p-6 flex justify-between items-center border-b border-neutral-800">
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 rounded-full overflow-hidden border border-neutral-700 bg-neutral-800">
+                  <img src={currentUser.image} alt={currentUser.name} className="w-full h-full object-cover" />
+                </div>
+                <div>
+                  <h4 className="font-black text-sm uppercase tracking-wide">{currentUser.name}</h4>
+                  <p className="text-[10px] font-mono text-amber-500 uppercase tracking-widest">{currentUser.position} • {currentUser.role}</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-3">
+                {currentUser.isOfficer && (
+                  <button onClick={() => setIsAcfEditorOpen(true)} className="bg-blue-600 text-white font-bold px-3 py-1.5 rounded-lg text-[10px] uppercase tracking-wider">
+                    ACF Content Editor
+                  </button>
+                )}
+                <button onClick={() => setCurrentUser(null)} className="text-neutral-400 hover:text-red-500 font-black text-xs uppercase">Logout</button>
+                <button onClick={() => setDashboardOpen(false)} className="text-white text-lg">✕</button>
+              </div>
+            </div>
+
+            {/* Scrollable Workspace Panels */}
+            <div className="flex-1 p-6 overflow-y-auto custom-magazine-scrollbar space-y-8 bg-neutral-50">
+              
+              {/* Profile Management Section */}
+              <div className="bg-white border border-neutral-200 rounded-3xl p-6 shadow-sm">
+                <h3 className="text-sm font-black uppercase tracking-widest text-neutral-950 border-b pb-2 mb-4">Edit Profile Settings</h3>
+                <form onSubmit={handleUpdateProfile} className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-[9px] font-bold uppercase text-neutral-400 mb-1">First Name</label>
+                    <input type="text" value={editFirstName} onChange={(e) => setEditFirstName(e.target.value)} required className="w-full border border-neutral-200 rounded-lg p-2.5 text-xs" />
+                  </div>
+                  <div>
+                    <label className="block text-[9px] font-bold uppercase text-neutral-400 mb-1">Last Name</label>
+                    <input type="text" value={editLastName} onChange={(e) => setEditLastName(e.target.value)} required className="w-full border border-neutral-200 rounded-lg p-2.5 text-xs" />
+                  </div>
+                  <div>
+                    <label className="block text-[9px] font-bold uppercase text-neutral-400 mb-1">Suffix</label>
+                    <input type="text" value={editSuffix} onChange={(e) => setEditSuffix(e.target.value)} className="w-full border border-neutral-200 rounded-lg p-2.5 text-xs" placeholder="Jr., III, etc." />
+                  </div>
+                  <div>
+                    <label className="block text-[9px] font-bold uppercase text-neutral-400 mb-1">Occupation</label>
+                    <input type="text" value={editOccupation} onChange={(e) => setEditOccupation(e.target.value)} className="w-full border border-neutral-200 rounded-lg p-2.5 text-xs" />
+                  </div>
+                  <div>
+                    <label className="block text-[9px] font-bold uppercase text-neutral-400 mb-1">Birthday Month/Day</label>
+                    <input type="text" value={editBirthday} onChange={(e) => setEditBirthday(e.target.value)} className="w-full border border-neutral-200 rounded-lg p-2.5 text-xs" placeholder="e.g. March 9" />
+                  </div>
+                  <div>
+                    <label className="block text-[9px] font-bold uppercase text-neutral-400 mb-1">Physical Address</label>
+                    <input type="text" value={editAddress} onChange={(e) => setEditAddress(e.target.value)} className="w-full border border-neutral-200 rounded-lg p-2.5 text-xs" />
+                  </div>
+                  <div>
+                    <label className="block text-[9px] font-bold uppercase text-neutral-400 mb-1">Email Address</label>
+                    <input type="email" value={editEmail} onChange={(e) => setEditEmail(e.target.value)} className="w-full border border-neutral-200 rounded-lg p-2.5 text-xs" />
+                  </div>
+                  <div>
+                    <label className="block text-[9px] font-bold uppercase text-neutral-400 mb-1">Contact Number</label>
+                    <input type="text" value={editContact} onChange={(e) => setEditContact(e.target.value)} className="w-full border border-neutral-200 rounded-lg p-2.5 text-xs" />
+                  </div>
+                  <div className="sm:col-span-2">
+                    <button type="submit" className="bg-black text-white hover:bg-amber-500 hover:text-black font-black uppercase text-[10px] tracking-widest px-6 py-3 rounded-xl transition">
+                      Synchronize Changes
+                    </button>
+                  </div>
+                </form>
+              </div>
+
+              {/* Club Bulletin / Announcements Feed with Interactive Live Chat */}
+              <div className="bg-white border border-neutral-200 rounded-3xl p-6 shadow-sm space-y-6">
+                <div className="border-b pb-2 flex justify-between items-center">
+                  <h3 className="text-sm font-black uppercase tracking-widest text-neutral-950">Active Bulletins & Comment Deck</h3>
+                  <span className="text-[10px] bg-amber-100 text-amber-800 font-bold px-2 py-0.5 rounded-full uppercase">Interact Live</span>
+                </div>
+                
+                {currentUser.isOfficer && (
+                  <form onSubmit={handleCreateAnnouncement} className="bg-neutral-50 p-4 border border-neutral-200 rounded-2xl space-y-3">
+                    <span className="text-[9px] uppercase font-bold text-neutral-400 block">⚙️ Create New Bulletin announcement (Officers Area)</span>
+                    <div className="grid sm:grid-cols-2 gap-3">
+                      <input type="text" placeholder="Announcement Title" value={newAnnTitle} onChange={(e) => setNewAnnTitle(e.target.value)} required className="border border-neutral-300 rounded-lg p-2 text-xs w-full bg-white" />
+                      <input type="text" placeholder="Event Calendar Date" value={newAnnDate} onChange={(e) => setNewAnnDate(e.target.value)} required className="border border-neutral-300 rounded-lg p-2 text-xs w-full bg-white" />
+                    </div>
+                    <textarea placeholder="Write announcement details..." value={newAnnContent} onChange={(e) => setNewAnnContent(e.target.value)} required rows={2} className="border border-neutral-300 rounded-lg p-2 text-xs w-full bg-white" />
+                    <button type="submit" className="bg-neutral-900 text-white font-bold text-[9px] px-4 py-2 rounded-lg uppercase tracking-wider">Publish Announcement</button>
+                  </form>
+                )}
+
+                <div className="space-y-4">
+                  {announcements.map(ann => (
+                    <div key={ann.id} className="border border-neutral-100 rounded-2xl p-4 bg-white shadow-inner">
+                      <div className="flex justify-between items-center">
+                        <h4 className="font-black text-neutral-900 text-xs sm:text-sm uppercase">{ann.title}</h4>
+                        <span className="text-[9px] font-mono text-neutral-400 font-semibold">{ann.date}</span>
+                      </div>
+                      <p className="text-xs text-neutral-600 mt-2">{ann.content}</p>
+                      
+                      {/* Comments Sub-list */}
+                      <div className="mt-4 pt-4 border-t border-neutral-100 space-y-2">
+                        <span className="text-[9px] uppercase font-bold text-neutral-400 block">Comments ({ann.comments.length})</span>
+                        {ann.comments.map(c => (
+                          <div key={c.id} className="bg-neutral-50 rounded-lg p-2 text-[11px] leading-tight flex justify-between items-start">
+                            <div>
+                              <strong className="text-neutral-800">{c.userName}: </strong>
+                              <span className="text-neutral-600">{c.text}</span>
+                            </div>
+                            <span className="text-[8px] font-mono text-neutral-400 shrink-0 ml-2">{c.date}</span>
+                          </div>
+                        ))}
+                        <div className="flex gap-2 pt-2">
+                          <input 
+                            type="text" 
+                            placeholder="Add commentary..." 
+                            value={newCommentText[ann.id] || ''}
+                            onChange={(e) => setNewCommentText(prev => ({ ...prev, [ann.id]: e.target.value }))}
+                            className="border border-neutral-200 rounded-lg p-2 text-[11px] flex-1 outline-none"
+                          />
+                          <button onClick={() => handleAddComment(ann.id)} className="bg-amber-500 text-black font-bold text-[10px] px-3 py-1 rounded-lg uppercase tracking-wider">Comment</button>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Administrative Node (Only visible for President down to Secretary) */}
+              {(currentUser.position === "Club President" || currentUser.position === "Club Secretary") && (
+                <div className="bg-white border border-red-200/50 rounded-3xl p-6 shadow-sm space-y-6">
+                  <h3 className="text-sm font-black uppercase tracking-widest text-neutral-950 border-b pb-2 mb-4">Portal Administrative Management</h3>
+                  
+                  {/* Create Member */}
+                  <form onSubmit={handleCreateUser} className="bg-neutral-50 p-4 border border-neutral-200 rounded-2xl space-y-3">
+                    <span className="text-[9px] uppercase font-bold text-neutral-400 block">Create Registered Portal User Account</span>
+                    <div className="grid sm:grid-cols-2 gap-3">
+                      <input type="text" placeholder="Full Name" value={newUserName} onChange={(e) => setNewUserName(e.target.value)} required className="border rounded p-2 text-xs" />
+                      <input type="text" placeholder="Username Handle" value={newUserUsername} onChange={(e) => setNewUserUsername(e.target.value)} required className="border rounded p-2 text-xs" />
+                      <input type="email" placeholder="Email address" value={newUserEmail} onChange={(e) => setNewUserEmail(e.target.value)} required className="border rounded p-2 text-xs" />
+                      <select value={newUserRole} onChange={(e) => setNewUserRole(e.target.value)} className="border rounded p-2 text-xs">
+                        <option value="Member">Member</option>
+                        <option value="Officer">Officer</option>
+                        <option value="Director">Director</option>
+                      </select>
+                      <input type="text" placeholder="Position (e.g. Active Member)" value={newUserPosition} onChange={(e) => setNewUserPosition(e.target.value)} className="border rounded p-2 text-xs col-span-2" />
+                    </div>
+                    <button type="submit" className="bg-black text-white font-bold text-[10px] px-4 py-2 rounded uppercase">Register User Account</button>
+                  </form>
+
+                  {/* List and Modify Roster */}
+                  <div className="space-y-3 max-h-60 overflow-y-auto pr-2 custom-magazine-scrollbar">
+                    <span className="text-[9px] uppercase font-bold text-neutral-400 block">Interactive Membership Hierarchy Editor</span>
+                    {users.map(u => (
+                      <div key={u.id} className="border border-neutral-100 rounded-xl p-3 flex justify-between items-center bg-white">
+                        <div>
+                          <strong className="text-xs">{u.name}</strong>
+                          <p className="text-[9px] text-neutral-500 uppercase">{u.position} ({u.role})</p>
+                        </div>
+                        <div className="flex gap-2">
+                          <select 
+                            value={u.role} 
+                            onChange={(e) => handlePromoteUser(u.id, e.target.value, u.position)}
+                            className="text-[10px] border p-1 rounded"
+                          >
+                            <option value="Member">Member</option>
+                            <option value="Director">Director</option>
+                            <option value="Officer">Officer</option>
+                          </select>
+                          <button onClick={() => handleDeleteUser(u.id)} className="bg-red-500 text-white text-[10px] font-bold px-2 py-1 rounded">Delete</button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Club Directors & Officers Section Creation Tool */}
+              {(currentUser.isDirector || currentUser.isOfficer) && (
+                <div className="bg-white border border-neutral-200 rounded-3xl p-6 shadow-sm space-y-4">
+                  <h3 className="text-sm font-black uppercase tracking-widest text-neutral-950">Add Humanitarian Projects & News</h3>
+                  <form onSubmit={handleCreateProject} className="space-y-3 bg-neutral-50 p-4 border border-neutral-200 rounded-2xl">
+                    <div className="grid sm:grid-cols-2 gap-3">
+                      <div>
+                        <label className="block text-[9px] font-bold uppercase text-neutral-400 mb-1">Document Type</label>
+                        <select value={newProjType} onChange={(e) => setNewProjType(e.target.value as any)} className="border rounded p-2 text-xs w-full">
+                          <option value="Project">Project</option>
+                          <option value="News">News</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label className="block text-[9px] font-bold uppercase text-neutral-400 mb-1">Humanitarian Title</label>
+                        <input type="text" value={newProjTitle} onChange={(e) => setNewProjTitle(e.target.value)} required className="border rounded p-2 text-xs w-full" />
+                      </div>
+                    </div>
+                    <div>
+                      <label className="block text-[9px] font-bold uppercase text-neutral-400 mb-1">Category (e.g. WASH Clean Water)</label>
+                      <input type="text" value={newProjCategory} onChange={(e) => setNewProjCategory(e.target.value)} required className="border rounded p-2 text-xs w-full" />
+                    </div>
+                    <div>
+                      <label className="block text-[9px] font-bold uppercase text-neutral-400 mb-1">Ledger Detail Info</label>
+                      <input type="text" value={newProjDetail} onChange={(e) => setNewProjDetail(e.target.value)} required className="border rounded p-2 text-xs w-full" />
+                    </div>
+                    <div>
+                      <label className="block text-[9px] font-bold uppercase text-neutral-400 mb-1">Description Paragraph</label>
+                      <textarea value={newProjDesc} onChange={(e) => setNewProjDesc(e.target.value)} required className="border rounded p-2 text-xs w-full" rows={2} />
+                    </div>
+                    <button type="submit" className="bg-amber-500 text-black font-bold text-[10px] px-4 py-2 rounded uppercase tracking-wider">Log Project Output</button>
+                  </form>
+                </div>
+              )}
+
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* =============================================================
+          🆕 WORDPRESS ACF CONTENT EDITOR OVERLAY (Officers Privileges)
+          ============================================================= */}
+      {isAcfEditorOpen && currentUser && currentUser.isOfficer && (
+        <div className="fixed inset-0 z-[160] flex items-center justify-center p-4 bg-black/90 backdrop-blur-md animate-fadeIn">
+          <div className="bg-white rounded-3xl w-full max-w-2xl p-6 sm:p-10 max-h-[90vh] overflow-y-auto custom-magazine-scrollbar space-y-6 animate-scaleUp">
+            <div className="flex justify-between items-center border-b pb-4">
+              <div>
+                <h3 className="text-base font-black uppercase tracking-wide">WordPress ACF Visual Editor</h3>
+                <p className="text-[10px] text-neutral-400 uppercase tracking-widest font-mono">Officers Content Core Controller</p>
+              </div>
+              <button onClick={() => setIsAcfEditorOpen(false)} className="text-neutral-500 font-black text-xs uppercase">✕</button>
+            </div>
+
+            {/* Background Music Editor */}
+            <div className="border p-4 rounded-2xl space-y-2 bg-neutral-50">
+              <strong className="text-xs uppercase tracking-wider block">Background Music Soundtrack Track</strong>
+              <input 
+                type="text" 
+                value={bgMusic} 
+                onChange={(e) => setBgMusic(e.target.value)}
+                className="w-full text-xs p-2.5 border rounded-lg bg-white font-mono"
+                placeholder="/audio/rotary-anthem.mp3"
+              />
+            </div>
+
+            {/* Carousel Content Editor */}
+            <div className="border p-4 rounded-2xl space-y-3 bg-neutral-50">
+              <strong className="text-xs uppercase tracking-wider block">Carousel Slides Catalog</strong>
+              {editableSections.carousel.map((slide, idx) => (
+                <div key={idx} className="space-y-2 border-b pb-3 last:border-0">
+                  <span className="text-[10px] font-mono font-bold">Slide {idx + 1} Image URL</span>
+                  <input 
+                    type="text" 
+                    value={slide.url} 
+                    onChange={(e) => {
+                      const updated = [...editableSections.carousel];
+                      updated[idx].url = e.target.value;
+                      setEditableSections({ ...editableSections, carousel: updated });
+                    }}
+                    className="w-full text-xs p-2 border rounded bg-white" 
+                  />
+                  <input 
+                    type="text" 
+                    value={slide.caption} 
+                    onChange={(e) => {
+                      const updated = [...editableSections.carousel];
+                      updated[idx].caption = e.target.value;
+                      setEditableSections({ ...editableSections, carousel: updated });
+                    }}
+                    className="w-full text-xs p-2 border rounded bg-white" 
+                    placeholder="Caption"
+                  />
+                </div>
+              ))}
+            </div>
+
+            {/* Who We Are Editor */}
+            <div className="border p-4 rounded-2xl space-y-3 bg-neutral-50">
+              <strong className="text-xs uppercase tracking-wider block">Who We Are Section</strong>
+              <input 
+                type="text" 
+                value={editableSections.whoWeAre.title} 
+                onChange={(e) => setEditableSections({
+                  ...editableSections,
+                  whoWeAre: { ...editableSections.whoWeAre, title: e.target.value }
+                })}
+                className="w-full text-xs p-2 border rounded bg-white" 
+              />
+              {editableSections.whoWeAre.body.map((para, idx) => (
+                <textarea 
+                  key={idx}
+                  value={para}
+                  onChange={(e) => {
+                    const updated = [...editableSections.whoWeAre.body];
+                    updated[idx] = e.target.value;
+                    setEditableSections({
+                      ...editableSections,
+                      whoWeAre: { ...editableSections.whoWeAre, body: updated }
+                    });
+                  }}
+                  rows={2}
+                  className="w-full text-xs p-2 border rounded bg-white"
+                />
+              ))}
+            </div>
+
+            <button onClick={() => { setIsAcfEditorOpen(false); alert("Ecosystem modules successfully rewritten."); }} className="w-full bg-black hover:bg-amber-500 hover:text-black text-white font-black py-4 rounded-xl text-xs uppercase tracking-wider transition">
+              Apply Modules Live
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* 2. DYNAMIC HERO LANDING CAROUSEL (SPLIT-FOCUS NON-CROP ADAPTIVE MODULE) */}
       <section 
@@ -623,9 +1254,9 @@ export default function Home() {
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
-        {/* CAROUSEL IMAGE VIEWPORT WINDOW: DRIVEN BY NATAL PORTRAIT RATIOS ON TOUCH DEVICES */}
+        {/* CAROUSEL IMAGE VIEWPORT WINDOW */}
         <div className="relative w-full aspect-[4/3] sm:aspect-none sm:absolute sm:inset-0 sm:h-full sm:w-full bg-neutral-950">
-          {carouselSlides.map((slide, idx) => (
+          {editableSections.carousel.map((slide, idx) => (
             <div 
               key={idx}
               className={`absolute inset-0 w-full h-full bg-cover bg-center transition-opacity duration-1000 ease-in-out ${
@@ -643,7 +1274,7 @@ export default function Home() {
           <button {...hydration} onClick={handleNextSlide} className="absolute right-4 top-1/2 -translate-y-1/2 w-9 h-9 items-center justify-center rounded-full bg-black/30 border border-neutral-800 hover:border-amber-500 hover:text-amber-500 text-white transition z-20 cursor-pointer hidden sm:flex select-none">›</button>
         </div>
 
-        {/* CONTENT CAPTIONS ZONE: DROP SAFELY BENEATH ON NARROW CANVAS / COVERS ON STABLE LAYOUT */}
+        {/* CONTENT CAPTIONS ZONE */}
         <div className="relative w-full bg-neutral-950 sm:bg-transparent px-5 py-8 sm:py-16 md:py-24 max-w-7xl mx-auto z-10 flex items-center min-h-none sm:min-h-[85vh]">
           <div className="text-center sm:text-left max-w-2xl w-full">
             <span className="bg-neutral-900/90 sm:bg-neutral-900 text-amber-500 text-[10px] sm:text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-widest border border-neutral-800 shadow-sm inline-block">District 3770 • Service Above Self</span>
@@ -659,7 +1290,7 @@ export default function Home() {
 
         {/* INDICATOR TRACK DOTS MESH */}
         <div className="absolute bottom-4 left-1/2 -translate-x-1/2 sm:bottom-5 flex gap-2 z-20">
-          {carouselSlides.map((_, dotIdx) => (
+          {editableSections.carousel.map((_, dotIdx) => (
             <button {...hydration} key={dotIdx} onClick={() => setCurrentSlideIndex(dotIdx)} className={`h-1.5 rounded-full transition-all border-none outline-none cursor-pointer ${dotIdx === currentSlideIndex ? 'bg-amber-500 w-6' : 'bg-neutral-600 w-1.5'}`} />
           ))}
         </div>
@@ -672,16 +1303,14 @@ export default function Home() {
         <div className="max-w-7xl mx-auto">
           <div className="grid lg:grid-cols-5 gap-12 lg:gap-16 items-start">
             
-            {/* LEFT COLUMN: INTRODUCTION TEXT COPY & PORTFOLIO BANNER */}
             <div className="lg:col-span-3 space-y-6">
               <div className="space-y-2">
                 <span className="text-amber-500 font-black uppercase tracking-widest text-xs block">Who We Are</span>
                 <h2 className="text-3xl sm:text-4xl font-black text-neutral-900 tracking-tight uppercase border-b-4 border-black pb-3 inline-block">
-                  Introduction
+                  {editableSections.whoWeAre.title}
                 </h2>
               </div>
               
-              {/* EMBEDDED EDITORIAL IMAGERY NODE */}
               <div className="w-full h-48 sm:h-64 rounded-2xl overflow-hidden shadow-md border border-neutral-200 bg-neutral-100 relative group select-none">
                 <img 
                   src="/carousel 1.jpg" 
@@ -698,25 +1327,12 @@ export default function Home() {
               </div>
 
               <div className="text-neutral-600 leading-relaxed space-y-5 text-justify text-sm sm:text-base font-normal">
-                <p>
-                  Guided by the enduring Rotary principle of Service Above Self, the Rotary International community continues to transform lives through meaningful service and strong fellowship. Each Rotary year offers a renewed opportunity for Rotarians to make a difference in their communities and beyond.
-                </p>
-                <p>
-                  As we celebrate the 24th Handover and Induction Ceremony of the Rotary Club of Meycauayan Club, we reflect on the remarkable journey of service that has shaped our club. This milestone marks not only the transition of leadership but also a reaffirmation of our shared commitment to Rotary’s mission.
-                </p>
-                <p>
-                  Anchored in this year’s Rotary theme, “Create Lasting Impact,” our club continues to pursue initiatives that bring sustainable and meaningful change to the communities we serve. Through collaborative projects, humanitarian programs, and the dedication of our members, we strive to ensure that our efforts today will leave a positive legacy for generations to come.
-                </p>
-                <p>
-                  This commemorative coffee-table magazine captures the spirit of our club—our projects, achievements, partnerships, and the fellowship that binds us together as Rotarians. It is a celebration of the passion and commitment of our members, leaders, and partners who continually support our mission of service.
-                </p>
-                <p>
-                  As we honor the leadership and contributions of the outgoing officers and warmly welcome the new set of leaders, we look forward with renewed inspiration and determination. Together, as one Rotary family, we remain committed to serving our community and truly creating lasting impact.
-                </p>
+                {editableSections.whoWeAre.body.map((para, pIdx) => (
+                  <p key={pIdx}>{para}</p>
+                ))}
               </div>
             </div>
             
-            {/* RIGHT COLUMN: PREMIUM EDITORIAL CAROUSEL DECK WITH CUSTOM MATCHING SCROLLBAR */}
             <div className="lg:col-span-2 space-y-6">
               <div className="bg-neutral-950 text-white rounded-3xl p-6 sm:p-10 shadow-2xl flex flex-col justify-between min-h-[580px] relative border border-amber-500/20 overflow-hidden">
                 
@@ -749,7 +1365,6 @@ export default function Home() {
                           </p>
                         </div>
                         
-                        {/* UPDATED: Flex layout incorporating the speaker's rounded portrait side-by-side with metadata */}
                         <div className="mt-4 pt-4 border-t border-neutral-800 flex items-center gap-3">
                           <div className="w-10 h-10 rounded-full overflow-hidden border border-neutral-700 bg-neutral-900 shrink-0">
                             <img 
@@ -866,15 +1481,10 @@ export default function Home() {
                   <h3 className="text-xl font-black text-white uppercase tracking-wide">Of the things we think, say, or do:</h3>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-                  {[
-                    { title: "01", desc: "Is it the truth?" },
-                    { title: "02", desc: "Is it fair to all concerned?" },
-                    { title: "03", desc: "Will it build goodwill and better friendships?" },
-                    { title: "04", desc: "Will it be beneficial to all concerned?" }
-                  ].map((item, idx) => (
+                  {editableSections.rotaryCode.fourwayTest.map((item, idx) => (
                     <div key={idx} className="bg-slate-955/80 backdrop-blur-md border border-slate-900 Regel rounded-2xl p-5 hover:border-amber-500/40 hover:-translate-y-1 hover:scale-[1.03] hover:shadow-[0_10px_25px_-5px_rgba(245,158,11,0.1)] transition-all group duration-300 relative overflow-hidden">
-                      <h4 className="text-xs font-black tracking-widest text-amber-500 mb-1.5 uppercase font-mono group-hover:text-amber-400 transition-colors">{item.title}</h4>
-                      <p className="text-xs text-neutral-300 leading-relaxed font-normal">{item.desc}</p>
+                      <h4 className="text-xs font-black tracking-widest text-amber-500 mb-1.5 uppercase font-mono group-hover:text-amber-400 transition-colors">0{idx + 1}</h4>
+                      <p className="text-xs text-neutral-300 leading-relaxed font-normal">{item}</p>
                     </div>
                   ))}
                 </div>
@@ -982,14 +1592,14 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
-            {areasOfFocus.map((focus) => (
+            {editableSections.areasOfFocus.map((focus) => (
               <div 
                 key={focus.id}
                 className="bg-neutral-50/70 border border-neutral-200 rounded-xl sm:rounded-3xl p-3.5 sm:p-8 hover:border-amber-500/50 hover:bg-white hover:-translate-y-1 hover:shadow-[0_12px_30px_rgba(217,119,6,0.06)] transition-all group duration-300 flex flex-col justify-between text-left"
               >
                 <div className="space-y-2.5 sm:space-y-4">
                   <div className="w-8 h-8 sm:w-12 sm:h-12 rounded-lg sm:rounded-2xl bg-amber-500/10 border border-amber-500/20 text-amber-600 flex items-center justify-center font-bold text-base sm:text-xl group-hover:bg-amber-500 group-hover:text-black group-hover:scale-105 transition-all duration-300 shrink-0">
-                    {focus.id === 2 ? "💧" : focus.icon}
+                    {focus.icon}
                   </div>
                   <h3 className="text-[11px] sm:text-base font-black text-neutral-900 uppercase tracking-wide leading-tight sm:leading-snug group-hover:text-amber-600 transition-colors duration-200 line-clamp-2">
                     {focus.title}
@@ -1005,7 +1615,7 @@ export default function Home() {
       </section>
 
       {/* =============================================================
-          4.8 IMMERSIVE LOGO MARQUEE (NO OUTLINES, MATCHES BACKGROUND)
+          4.8 IMMERSIVE LOGO MARQUEE
           ============================================================= */}
       <section className="py-16 bg-white border-b border-neutral-200 overflow-hidden select-none">
         <div className="max-w-7xl mx-auto px-4 mb-8 flex items-center justify-center md:justify-start">
@@ -1067,7 +1677,7 @@ export default function Home() {
             <p className="text-xs text-neutral-500 max-w-md mx-auto">Review the officers, project heads, and official team members executing change across the local sector channels.</p>
           </div>
 
-          {/* MOBILE VIEW DROP-DOWN SELECT ELEMENT (WHITE BACKGROUND COMPLEMENT FOR VISIONARIES) */}
+          {/* MOBILE VIEW DROP-DOWN SELECT ELEMENT */}
           <div className="block sm:hidden max-w-xs mx-auto relative group">
             <div className="absolute -inset-0.5 bg-gradient-to-r from-amber-500 to-orange-600 rounded-xl blur opacity-25 group-hover:opacity-40 transition duration-300"></div>
             <div className="relative">
@@ -1099,7 +1709,7 @@ export default function Home() {
             {activeVisionaryTab === 'roster' && (
               <div className="flex flex-col sm:flex-row items-center justify-end gap-3 mb-6 pb-4 border-b border-neutral-100 animate-fadeIn">
                 <span className="text-[11px] uppercase tracking-wider font-extrabold text-neutral-400">
-                  ⚡ Sort Algorithm Parameters:
+                  Sort Algorithm Parameters:
                 </span>
                 <div className="flex gap-2 bg-neutral-100/80 p-0.5 rounded-xl border border-neutral-200 shadow-inner">
                   <button 
@@ -1120,14 +1730,12 @@ export default function Home() {
               </div>
             )}
 
-            {/* RESPONSIVE LAYOUT MATRIX CHANGE APPIED HERE */}
             <div className="flex flex-col sm:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6 animate-fadeIn">
               {filteredVisionaries.map((officer) => {
                 const resolvedImagePath = officer.image.startsWith('/members/') 
                   ? officer.image 
                   : `/members/${officer.name.trim().replace(/\s+/g, '_')}${officer.image.endsWith('.png') ? '.png' : '.jpg'}`;
 
-                // Display formatting that appends isolated suffixes contextually back to UI
                 const renderedFullName = officer.suffix ? `${officer.name} ${officer.suffix}` : officer.name;
 
                 return (
@@ -1466,7 +2074,6 @@ export default function Home() {
             <div className="flex-1 p-6 sm:p-10 overflow-y-auto custom-magazine-scrollbar">
               <div className="grid lg:grid-cols-12 gap-10 items-start">
                 
-                {/* Left Area Content Column */}
                 <div className="lg:col-span-7 flex flex-col justify-between min-h-[460px] text-left">
                   <div className="space-y-4 max-h-[350px] overflow-y-auto pr-3 custom-magazine-scrollbar">
                     <h3 className="text-2xl sm:text-3xl font-black text-neutral-900 tracking-tight uppercase border-b-4 border-black pb-3">
@@ -1477,12 +2084,10 @@ export default function Home() {
                     </p>
                   </div>
                   
-                  {/* Share Action Block Container */}
                   <div className="pt-4 border-t border-neutral-100 space-y-4 bg-white relative">
                     <div className="flex items-center justify-between gap-3">
                       <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-neutral-400">📤 Distribute This Document Ledger Node:</span>
                       
-                      {/* RELATIVE CUSTOM DROPDOWN TRIGGER MODULE */}
                       <div className="relative inline-block text-left w-full sm:w-auto" ref={shareMenuRef}>
                         <button 
                           onClick={() => setIsShareMenuOpen(!isShareMenuOpen)}
@@ -1548,7 +2153,6 @@ export default function Home() {
                   </div>
                 </div>
 
-                {/* Right Area Media Deck Column */}
                 <div className="lg:col-span-5 space-y-4 flex flex-col">
                   <span className="text-[10px] font-mono text-neutral-400 uppercase tracking-widest block border-b border-neutral-100 pb-1 text-left">
                     Ref 🖼️ Media Portfolio Gallery (Click to Expand Fullscreen)
@@ -1731,7 +2335,7 @@ export default function Home() {
                   </div>
                 )}
 
-                <div className="bg-slate-950 border border-slate-800/80 rounded-xl p-4 space-y-2">
+                <div className="bg-slate-955 border border-slate-800/80 rounded-xl p-4 space-y-2">
                   <span className="block text-xs font-black text-amber-500 uppercase tracking-wider">Fund Transfer Instructions</span>
                   <p className="text-[11px] text-slate-300 leading-relaxed font-sans">
                     Please transfer your donation amount using your preferred banking dashboard or electronic wallet to the following destination parameters below:
