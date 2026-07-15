@@ -96,8 +96,7 @@ const areasOfFocus = [
   { id: 4, title: "Community Economic Development", desc: "To enhance economic and community development and create opportunities for decent and productive work for young and old, and to strengthen local entrepreneurs and community leaders, particularly women, in impoverished communities.", icon: "📊" },
   { id: 5, title: "Peacebuilding & Conflict Prevention", desc: "To encourage conversations to foster understanding within and across cultures. To train adults and young leaders to prevent and mediate conflict.", icon: "🕊️" },
   { id: 6, title: "Maternal & Child Health", desc: "To expand access to quality care, so mothers and their children can live and grow stronger.", icon: "👶" },
-  { id: 7, title: "Environment", desc: "To tackle environmental issues the way they always do: coming up with projects, using their connections to change policy and planning for the future.", icon: "🌍" },
-  { id: 8, title: "End Polio Now Campaign", desc: "To achieve a polio-free world by mobilizing global resource networks, deploying targeted immunization drops, and sustaining clinical surveillance cluster chains until eradication is permanent.", icon: "🛡️" }
+  { id: 7, title: "Environment", desc: "To tackle environmental issues the way they always do: coming up with projects, using their connections to change policy and planning for the future.", icon: "🌍" }
 ];
 
 // DATA MATRIX: VERIFIED RELATIVE PUBLIC IMAGE DOMAIN REFERENCES
