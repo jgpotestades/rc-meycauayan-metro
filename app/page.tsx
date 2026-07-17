@@ -2,6 +2,7 @@
 'use client';
 import React, { useState, useEffect, useRef } from 'react';
 import { CustomCursor } from '@/components/CustomCursor';
+import { verifyCredentials } from '@/app/actions/auth';
 
 // Define strict interfaces to satisfy the TypeScript compiler and prevent build failure
 interface RotaryUser {
@@ -477,16 +478,27 @@ export default function Home() {
   // =================================================================
   // AUTHENTICATION LOGIC
   // =================================================================
-  const handleLoginSubmit = (e: React.FormEvent) => {
+  const handleLoginSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Validating credentials matching admin specifications
-    if (loginForm.username === 'admin' && loginForm.password === 'admin123') {
-      setViewMode('dashboard');
-      setShowLoginModal(false);
-      setLoginError('');
-      setLoginForm({ username: '', password: '' });
-    } else {
-      setLoginError('Invalid security operational credentials.');
+    setLoginError('');
+
+    // Package the form inputs into FormData for the Server Action
+    const formData = new FormData();
+    formData.append('username', loginForm.username);
+    formData.append('password', loginForm.password);
+
+    try {
+      const response = await verifyCredentials(formData);
+
+      if (response.success) {
+        setViewMode('dashboard');
+        setShowLoginModal(false);
+        setLoginForm({ username: '', password: '' });
+      } else {
+        setLoginError(response.error || 'Invalid operational credentials.');
+      }
+    } catch (err) {
+      setLoginError('An error occurred during authentication.');
     }
   };
 
