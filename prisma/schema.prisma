@@ -1,0 +1,40 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id               Int      @id @default(autoincrement())
+  name             String
+  role             String   // "Admin", "Officer", "Member"
+  position         String   // e.g., "Club President", "Active Member"
+  isOfficer        Boolean  @default(false)
+  isDirector       Boolean  @default(false)
+  image            String   @default("/rotary-logo.png")
+  birthday         String
+  username         String   @unique
+  email            String   @unique
+  directorPosition String?
+  lastName         String?
+  suffix           String?
+  createdAt        DateTime @default(now())
+}
+
+model Activity {
+  id              Int      @id @default(autoincrement())
+  type            String   // "Project" or "News"
+  title           String
+  category        String   // e.g., "Disease Prevention & Treatment"
+  description     String
+  fullDescription String
+  status          String   // "Completed" or "Ongoing"
+  detail          String   // e.g., "Inaugurated on July 29, 2026"
+  galleryImages   String[]
+  createdAt        DateTime @default(now())
+}

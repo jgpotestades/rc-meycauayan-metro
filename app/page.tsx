@@ -2,9 +2,10 @@
 'use client';
 import React, { useState, useEffect, useRef } from 'react';
 import { CustomCursor } from '@/components/CustomCursor';
-import { verifyCredentials } from '@/app/actions/auth';
+// AUTH FEATURE DISABLED FOR LAUNCH:
+// import { verifyCredentials, updateUserPassword } from '@/app/actions/auth';
+// import ExecutivePanel from '@/components/ExecutivePanel'; 
 
-// Define strict interfaces to satisfy the TypeScript compiler and prevent build failure
 interface RotaryUser {
   id: number;
   name: string;
@@ -14,18 +15,14 @@ interface RotaryUser {
   isDirector: boolean;
   image: string;
   birthday: string;
-  username?: string; // Optional to prevent missing property errors
-  email?: string;    // Optional to prevent missing property errors
+  username?: string; 
+  email?: string;    
   directorPosition?: string;
-  lastName?: string;  // Added for future explicit overrides
-  suffix?: string;    // Added for clean separation if needed
+  lastName?: string;  
+  suffix?: string;    
 }
 
-// =================================================================
-// COFFEE-TABLE MAGAZINE VALIDATED DATABASES (RY 2026-2027 ROSTERS)
-// =================================================================
 const initialUsers: RotaryUser[] = [
-  // RY 2026-2027 OFFICERS
   { id: 1, name: "Arvin Jason Andaya", role: "Officer", position: "Club President", isOfficer: true, isDirector: false, image: "/members/Arvin Jayson Andaya.png", birthday: "March 9", username: "arvinjasonandaya", email: "arvin@rcmeycauayanmetro.org" },
   { id: 2, name: "Diosdado Alvarado", role: "Officer", position: "Vice President", isOfficer: true, isDirector: false, image: "/members/Diosdado Alvarado.png", birthday: "December 9", username: "diosdadoalvarado", email: "diosdado@rcmeycauayanmetro.org" },
   { id: 3, name: "Daniel Cuyos", role: "Officer", position: "President Elect", isOfficer: true, isDirector: false, image: "/members/Daniel Cuyos.png", birthday: "April 11", username: "danielcuyos", email: "daniel@rcmeycauayanmetro.org" },
@@ -33,24 +30,22 @@ const initialUsers: RotaryUser[] = [
   { id: 5, name: "Adrian Go", role: "Officer", position: "Executive Secretary", isOfficer: true, isDirector: true, directorPosition: "Public Image Director", image: "/members/Adrian Go.png", birthday: "November 19", username: "adriango", email: "adrian@rcmeycauayanmetro.org" },
   { id: 6, name: "Mark Christian Aloran", role: "Officer", position: "Club Treasurer", isOfficer: true, isDirector: false, image: "/members/Mark Christian Aloran.png", birthday: "November 15", username: "markchristianaloran", email: "mark@rcmeycauayanmetro.org" },
   { id: 7, name: "April Homoroc", role: "Officer", position: "Club Auditor", isOfficer: true, isDirector: false, image: "/members/April Homoroc.png", birthday: "December 20", username: "aprilhomoroc", email: "april@rcmeycauayanmetro.org" },
-  { id: 8, name: "Eric Homoroc", role: "Officer", position: "PRO", isOfficer: true, isDirector: false, image: "/members/Eric Homoroc.png", birthday: "October 13", username: "erichomoroc", email: "eric@rcmeycauayanmetro.org" },
-  // INDEPENDENT CLUB DIRECTORS / LEADERSHIP MARGINS
-  { id: 9, name: "Angelito Ferrer", role: "Super Admin", position: "Immediate Past President", isOfficer: false, isDirector: true, directorPosition: "Rotary Foundation Director", image: "/members/Angelito Ferrer.png", birthday: "November 2", username: "angelitoferrer", email: "angelito@rcmeycauayanmetro.org" },
-  { id: 10, name: "Jaquelyn Jacob", role: "Officer", position: "Active Member", isOfficer: false, isDirector: true, directorPosition: "Club Membership Director", image: "/members/Jackie Halasan.png", birthday: "July 21", username: "jackiehalasan", email: "jackie@rcmeycauayanmetro.org" },
-  { id: 11, name: "Raymond Peralta", role: "Officer", position: "Active Member", isOfficer: false, isDirector: true, directorPosition: "Service Project Director", image: "/members/Raymond Peralta.png", birthday: "January 10", username: "raymondperalta", email: "raymond@rcmeycauayanmetro.org" },
-  { id: 12, name: "Severino Pascual", suffix: "Jr.", role: "Officer", position: "Active Member", isOfficer: false, isDirector: true, directorPosition: "Youth Service Director", image: "/members/Severino Pascual Jr.png", birthday: "July 27", username: "severinopascual", email: "severinopascual@rcmeycauayanmetro.org" },
-  { id: 13, name: "Jayson Fernandez", role: "Officer", position: "Assistant Governor", isOfficer: false, isDirector: true, directorPosition: "Protocol Officer", image: "/members/Jayson Fernandez.png", birthday: "July 13", username: "jaysonfernandez", email: "jayson@rcmeycauayanmetro.org" },
-  { id: 14, name: "Francis Jay Dela Cruz", role: "Officer", position: "Active Member", isOfficer: false, isDirector: true, directorPosition: "Club Learning Facilitator", image: "/members/Francis Jay Dela Cruz.png", birthday: "December 21", username: "francisjaydelacruz", email: "francis@rcmeycauayanmetro.org" },
-  { id: 18, name: "Felix Domigpe", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/members/Felix Domigpe.png", birthday: "November 5", username: "felixdomigpe", email: "felix@rcmeycauayanmetro.org" },
-  { id: 19, name: "Pablito Javier", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/members/Pablito Javier.png", birthday: "January 5", username: "pablitojavier", email: "pablito@rcmeycauayanmetro.org" },
-  { id: 20, name: "Frederick Malapit", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/members/Frederick Malapit.png", birthday: "July 12", username: "frederickmalapit", email: "frederick@rcmeycauayanmetro.org" },
-  { id: 21, name: "Enrique Milan", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/members/Enrique Milan.png", birthday: "March 1", username: "enriquemilan", email: "enrique@rcmeycauayanmetro.org" },
-  { id: 22, name: "Ma. Carmela Osiones", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/members/Ma Carmela Osiones.png", birthday: "July 7", username: "macarmelaosiones", email: "carmela@rcmeycauayanmetro.org" },
-  { id: 23, name: "Willy Sy", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/members/Willy Sy.png", birthday: "March 12", username: "willysy", email: "willy@rcmeycauayanmetro.org" },
-  { id: 24, name: "Richard Becerro", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/members/Richard Becerro.png", birthday: "May 16", username: "richardbecerro", email: "richard@rcmeycauayanmetro.org" },
-  { id: 25, name: "Ramil Inopia Burdin", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/members/Ramil Inopia Burdin.png", birthday: "August 16", username: "ramilinopia", email: "ramil@rcmeycauayanmetro.org" },
-  { id: 26, name: "Morris Delos Santos", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/members/Morris Delos Santos.png", birthday: "November 17", username: "morrisdelossantos", email: "morris@rcmeycauayanmetro.org" },
-  { id: 27, name: "Edgardo Ambray", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/members/Edgardo Ambray.jpeg", birthday: "December 29", username: "edgardoombray", email: "edgardo@rcmeycauayanmetro.org" }
+  { id: 8, name: "Angelito Ferrer", role: "Super Admin", position: "Immediate Past President", isOfficer: false, isDirector: true, directorPosition: "Rotary Foundation Director", image: "/members/Angelito Ferrer.png", birthday: "November 2", username: "angelitoferrer", email: "angelito@rcmeycauayanmetro.org" },
+  { id: 9, name: "Jaquelyn Jacob", role: "Officer", position: "Active Member", isOfficer: false, isDirector: true, directorPosition: "Club Membership Director", image: "/members/Jackie Halasan.png", birthday: "July 21", username: "jackiehalasan", email: "jackie@rcmeycauayanmetro.org" },
+  { id: 10, name: "Raymond Peralta", role: "Officer", position: "Active Member", isOfficer: false, isDirector: true, directorPosition: "Service Project Director", image: "/members/Raymond Peralta.png", birthday: "January 10", username: "raymondperalta", email: "raymond@rcmeycauayanmetro.org" },
+  { id: 11, name: "Severino Pascual", suffix: "Jr.", role: "Officer", position: "Active Member", isOfficer: false, isDirector: true, directorPosition: "Youth Service Director", image: "/members/Severino Pascual Jr.png", birthday: "July 27", username: "severinopascual", email: "severinopascual@rcmeycauayanmetro.org" },
+  { id: 12, name: "Jayson Fernandez", role: "Officer", position: "Assistant Governor", isOfficer: false, isDirector: true, directorPosition: "Protocol Officer", image: "/members/Jayson Fernandez.png", birthday: "July 13", username: "jaysonfernandez", email: "jayson@rcmeycauayanmetro.org" },
+  { id: 13, name: "Francis Jay Dela Cruz", role: "Officer", position: "Active Member", isOfficer: false, isDirector: true, directorPosition: "Club Learning Facilitator", image: "/members/Francis Jay Dela Cruz.png", birthday: "December 21", username: "francisjaydelacruz", email: "francis@rcmeycauayanmetro.org" },
+  { id: 14, name: "Felix Domigpe", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/members/Felix Domigpe.png", birthday: "November 5", username: "felixdomigpe", email: "felix@rcmeycauayanmetro.org" },
+  { id: 15, name: "Pablito Javier", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/members/Pablito Javier.png", birthday: "January 5", username: "pablitojavier", email: "pablito@rcmeycauayanmetro.org" },
+  { id: 16, name: "Frederick Malapit", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/members/Frederick Malapit.png", birthday: "July 12", username: "frederickmalapit", email: "frederick@rcmeycauayanmetro.org" },
+  { id: 17, name: "Enrique Milan", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/members/Enrique Milan.png", birthday: "March 1", username: "enriquemilan", email: "enrique@rcmeycauayanmetro.org" },
+  { id: 18, name: "Ma. Carmela Osiones", role: "Officer", position: "Public Relations Officer", isOfficer: true, isDirector: false, image: "/members/Ma Carmela Osiones.png", birthday: "July 7", username: "macarmelaosiones", email: "carmela@rcmeycauayanmetro.org" },
+  { id: 19, name: "Willy Sy", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/members/Willy Sy.png", birthday: "March 12", username: "willysy", email: "willy@rcmeycauayanmetro.org" },
+  { id: 20, name: "Ramil Inopia Burdin", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/members/Ramil Inopia Burdin.png", birthday: "August 16", username: "ramilinopia", email: "ramil@rcmeycauayanmetro.org" },
+  { id: 21, name: "Morris Delos Santos", role: "Officer", position: "Active Member", isOfficer: false, isDirector: true, directorPosition: "Fellowship Chair",image: "/members/Morris Delos Santos.png", birthday: "November 17", username: "morrisdelossantos", email: "morris@rcmeycauayanmetro.org" },
+  { id: 22, name: "Andrey Casada Rodriguez", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/members/Andrey Casada Rodriguez.png", birthday: "November 30", username: "andeycasadarodriguez", email: "andrey@rcmeycauayanmetro.org" },
+  { id: 23, name: "Christian Surio Panal", role: "Member", position: "Active Member", isOfficer: false, isDirector: false, image: "/members/Christian Surio Panal.jpg", birthday: "October 10", username: "juliusdelacruz", email: "julius@rcmeycauayanmetro.org" }
 ];
 
 const initialActivities = [
@@ -100,7 +95,6 @@ const areasOfFocus = [
   { id: 7, title: "Environment", desc: "To tackle environmental issues the way they always do: coming up with projects, using their connections to change policy and planning for the future.", icon: "🌍" }
 ];
 
-// DATA MATRIX: VERIFIED RELATIVE PUBLIC IMAGE DOMAIN REFERENCES
 const corporateSponsors = [
   { name: "Evergold Memorial Services", logoImage: "/partner-evergold-logo.jpg", fallbackText: "EMS", url: "https://www.facebook.com/evergoldmemorialservice" },
   { name: "Trident Assessment and Technical Training Center, Inc.", logoImage: "/partner-trident-logo.jpg", fallbackText: "TAATTC", url: "https://www.facebook.com/profile.php?id=100093554252998" },
@@ -126,47 +120,33 @@ export default function Home() {
   const [mounted, setMounted] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   
-  // =================================================================
-  // VIEW MODE TOGGLE (PUBLIC SITE VS ADMIN DASHBOARD) & AUTHENTICATION
-  // =================================================================
-  const [viewMode, setViewMode] = useState<'public' | 'dashboard'>('public');
-  const [showLoginModal, setShowLoginModal] = useState(false);
-  const [loginForm, setLoginForm] = useState({ username: '', password: '' });
-  const [loginError, setLoginError] = useState('');
+  // AUTH STATES COMMENTED OUT FOR PUBLIC LAUNCH:
+  // const [viewMode, setViewMode] = useState<'public' | 'executive'>('public');
+  // const [showLoginModal, setShowLoginModal] = useState(false);
+  // const [loginForm, setLoginForm] = useState({ username: '', password: '' });
+  // const [loginError, setLoginError] = useState('');
+  // const [isResetFlowActive, setIsResetFlowActive] = useState(false);
+  // const [resetUsername, setResetUsername] = useState('');
+  // const [newPassword, setNewPassword] = useState('');
+  // const [sessionUser, setSessionUser] = useState<any>(null);
 
-  // =================================================================
-  // DASHBOARD MANAGEMENT STATE VARIABLES
-  // =================================================================
-  const [dashUsers, setDashUsers] = useState<RotaryUser[]>(initialUsers);
-  const [dashActivities, setDashActivities] = useState<any[]>(initialActivities);
-  const [dashSponsors, setDashSponsors] = useState<any[]>(corporateSponsors);
+  const [dashUsers] = useState<RotaryUser[]>(initialUsers);
+  const [dashActivities] = useState<any[]>(initialActivities);
+  const [dashSponsors] = useState<any[]>(corporateSponsors);
   
-  const [activeDashTab, setActiveDashTab] = useState<'roster' | 'activities' | 'sponsors'>('roster');
-  
-  // Form states for adding items in dashboard
-  const [newUser, setNewUser] = useState<Partial<RotaryUser>>({ name: '', position: 'Active Member', role: 'Member', isOfficer: false, isDirector: false, birthday: '' });
-  const [newActivity, setNewActivity] = useState({ title: '', type: 'Project' as 'Project' | 'News', category: '', description: '', status: 'Ongoing', detail: '', galleryImages: ['/carousel 1.jpg'] });
-  const [newSponsor, setNewSponsor] = useState({ name: '', logoImage: '', fallbackText: '', url: '' });
-
-  // =================================================================
-  // BACKGROUND AUDIO HANDLERS
-  // =================================================================
-  const [isMuted, setIsMuted] = useState(true); // Default to muted to comply with browser autoplay blocks
+  const [isMuted, setIsMuted] = useState(true); 
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  // Initialize and load the audio context safely on the client side
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const audio = new Audio('/background-music.wav');
       audio.loop = true;
       audioRef.current = audio;
 
-      // Unmute/Play attempt on user's first document click engagement to bypass strict autoplay policies
       const handleFirstUserEngagement = () => {
         if (audioRef.current && isMuted) {
           audioRef.current.play()
             .then(() => {
-              // Successfully started playback muted; now remove the listener
               window.removeEventListener('click', handleFirstUserEngagement);
             })
             .catch((err) => console.log("Autoplay block still active:", err));
@@ -183,7 +163,6 @@ export default function Home() {
     }
   }, []);
 
-  // Sync state mute switches with the element target
   useEffect(() => {
     if (audioRef.current) {
       audioRef.current.muted = isMuted;
@@ -197,9 +176,6 @@ export default function Home() {
     setIsMuted((prev) => !prev);
   };
   
-  // =================================================================
-  // BIRTHDAY ANNOUNCEMENT STATE & COMPLIANCE PARAMS
-  // =================================================================
   const [celebratedUser, setCelebratedUser] = useState<RotaryUser | null>(null);
   const [showBirthdayModal, setShowBirthdayModal] = useState(false);
 
@@ -211,10 +187,9 @@ export default function Home() {
     handleResize();
     window.addEventListener('resize', handleResize);
     
-    // Dynamic verification engine scanning rosters matching the current client calendar timeline date strings
     const today = new Date();
     const currentDay = today.getDate();
-    const currentMonthIndex = today.getMonth() + 1; // 1-12 range conversion
+    const currentMonthIndex = today.getMonth() + 1; 
 
     const birthdayMatch = initialUsers.find(user => {
       if (!user.birthday) return false;
@@ -239,7 +214,7 @@ export default function Home() {
   const [showScrollButton, setShowScrollButton] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const [activeTab, setActiveTab] = useState<'fourway' | 'objectives' | 'vision' | 'endpolio' >('fourway');
+  const [activeTab, setActiveTab] = useState<'fourway' | 'objectives' | 'vision' | 'endpolio'>('fourway');
   const [activeVisionaryTab, setActiveVisionaryTab] = useState<'officers' | 'directors' | 'roster'>('officers');
   
   const [rosterSortCriteria, setRosterSortCriteria] = useState<'surname' | 'birthday'>('surname');
@@ -252,7 +227,6 @@ export default function Home() {
   const [isShareMenuOpen, setIsShareMenuOpen] = useState(false);
   const shareMenuRef = useRef<HTMLDivElement>(null);
 
-  // Pagination State Variables
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = isMobile ? 4 : 8;
 
@@ -263,12 +237,8 @@ export default function Home() {
   const [navVisible, setNavVisible] = useState(true);
   const lastScrollY = useRef(0);
 
-  // State handles for updated project donations tab
   const [selectedCause, setSelectedCause] = useState<string>('disease-prevention');
 
-  // =================================================================
-  // MASONRY GRID ADAPTIVE LOCAL COMPONENT AND ASSET POOL CONFIGURATION
-  // =================================================================
   const masonryImages = [
     '/masonry/connect.jpg',
     '/masonry/fight-hunger.jpg',
@@ -372,7 +342,6 @@ export default function Home() {
     setCurrentMessageIndex((prev) => (prev === 0 ? officialMessages.length - 1 : prev - 1));
   };
 
-  // RESPONSIVE AUTOMATED INTERMITTENT STREAM
   useEffect(() => {
     if (!mounted || isHovered) return;
     const contextInterval = window.innerWidth < 640 ? 5000 : 6000;
@@ -475,14 +444,11 @@ export default function Home() {
   const totalPages = Math.ceil(allFilteredVisionaries.length / itemsPerPage);
   const filteredVisionaries = allFilteredVisionaries.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
-  // =================================================================
-  // AUTHENTICATION LOGIC
-  // =================================================================
+  /* AUTHENTICATION HANDLERS COMMENTED OUT FOR LAUNCH:
   const handleLoginSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoginError('');
 
-    // Package the form inputs into FormData for the Server Action
     const formData = new FormData();
     formData.append('username', loginForm.username);
     formData.append('password', loginForm.password);
@@ -490,8 +456,33 @@ export default function Home() {
     try {
       const response = await verifyCredentials(formData);
 
-      if (response.success) {
-        setViewMode('dashboard');
+      if (response.success && response.userPayload) {
+        if (response.userPayload.needsReset) {
+          setResetUsername(response.userPayload.username);
+          setIsResetFlowActive(true);
+          return;
+        }
+
+        const foundUser = dashUsers.find(
+          u => (u.username || u.name.toLowerCase().replace(/\s+/g, '')) === response.userPayload.username
+        );
+
+        setSessionUser(foundUser ? {
+          ...foundUser,
+          role: response.userPayload.role
+        } : {
+          id: 999,
+          name: "Administrator",
+          username: "admin",
+          role: "Admin",
+          position: "System Webmaster Node",
+          isOfficer: true,
+          isDirector: true,
+          image: "/rotary-logo.png",
+          birthday: "N/A"
+        });
+
+        setViewMode('executive');
         setShowLoginModal(false);
         setLoginForm({ username: '', password: '' });
       } else {
@@ -502,61 +493,55 @@ export default function Home() {
     }
   };
 
-  // =================================================================
-  // DASHBOARD MUTATION HANDLERS
-  // =================================================================
-  const handleAddUser = (e: React.FormEvent) => {
+  const handlePasswordResetSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newUser.name || !newUser.birthday) return;
-    const created: RotaryUser = {
-      id: Date.now(),
-      name: newUser.name,
-      role: newUser.role || 'Member',
-      position: newUser.position || 'Active Member',
-      isOfficer: !!newUser.isOfficer,
-      isDirector: !!newUser.isDirector,
-      image: '/members/default.png',
-      birthday: newUser.birthday,
-      directorPosition: newUser.directorPosition || ''
-    };
-    setDashUsers(prev => [created, ...prev]);
-    setNewUser({ name: '', position: 'Active Member', role: 'Member', isOfficer: false, isDirector: false, birthday: '' });
-  };
+    setLoginError('');
 
-  const handleDeleteUser = (id: number) => {
-    setDashUsers(prev => prev.filter(u => u.id !== id));
-  };
+    if (newPassword.length < 8) {
+      setLoginError('Password length must be 8 or more characters.');
+      return;
+    }
 
-  const handleAddActivity = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!newActivity.title || !newActivity.description) return;
-    const created = {
-      id: Date.now(),
-      ...newActivity
-    };
-    setDashActivities(prev => [created, ...prev]);
-    setNewActivity({ title: '', type: 'Project', category: '', description: '', status: 'Ongoing', detail: '', galleryImages: ['/carousel 1.jpg'] });
-  };
+    const formData = new FormData();
+    formData.append('username', resetUsername);
+    formData.append('password', newPassword);
 
-  const handleDeleteActivity = (id: number) => {
-    setDashActivities(prev => prev.filter(a => a.id !== id));
-  };
+    try {
+      const result = await updateUserPassword(formData);
+      if (result.success) {
+        const foundUser = dashUsers.find(
+          u => (u.username || u.name.toLowerCase().replace(/\s+/g, '')) === resetUsername
+        );
 
-  const handleAddSponsor = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!newSponsor.name) return;
-    const created = {
-      ...newSponsor,
-      logoImage: newSponsor.logoImage || '/rotary-logo.png',
-      fallbackText: newSponsor.fallbackText || 'SPN'
-    };
-    setDashSponsors(prev => [created, ...prev]);
-    setNewSponsor({ name: '', logoImage: '', fallbackText: '', url: '' });
-  };
+        setSessionUser(foundUser ? {
+          ...foundUser,
+          role: foundUser.isOfficer ? 'Officer' : foundUser.isDirector ? 'Director' : 'Member'
+        } : {
+          id: 999,
+          name: "Rotary User Node",
+          username: resetUsername,
+          role: "Member",
+          position: "Active Roster Node",
+          isOfficer: false,
+          isDirector: false,
+          image: "/rotary-logo.png",
+          birthday: "N/A"
+        });
 
-  const handleDeleteSponsor = (name: string) => {
-    setDashSponsors(prev => prev.filter(s => s.name !== name));
+        setIsResetFlowActive(false);
+        setResetUsername('');
+        setNewPassword('');
+        setLoginForm({ username: '', password: '' });
+        setShowLoginModal(false);
+        setViewMode('executive');
+      } else {
+        setLoginError(result.error || 'Failed updating standard roster key.');
+      }
+    } catch (err) {
+      setLoginError('An error occurred during key updates.');
+    }
   };
+  */
 
   if (!mounted) {
     return (
@@ -566,10 +551,24 @@ export default function Home() {
     );
   }
 
+  /*
+  const panelCompatibleUsers = dashUsers.map(u => ({
+    ...u,
+    role: (u.username === 'admin' ? 'Admin' : u.isOfficer ? 'Officer' : u.isDirector ? 'Director' : 'Member') as any,
+    username: u.username || u.name.toLowerCase().replace(/\s+/g, '')
+  }));
+
+  const panelCompatibleSponsors = dashSponsors.map(s => ({
+    name: s.name,
+    logoImage: s.logoImage,
+    fallbackText: s.fallbackText,
+    url: s.url
+  }));
+  */
+
   return (
     <main id="top" className="min-h-screen bg-neutral-50 text-neutral-800 font-sans scroll-smooth relative overflow-x-hidden">
       
-      {/* GLOBAL CUSTOM CURSOR COMPONENT */}
       <CustomCursor />
       
       <style jsx global>{`
@@ -589,7 +588,6 @@ export default function Home() {
         .confetti-piece { position: absolute; width: 8px; height: 16px; top: -20px; animation: floatConfetti 4s linear infinite; pointer-events: none; z-index: 60; }
       `}</style>
 
-      {/* FLOATING AUDIO CONTROLLER */}
       <div className="fixed bottom-16 right-4 sm:bottom-20 sm:right-6 z-[90] flex flex-row-reverse items-center gap-2">
         <button
           onClick={toggleMute}
@@ -600,254 +598,19 @@ export default function Home() {
         </button>
       </div>
 
-      {/* =============================================================
-          DASHBOARD WORKSPACE VIEW
-          ============================================================= */}
-      {viewMode === 'dashboard' ? (
-        <div className="min-h-screen bg-slate-950 text-white py-12 px-4 sm:px-6">
-          <div className="max-w-7xl mx-auto space-y-8">
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-neutral-800 pb-6 gap-4">
-              <div>
-                <span className="text-amber-500 font-extrabold uppercase tracking-widest text-xs block">Internal Systems Deck</span>
-                <h1 className="text-3xl font-black uppercase tracking-tight text-white mt-1">Club Administration Hub</h1>
-              </div>
-              <button
-                onClick={() => setViewMode('public')}
-                className="bg-neutral-900 border border-neutral-800 hover:bg-white hover:text-black text-white px-5 py-2.5 rounded-xl text-xs uppercase tracking-widest font-black transition cursor-pointer"
-              >
-                ← Log Out
-              </button>
-            </div>
-
-            {/* Dash Tab Options */}
-            <div className="flex gap-2 border-b border-neutral-900 pb-px">
-              {(['roster', 'activities', 'sponsors'] as const).map(tab => (
-                <button
-                  key={tab}
-                  onClick={() => setActiveDashTab(tab)}
-                  className={`px-6 py-3 text-xs uppercase tracking-widest font-black transition duration-300 border-none cursor-pointer ${
-                    activeDashTab === tab ? 'bg-amber-500 text-black rounded-t-xl' : 'text-neutral-400 hover:text-amber-500 bg-transparent'
-                  }`}
-                >
-                  Manage {tab}
-                </button>
-              ))}
-            </div>
-
-            {/* TAB CONTENT: ROSTER */}
-            {activeDashTab === 'roster' && (
-              <div className="grid lg:grid-cols-12 gap-8 animate-fadeIn">
-                <div className="lg:col-span-4 bg-neutral-900 border border-neutral-800 p-6 rounded-2xl h-fit">
-                  <h3 className="text-base font-black uppercase text-amber-500 mb-4">Add Roster Member</h3>
-                  <form onSubmit={handleAddUser} className="space-y-4">
-                    <div>
-                      <label className="block text-[10px] uppercase font-bold text-neutral-400 mb-1">Full Name</label>
-                      <input type="text" required value={newUser.name} onChange={e => setNewUser(prev => ({ ...prev, name: e.target.value }))} className="w-full bg-slate-950 border border-neutral-800 rounded-lg px-3 py-2 text-xs text-white outline-none focus:border-amber-500" placeholder="e.g. Juan dela Cruz" />
-                    </div>
-                    <div>
-                      <label className="block text-[10px] uppercase font-bold text-neutral-400 mb-1">Position</label>
-                      <input type="text" value={newUser.position} onChange={e => setNewUser(prev => ({ ...prev, position: e.target.value }))} className="w-full bg-slate-950 border border-neutral-800 rounded-lg px-3 py-2 text-xs text-white outline-none focus:border-amber-500" placeholder="e.g. Active Member" />
-                    </div>
-                    <div>
-                      <label className="block text-[10px] uppercase font-bold text-neutral-400 mb-1">Birthday</label>
-                      <input type="text" required value={newUser.birthday} onChange={e => setNewUser(prev => ({ ...prev, birthday: e.target.value }))} className="w-full bg-slate-950 border border-neutral-800 rounded-lg px-3 py-2 text-xs text-white outline-none focus:border-amber-500" placeholder="e.g. August 14" />
-                    </div>
-                    <div className="flex gap-4 pt-2">
-                      <label className="flex items-center gap-2 text-[10px] uppercase font-bold text-neutral-400 cursor-pointer">
-                        <input type="checkbox" checked={newUser.isOfficer} onChange={e => setNewUser(prev => ({ ...prev, isOfficer: e.target.checked }))} className="accent-amber-500" />
-                        Officer
-                      </label>
-                      <label className="flex items-center gap-2 text-[10px] uppercase font-bold text-neutral-400 cursor-pointer">
-                        <input type="checkbox" checked={newUser.isDirector} onChange={e => setNewUser(prev => ({ ...prev, isDirector: e.target.checked }))} className="accent-amber-500" />
-                        Director
-                      </label>
-                    </div>
-                    {newUser.isDirector && (
-                      <div>
-                        <label className="block text-[10px] uppercase font-bold text-neutral-400 mb-1">Director Position Title</label>
-                        <input type="text" value={newUser.directorPosition} onChange={e => setNewUser(prev => ({ ...prev, directorPosition: e.target.value }))} className="w-full bg-slate-950 border border-neutral-800 rounded-lg px-3 py-2 text-xs text-white outline-none focus:border-amber-500" placeholder="e.g. Public Image Director" />
-                      </div>
-                    )}
-                    <button type="submit" className="w-full bg-amber-500 hover:bg-amber-600 text-black font-black uppercase tracking-widest py-3 rounded-lg text-xs transition cursor-pointer border-none mt-2">Add Member</button>
-                  </form>
-                </div>
-
-                <div className="lg:col-span-8 space-y-4">
-                  <h3 className="text-base font-black uppercase text-white">Roster Directory Registry ({dashUsers.length})</h3>
-                  <div className="max-h-[500px] overflow-y-auto custom-magazine-scrollbar border border-neutral-900 rounded-2xl bg-slate-900/30">
-                    <table className="w-full text-left border-collapse text-xs">
-                      <thead>
-                        <tr className="bg-neutral-900 text-neutral-400 border-b border-neutral-800">
-                          <th className="p-4 uppercase font-bold">Name</th>
-                          <th className="p-4 uppercase font-bold">Position</th>
-                          <th className="p-4 uppercase font-bold">Birthday</th>
-                          <th className="p-4 uppercase font-bold text-right">Actions</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {dashUsers.map(u => (
-                          <tr key={u.id} className="border-b border-neutral-800/60 hover:bg-neutral-900/30 transition duration-150">
-                            <td className="p-4 font-black">{u.name}</td>
-                            <td className="p-4 text-neutral-300">{u.directorPosition || u.position}</td>
-                            <td className="p-4 font-mono text-amber-500">{u.birthday}</td>
-                            <td className="p-4 text-right">
-                              <button onClick={() => handleDeleteUser(u.id)} className="bg-red-500/10 hover:bg-red-500 text-red-500 hover:text-white px-3 py-1.5 rounded-lg font-bold border border-red-500/20 transition cursor-pointer">Delete</button>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* TAB CONTENT: ACTIVITIES */}
-            {activeDashTab === 'activities' && (
-              <div className="grid lg:grid-cols-12 gap-8 animate-fadeIn">
-                <div className="lg:col-span-4 bg-neutral-900 border border-neutral-800 p-6 rounded-2xl h-fit">
-                  <h3 className="text-base font-black uppercase text-amber-500 mb-4">Record New Output</h3>
-                  <form onSubmit={handleAddActivity} className="space-y-4">
-                    <div>
-                      <label className="block text-[10px] uppercase font-bold text-neutral-400 mb-1">Title</label>
-                      <input type="text" required value={newActivity.title} onChange={e => setNewActivity(prev => ({ ...prev, title: e.target.value }))} className="w-full bg-slate-950 border border-neutral-800 rounded-lg px-3 py-2 text-xs text-white outline-none focus:border-amber-500" placeholder="e.g. Youth Literacy Drive" />
-                    </div>
-                    <div>
-                      <label className="block text-[10px] uppercase font-bold text-neutral-400 mb-1">Category / Area of Focus</label>
-                      <input type="text" required value={newActivity.category} onChange={e => setNewActivity(prev => ({ ...prev, category: e.target.value }))} className="w-full bg-slate-950 border border-neutral-800 rounded-lg px-3 py-2 text-xs text-white outline-none focus:border-amber-500" placeholder="e.g. Basic Education and Literacy" />
-                    </div>
-                    <div>
-                      <label className="block text-[10px] uppercase font-bold text-neutral-400 mb-1">Description Overview</label>
-                      <textarea required rows={3} value={newActivity.description} onChange={e => setNewActivity(prev => ({ ...prev, description: e.target.value }))} className="w-full bg-slate-950 border border-neutral-800 rounded-lg px-3 py-2 text-xs text-white outline-none focus:border-amber-500" placeholder="Enter concise scope metrics..."></textarea>
-                    </div>
-                    <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <label className="block text-[10px] uppercase font-bold text-neutral-400 mb-1">Type</label>
-                        <select value={newActivity.type} onChange={e => setNewActivity(prev => ({ ...prev, type: e.target.value as any }))} className="w-full bg-slate-950 border border-neutral-800 rounded-lg px-3 py-2 text-xs text-white outline-none focus:border-amber-500">
-                          <option value="Project">Project</option>
-                          <option value="News">News</option>
-                        </select>
-                      </div>
-                      <div>
-                        <label className="block text-[10px] uppercase font-bold text-neutral-400 mb-1">Status</label>
-                        <select value={newActivity.status} onChange={e => setNewActivity(prev => ({ ...prev, status: e.target.value }))} className="w-full bg-slate-950 border border-neutral-800 rounded-lg px-3 py-2 text-xs text-white outline-none focus:border-amber-500">
-                          <option value="Ongoing">Ongoing</option>
-                          <option value="Completed">Completed</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div>
-                      <label className="block text-[10px] uppercase font-bold text-neutral-400 mb-1">Status Subdetail / Date</label>
-                      <input type="text" value={newActivity.detail} onChange={e => setNewActivity(prev => ({ ...prev, detail: e.target.value }))} className="w-full bg-slate-950 border border-neutral-800 rounded-lg px-3 py-2 text-xs text-white outline-none focus:border-amber-500" placeholder="e.g. Inaugurated on July 29, 2026" />
-                    </div>
-                    <button type="submit" className="w-full bg-amber-500 hover:bg-amber-600 text-black font-black uppercase tracking-widest py-3 rounded-lg text-xs transition cursor-pointer border-none mt-2">Publish Log</button>
-                  </form>
-                </div>
-
-                <div className="lg:col-span-8 space-y-4">
-                  <h3 className="text-base font-black uppercase text-white">System Activity Logs ({dashActivities.length})</h3>
-                  <div className="max-h-[500px] overflow-y-auto custom-magazine-scrollbar border border-neutral-900 rounded-2xl bg-slate-900/30">
-                    <table className="w-full text-left border-collapse text-xs">
-                      <thead>
-                        <tr className="bg-neutral-900 text-neutral-400 border-b border-neutral-800">
-                          <th className="p-4 uppercase font-bold">Scope Output Ledger</th>
-                          <th className="p-4 uppercase font-bold">Category</th>
-                          <th className="p-4 uppercase font-bold">Type</th>
-                          <th className="p-4 uppercase font-bold text-right">Actions</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {dashActivities.map(a => (
-                          <tr key={a.id} className="border-b border-neutral-800/60 hover:bg-neutral-900/30 transition duration-150">
-                            <td className="p-4 font-black">
-                              <p className="text-white leading-tight">{a.title}</p>
-                              <span className="text-[10px] font-mono text-neutral-400">{a.detail}</span>
-                            </td>
-                            <td className="p-4 text-neutral-300">{a.category}</td>
-                            <td className="p-4">
-                              <span className={`px-2.5 py-1 rounded-full text-[10px] uppercase font-bold ${a.type === 'Project' ? 'bg-amber-500/10 text-amber-400 border border-amber-500/20' : 'bg-blue-500/10 text-blue-400 border border-blue-500/20'}`}>
-                                {a.type}
-                              </span>
-                            </td>
-                            <td className="p-4 text-right">
-                              <button onClick={() => handleDeleteActivity(a.id)} className="bg-red-500/10 hover:bg-red-500 text-red-500 hover:text-white px-3 py-1.5 rounded-lg font-bold border border-red-500/20 transition cursor-pointer">Delete</button>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* TAB CONTENT: SPONSORS */}
-            {activeDashTab === 'sponsors' && (
-              <div className="grid lg:grid-cols-12 gap-8 animate-fadeIn">
-                <div className="lg:col-span-4 bg-neutral-900 border border-neutral-800 p-6 rounded-2xl h-fit">
-                  <h3 className="text-base font-black uppercase text-amber-500 mb-4">Add Sponsor Node</h3>
-                  <form onSubmit={handleAddSponsor} className="space-y-4">
-                    <div>
-                      <label className="block text-[10px] uppercase font-bold text-neutral-400 mb-1">Brand Name</label>
-                      <input type="text" required value={newSponsor.name} onChange={e => setNewSponsor(prev => ({ ...prev, name: e.target.value }))} className="w-full bg-slate-950 border border-neutral-800 rounded-lg px-3 py-2 text-xs text-white outline-none focus:border-amber-500" placeholder="e.g. Phoenix LaRocco" />
-                    </div>
-                    <div>
-                      <label className="block text-[10px] uppercase font-bold text-neutral-400 mb-1">Short Code / Fallback Text</label>
-                      <input type="text" value={newSponsor.fallbackText} onChange={e => setNewSponsor(prev => ({ ...prev, fallbackText: e.target.value }))} className="w-full bg-slate-950 border border-neutral-800 rounded-lg px-3 py-2 text-xs text-white outline-none focus:border-amber-500" placeholder="e.g. PLR" />
-                    </div>
-                    <div>
-                      <label className="block text-[10px] uppercase font-bold text-neutral-400 mb-1">Relative Logo Path</label>
-                      <input type="text" value={newSponsor.logoImage} onChange={e => setNewSponsor(prev => ({ ...prev, logoImage: e.target.value }))} className="w-full bg-slate-950 border border-neutral-800 rounded-lg px-3 py-2 text-xs text-white outline-none focus:border-amber-500" placeholder="e.g. /partner-cityblinds-logo.jpg" />
-                    </div>
-                    <div>
-                      <label className="block text-[10px] uppercase font-bold text-neutral-400 mb-1">Destination URL</label>
-                      <input type="text" value={newSponsor.url} onChange={e => setNewSponsor(prev => ({ ...prev, url: e.target.value }))} className="w-full bg-slate-950 border border-neutral-800 rounded-lg px-3 py-2 text-xs text-white outline-none focus:border-amber-500" placeholder="e.g. https://www.facebook.com" />
-                    </div>
-                    <button type="submit" className="w-full bg-amber-500 hover:bg-amber-600 text-black font-black uppercase tracking-widest py-3 rounded-lg text-xs transition cursor-pointer border-none mt-2">Link Sponsor</button>
-                  </form>
-                </div>
-
-                <div className="lg:col-span-8 space-y-4">
-                  <h3 className="text-base font-black uppercase text-white">Sponsors Network Directory ({dashSponsors.length})</h3>
-                  <div className="max-h-[500px] overflow-y-auto custom-magazine-scrollbar border border-neutral-900 rounded-2xl bg-slate-900/30">
-                    <table className="w-full text-left border-collapse text-xs">
-                      <thead>
-                        <tr className="bg-neutral-900 text-neutral-400 border-b border-neutral-800">
-                          <th className="p-4 uppercase font-bold">Brand Partner</th>
-                          <th className="p-4 uppercase font-bold">Relative Logo Path</th>
-                          <th className="p-4 uppercase font-bold">Target URI Link</th>
-                          <th className="p-4 uppercase font-bold text-right">Actions</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {dashSponsors.map(s => (
-                          <tr key={s.name} className="border-b border-neutral-800/60 hover:bg-neutral-900/30 transition duration-150">
-                            <td className="p-4 font-black">{s.name}</td>
-                            <td className="p-4 font-mono text-neutral-400">{s.logoImage}</td>
-                            <td className="p-4 text-blue-400 truncate max-w-[200px]">{s.url}</td>
-                            <td className="p-4 text-right">
-                              <button onClick={() => handleDeleteSponsor(s.name)} className="bg-red-500/10 hover:bg-red-500 text-red-500 hover:text-white px-3 py-1.5 rounded-lg font-bold border border-red-500/20 transition cursor-pointer">Delete</button>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-      ) : (
-        /* =============================================================
-            UNTOUCHED PUBLIC PORTAL SITE SECTIONS
-            ============================================================= */
+      {/* EXECUTIVE PANEL RENDER COMMENTED OUT FOR PUBLIC LAUNCH */}
+      {/* {viewMode === 'executive' && sessionUser ? (
+        <ExecutivePanel
+          onLeave={() => { setViewMode('public'); setSessionUser(null); }}
+          currentUser={sessionUser}
+          initialUsers={panelCompatibleUsers}
+          initialActivities={dashActivities}
+          corporateSponsors={panelCompatibleSponsors}
+        />
+      ) : ( */}
         <>
-          {/* PRE-ENTRY BIRTHDAY POP-UP COMPONENT */}
           {showBirthdayModal && celebratedUser && (
             <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-black/90 backdrop-blur-xl animate-fadeIn">
-              
-              {/* Confetti Generation Deck */}
               {Array.from({ length: 40 }).map((_, i) => {
                 const colors = ['#f59e0b', '#3b82f6', '#10b981', '#ec4899', '#8b5cf6'];
                 const randomColor = colors[i % colors.length];
@@ -914,56 +677,119 @@ export default function Home() {
             </div>
           )}
 
-          {/* SECURE DASHBOARD LOGIN MODAL MODULE */}
-          {showLoginModal && (
+          {/* SECURE DASHBOARD LOGIN PORTAL MODAL COMMENTED OUT FOR PUBLIC LAUNCH */}
+          {/* {showLoginModal && (
             <div className="fixed inset-0 z-[150] flex items-center justify-center p-4 bg-black/80 backdrop-blur-xl animate-fadeIn">
-              <div onClick={() => setShowLoginModal(false)} className="absolute inset-0 cursor-pointer" />
+              <div onClick={() => { setShowLoginModal(false); setIsResetFlowActive(false); }} className="absolute inset-0 cursor-pointer" />
               <div className="bg-white rounded-[24px] w-full max-w-sm p-6 sm:p-8 shadow-2xl border border-neutral-200 relative overflow-hidden animate-scaleUp flex flex-col items-stretch text-left z-10">
                 <div className="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-amber-400 to-orange-500" />
                 <div className="flex justify-between items-center mb-4">
-                  <h3 className="text-base font-black uppercase text-neutral-900 tracking-wider">Club Secure Access</h3>
-                  <button onClick={() => setShowLoginModal(false)} className="bg-transparent border-none text-neutral-400 hover:text-black font-mono font-bold cursor-pointer text-xs outline-none">✕</button>
+                  <h3 className="text-base font-black uppercase text-neutral-900 tracking-wider">
+                    {isResetFlowActive ? 'Reset Security Key' : 'Club Secure Access'}
+                  </h3>
+                  <button onClick={() => { setShowLoginModal(false); setIsResetFlowActive(false); }} className="bg-transparent border-none text-neutral-400 hover:text-black font-mono font-bold cursor-pointer text-xs outline-none">✕</button>
                 </div>
-                <p className="text-[11px] text-neutral-500 leading-normal mb-4 font-normal">Provide authorized executive workspace credentials to proceed.</p>
+                
+                <p className="text-[11px] text-neutral-500 leading-normal mb-4 font-normal">
+                  {isResetFlowActive 
+                    ? 'First login detected. You must update your placeholder authorization password to proceed safely.' 
+                    : 'Provide authorized executive workspace credentials to proceed.'}
+                </p>
                 
                 {loginError && (
                   <div className="bg-red-50 text-red-600 text-[11px] font-bold p-3 rounded-xl border border-red-100 mb-4 animate-fadeIn">
-                    ⚠ {loginError}
+                    &lfloor; {loginError}
                   </div>
                 )}
                 
-                <form onSubmit={handleLoginSubmit} className="space-y-4">
-                  <div>
-                    <label className="block text-[10px] uppercase font-bold text-neutral-500 mb-1 tracking-wide">Account Username</label>
-                    <input 
-                      type="text" 
-                      required 
-                      value={loginForm.username} 
-                      onChange={e => setLoginForm(prev => ({ ...prev, username: e.target.value }))}
-                      className="w-full bg-neutral-50 border border-neutral-200 rounded-lg px-3 py-2.5 text-xs text-neutral-900 focus:outline-none focus:border-amber-500 focus:bg-white transition shadow-inner" 
-                      placeholder="e.g. admin" 
-                    />
+                {!isResetFlowActive ? (
+                  <form onSubmit={handleLoginSubmit} className="space-y-4">
+                    <div>
+                      <label className="block text-[10px] uppercase font-bold text-neutral-500 mb-1 tracking-wide">Account Username</label>
+                      <input 
+                        type="text" 
+                        required 
+                        value={loginForm.username} 
+                        onChange={e => setLoginForm(prev => ({ ...prev, username: e.target.value }))}
+                        className="w-full bg-neutral-50 border border-neutral-200 rounded-lg px-3 py-2.5 text-xs text-neutral-900 focus:outline-none focus:border-amber-500 focus:bg-white transition shadow-inner" 
+                        placeholder="e.g. admin" 
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[10px] uppercase font-bold text-neutral-500 mb-1 tracking-wide">Security Password</label>
+                      <input 
+                        type="password" 
+                        required 
+                        value={loginForm.password} 
+                        onChange={e => setLoginForm(prev => ({ ...prev, password: e.target.value }))}
+                        className="w-full bg-neutral-50 border border-neutral-200 rounded-lg px-3 py-2.5 text-xs text-neutral-900 focus:outline-none focus:border-amber-500 focus:bg-white transition shadow-inner" 
+                        placeholder="••••••••" 
+                      />
+                    </div>
+                    <button type="submit" className="w-full bg-black hover:bg-amber-500 text-white hover:text-black font-black uppercase tracking-widest py-3 rounded-lg text-xs transition border-none cursor-pointer mt-2 shadow-md outline-none">
+                      Verify Identity Node
+                    </button>
+                  </form>
+                ) : (
+                  <form onSubmit={handlePasswordResetSubmit} className="space-y-4 animate-fadeIn">
+                    <div>
+                      <label className="block text-[10px] uppercase font-bold text-neutral-500 mb-1 tracking-wide">Target Username</label>
+                      <input 
+                        type="text" 
+                        disabled 
+                        value={resetUsername}
+                        className="w-full bg-neutral-100 border border-neutral-200 rounded-lg px-3 py-2.5 text-xs text-neutral-500 outline-none cursor-not-allowed select-none" 
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[10px] uppercase font-bold text-slate-500 mb-1 tracking-wide">New Secure Password</label>
+                      <input 
+                        type="password" 
+                        required 
+                        minLength={8}
+                        value={newPassword}
+                        onChange={e => setNewPassword(e.target.value)}
+                        className="w-full bg-neutral-50 border border-neutral-200 rounded-lg px-3 py-2.5 text-xs text-neutral-900 focus:outline-none focus:border-amber-500 focus:bg-white transition shadow-inner" 
+                        placeholder="Minimum 8 characters" 
+                      />
+                    </div>
+                    <button type="submit" className="w-full bg-amber-500 hover:bg-amber-600 text-black font-black uppercase tracking-widest py-3 rounded-lg text-xs transition border-none cursor-pointer mt-2 shadow-md outline-none">
+                      Update Key & Enter Workspace
+                    </button>
+                  </form>
+                )}
+
+                {!isResetFlowActive && (
+                  <div className="mt-5 pt-4 border-t border-neutral-100 text-center">
+                    <span className="text-[9px] font-mono font-bold tracking-widest text-neutral-400 uppercase block mb-2.5">Developer Sandbox</span>
+                    <button
+                      onClick={() => {
+                        setSessionUser({
+                          id: 999,
+                          name: "Sandbox Administrator",
+                          username: "admin",
+                          role: "Admin",
+                          position: "System Webmaster Node",
+                          isOfficer: true,
+                          isDirector: true,
+                          image: "/rotary-logo.png",
+                          birthday: "N/A"
+                        });
+                        setViewMode('executive');
+                        setShowLoginModal(false);
+                        setLoginForm({ username: '', password: '' });
+                      }}
+                      className="w-full bg-neutral-50 hover:bg-neutral-900 border border-neutral-200 hover:border-black text-neutral-700 hover:text-amber-500 transition duration-300 py-2.5 rounded-lg text-[10px] uppercase tracking-wider font-extrabold cursor-pointer outline-none flex items-center justify-center gap-1.5"
+                    >
+                      <span>Bypass Login (Force Admin Privileges)</span>
+                    </button>
                   </div>
-                  <div>
-                    <label className="block text-[10px] uppercase font-bold text-neutral-500 mb-1 tracking-wide">Security Password</label>
-                    <input 
-                      type="password" 
-                      required 
-                      value={loginForm.password} 
-                      onChange={e => setLoginForm(prev => ({ ...prev, password: e.target.value }))}
-                      className="w-full bg-neutral-50 border border-neutral-200 rounded-lg px-3 py-2.5 text-xs text-neutral-900 focus:outline-none focus:border-amber-500 focus:bg-white transition shadow-inner" 
-                      placeholder="••••••••" 
-                    />
-                  </div>
-                  <button type="submit" className="w-full bg-black hover:bg-amber-500 text-white hover:text-black font-black uppercase tracking-widest py-3 rounded-lg text-xs transition border-none cursor-pointer mt-2 shadow-md outline-none">
-                    Verify Identity node
-                  </button>
-                </form>
+                )}
+
               </div>
             </div>
-          )}
+          )} */}
 
-          {/* 1. SMART STICKY NAVIGATION BAR */}
           <header className={`sticky top-0 z-50 bg-black text-white shadow-md border-b border-neutral-800 transition-transform duration-300 transform ${
             navVisible ? 'translate-y-0' : '-translate-y-full'
           }`}>
@@ -993,13 +819,13 @@ export default function Home() {
                 <button onClick={(e) => scrollToSection(e, 'contactus')} className="bg-transparent border border-neutral-700 text-neutral-200 hover:border-amber-500 hover:text-amber-500 font-bold px-5 py-2 rounded-full text-xs uppercase tracking-wider transition cursor-pointer text-center no-underline">
                   Get Involved
                 </button>
-                <button
+                {/* LOGIN BUTTON COMMENTED OUT FOR PUBLIC LAUNCH */}
+                {/* <button
                   onClick={() => setShowLoginModal(true)}
                   className="px-5 py-2 bg-amber-500 hover:bg-amber-600 text-black font-black text-xs uppercase tracking-wider rounded-full shadow-md transition duration-300 cursor-pointer border border-amber-600 outline-none flex items-center gap-1.5"
                 >
-                  <span>🔐</span>
                   <span>Login</span>
-                </button>
+                </button> */}
               </div>
             </div>
 
@@ -1012,7 +838,8 @@ export default function Home() {
                 <a href="#visionaries" onClick={(e) => scrollToSection(e, 'visionaries')} className="hover:text-amber-500 py-1">Visionaries</a>
                 <a href="#projects-and-news" onClick={(e) => scrollToSection(e, 'projects-and-news')} className="hover:text-amber-500 py-1">Projects & News</a>
                 <a href="#contactus" onClick={(e) => scrollToSection(e, 'contactus')} className="hover:text-amber-500 py-1">Get Involved</a>
-                <button
+                {/* MOBILE LOGIN BUTTON COMMENTED OUT FOR PUBLIC LAUNCH */}
+                {/* <button
                   onClick={() => {
                     setMobileMenuOpen(false);
                     setShowLoginModal(true);
@@ -1020,18 +847,17 @@ export default function Home() {
                   className="text-left w-full text-amber-500 hover:text-amber-400 py-1 bg-transparent border-none font-bold uppercase tracking-wider text-xs cursor-pointer flex items-center gap-1.5 outline-none"
                 >
                   <span>🔐</span> Login
-                </button>
+                </button> */}
               </div>
             )}
           </header>
 
-          {/* 2. DYNAMIC HERO LANDING CAROUSEL */}
           <section 
             className="relative flex flex-col sm:block text-white overflow-hidden bg-black"
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
           >
-            <div className="relative w-full aspect-[4/3] sm:aspect-none sm:absolute sm:inset-0 sm:h-full sm:w-full bg-neutral-950">
+            <div className="relative w-full aspect-[4/3] sm:aspect-none sm:absolute sm:inset-0 sm:h-full sm:w-full bg-neutral-955">
               {carouselSlides.map((slide, idx) => (
                 <div 
                   key={idx}
@@ -1049,7 +875,7 @@ export default function Home() {
               <button {...hydration} onClick={handleNextSlide} className="absolute right-4 top-1/2 -translate-y-1/2 w-9 h-9 items-center justify-center rounded-full bg-black/30 border border-neutral-800 hover:border-amber-500 hover:text-amber-500 text-white transition z-20 cursor-pointer hidden sm:flex select-none">›</button>
             </div>
 
-            <div className="relative w-full bg-neutral-950 sm:bg-transparent px-5 py-8 sm:py-16 md:py-24 max-w-7xl mx-auto z-10 flex items-center min-h-none sm:min-h-[85vh]">
+            <div className="relative w-full bg-neutral-955 sm:bg-transparent px-5 py-8 sm:py-16 md:py-24 max-w-7xl mx-auto z-10 flex items-center min-h-none sm:min-h-[85vh]">
               <div className="text-center sm:text-left max-w-2xl w-full">
                 <span className="bg-neutral-900/90 sm:bg-neutral-900 text-amber-500 text-[10px] sm:text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-widest border border-neutral-800 shadow-sm inline-block">District 3770 • Service Above Self</span>
                 <h1 className="text-3xl sm:text-5xl md:text-7xl font-black tracking-tight text-white mt-4 mb-4 sm:mb-6 uppercase leading-tight sm:leading-none">Create Lasting Impact</h1>
@@ -1069,7 +895,6 @@ export default function Home() {
             </div>
           </section>
 
-          {/* 3. ABOUT US INTRODUCTORY REFLECTIONS */}
           <section id="who-we-are" className="py-16 sm:py-24 px-4 sm:px-6 bg-white border-b border-neutral-200">
             <div className="max-w-7xl mx-auto">
               <div className="grid lg:grid-cols-5 gap-12 lg:gap-16 items-start">
@@ -1097,7 +922,7 @@ export default function Home() {
                     </span>
                   </div>
 
-                  <div className="text-neutral-600 leading-relaxed space-y-5 text-justify text-sm sm:text-base font-normal">
+                  <div className="text-neutral-650 leading-relaxed space-y-5 text-justify text-sm sm:text-base font-normal">
                     <p>
                       Guided by the enduring Rotary principle of Service Above Self, the Rotary International community continues to transform lives through meaningful service and strong fellowship. Each Rotary year offers a renewed opportunity for Rotarians to make a difference in their communities and beyond.
                     </p>
@@ -1182,7 +1007,7 @@ export default function Home() {
                             key={dIdx}
                             onClick={() => setCurrentMessageIndex(dIdx)}
                             className={`h-1.5 rounded-full transition-all border-none outline-none cursor-pointer ${
-                              dIdx === currentMessageIndex ? 'bg-amber-500 w-6' : 'bg-neutral-880 w-1.5'
+                              dIdx === currentMessageIndex ? 'bg-amber-500 w-6' : 'bg-neutral-800 w-1.5'
                             }`}
                           />
                         ))}
@@ -1208,7 +1033,6 @@ export default function Home() {
             </div>
           </section>
 
-          {/* 4. GUIDING ROTARY CODES MATRIX */}
           <section 
             id="rotary-code" 
             className="py-24 bg-cover bg-center bg-fixed relative overflow-hidden"
@@ -1230,12 +1054,12 @@ export default function Home() {
                   <select
                     value={activeTab}
                     onChange={(e) => setActiveTab(e.target.value as any)}
-                    className="w-full bg-slate-950 text-amber-400 font-black text-xs uppercase tracking-widest pl-5 pr-12 py-3.5 rounded-xl border border-slate-800/80 shadow-2xl focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500/30 appearance-none text-left transition-all duration-300"
+                    className="w-full bg-slate-955 text-amber-400 font-black text-xs uppercase tracking-widest pl-5 pr-12 py-3.5 rounded-xl border border-slate-800/80 shadow-2xl focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500/30 appearance-none text-left transition-all duration-300"
                   >
-                    <option value="fourway" className="bg-slate-950 text-neutral-200 uppercase tracking-wider">The 4-Way Test</option>
-                    <option value="objectives" className="bg-slate-950 text-neutral-200 uppercase tracking-wider">Rotary Objectives</option>
-                    <option value="vision" className="bg-slate-950 text-neutral-200 uppercase tracking-wider">Our Vision</option>
-                    <option value="endpolio" className="bg-slate-950 text-neutral-200 uppercase tracking-wider">End Polio Now</option>
+                    <option value="fourway" className="bg-slate-955 text-neutral-200 uppercase tracking-wider">The 4-Way Test</option>
+                    <option value="objectives" className="bg-slate-955 text-neutral-200 uppercase tracking-wider">Rotary Objectives</option>
+                    <option value="vision" className="bg-slate-955 text-neutral-200 uppercase tracking-wider">Our Vision</option>
+                    <option value="endpolio" className="bg-slate-955 text-neutral-200 uppercase tracking-wider">End Polio Now</option>
                   </select>
                   <div className="pointer-events-none absolute inset-y-0 right-4 flex items-center gap-1.5 border-l border-slate-800/80 pl-3">
                     <span className="text-[9px] text-amber-500/50 font-mono font-bold uppercase tracking-wider">View</span>
@@ -1266,7 +1090,7 @@ export default function Home() {
                         { title: "03", desc: "Will it build goodwill and better friendships?" },
                         { title: "04", desc: "Will it be beneficial to all concerned?" }
                       ].map((item, idx) => (
-                        <div key={idx} className="bg-slate-955/80 backdrop-blur-md border border-slate-900 Regel rounded-2xl p-5 hover:border-amber-500/40 hover:-translate-y-1 hover:scale-[1.03] hover:shadow-[0_10px_25px_-5px_rgba(245,158,11,0.1)] transition-all group duration-300 relative overflow-hidden">
+                        <div key={idx} className="bg-slate-955/80 backdrop-blur-md border border-slate-900 rounded-2xl p-5 hover:border-amber-500/40 hover:-translate-y-1 hover:scale-[1.03] hover:shadow-[0_10px_25px_-5px_rgba(245,158,11,0.1)] transition-all group duration-300 relative overflow-hidden">
                           <h4 className="text-xs font-black tracking-widest text-amber-500 mb-1.5 uppercase font-mono group-hover:text-amber-400 transition-colors">{item.title}</h4>
                           <p className="text-xs text-neutral-300 leading-relaxed font-normal">{item.desc}</p>
                         </div>
@@ -1286,7 +1110,7 @@ export default function Home() {
                         "The development of acquaintance as an opportunity for service.",
                         "High ethical standards in business and professions; the recognition of worthiness of all useful occupations; and the dignifying of each Rotarian's occupation as an opportunity to serve society.",
                         "The application of the ideal of service in each Rotarian's personal, business, and community life.",
-                        "The advancement of international understand, goodwill, and peace through a world fellowship of business and professional persons united in the ideal of service."
+                        "The advancement of international understanding, goodwill, and peace through a world fellowship of business and professional persons united in the ideal of service."
                       ].map((text, idx) => (
                         <div key={idx} className="bg-slate-955/50 backdrop-blur-md border border-slate-900/60 rounded-2xl p-5 flex gap-4 items-start hover:bg-slate-950/90 hover:scale-[1.01] hover:border-blue-500/30 shadow-md transition-all duration-300 group">
                           <span className="w-6 h-6 bg-blue-600/10 rounded-full flex items-center justify-center shrink-0 border border-blue-500/20 text-blue-400 font-mono font-bold text-[10px] mt-0.5 group-hover:bg-blue-600 group-hover:text-white group-hover:scale-110 transition-all duration-300">{idx + 1}</span>
@@ -1353,7 +1177,7 @@ export default function Home() {
                           <li className="flex gap-2 items-start"><span className="text-red-500">✔</span> <strong>Global Health Security:</strong> Polio infrastructure is actively used to fight other infectious diseases.</li>
                         </ul>
                         <a href="https://www.rotary.org/our-work/ending-polio" target="_blank" rel="noopener noreferrer" className="inline-block text-xs font-black uppercase tracking-wider text-amber-500 hover:text-amber-400 pt-2 transition-colors">
-                          Learn More on rotary.org ↗
+                          Learn More on rotary.org &rarr;
                         </a>
                       </div>
                     </div>
@@ -1364,7 +1188,6 @@ export default function Home() {
             </div>
           </section>
 
-          {/* 4.5 ROTARY AREAS OF FOCUS INTERACTIVE MESH WORKSPACE */}
           <section id="focus-channels" className="py-16 sm:py-24 bg-white border-b border-neutral-200 relative overflow-hidden">
             <div className="max-w-6xl mx-auto px-4 sm:px-6 space-y-10 relative z-10">
               <div className="text-center max-w-2xl mx-auto space-y-2">
@@ -1396,7 +1219,6 @@ export default function Home() {
             </div>
           </section>
 
-          {/* 4.8 IMMERSIVE LOGO MARQUEE */}
           <section className="py-16 bg-white border-b border-neutral-200 overflow-hidden select-none">
             <div className="max-w-7xl mx-auto px-4 mb-8 flex items-center justify-center md:justify-start">
               <span className="text-[10px] font-mono text-neutral-400 uppercase tracking-widest border border-neutral-200 px-3 py-1 rounded-full bg-neutral-50">
@@ -1440,7 +1262,6 @@ export default function Home() {
             </div>
           </section>
 
-          {/* 5. OFFICIAL LEADERSHIP ROSTER SHOWCASE */}
           <section 
             id="visionaries" 
             className="py-24 bg-neutral-50 border-b border-neutral-200 relative overflow-hidden transition-colors duration-500"
@@ -1485,7 +1306,7 @@ export default function Home() {
                 {activeVisionaryTab === 'roster' && (
                   <div className="flex flex-col sm:flex-row items-center justify-end gap-3 mb-6 pb-4 border-b border-neutral-100 animate-fadeIn">
                     <span className="text-[11px] uppercase tracking-wider font-extrabold text-neutral-400">
-                      ⚡ Sort Algorithm Parameters:
+                      Sort By:
                     </span>
                     <div className="flex gap-2 bg-neutral-100/80 p-0.5 rounded-xl border border-neutral-200 shadow-inner">
                       <button 
@@ -1493,14 +1314,14 @@ export default function Home() {
                         onClick={() => setRosterSortCriteria('surname')} 
                         className={`px-3 py-1.5 text-[10px] uppercase font-bold tracking-wider rounded-lg transition border-none cursor-pointer ${rosterSortCriteria === 'surname' ? 'bg-black text-white' : 'text-neutral-500 hover:text-black bg-transparent'}`}
                       >
-                        By Surname
+                        Surname
                       </button>
                       <button 
                         {...hydration}
                         onClick={() => setRosterSortCriteria('birthday')} 
                         className={`px-3 py-1.5 text-[10px] uppercase font-bold tracking-wider rounded-lg transition border-none cursor-pointer ${rosterSortCriteria === 'birthday' ? 'bg-black text-white' : 'text-neutral-500 hover:text-black bg-transparent'}`}
                       >
-                        By Birthday Month
+                        Birthday Month
                       </button>
                     </div>
                   </div>
@@ -1537,7 +1358,7 @@ export default function Home() {
                           
                           {activeVisionaryTab === 'roster' ? (
                             <div className="pt-0.5 sm:pt-2">
-                              <span className="text-[9px] font-mono uppercase tracking-widest text-neutral-400 block sm:hidden">
+                              <span className="text-[9px] font-mono uppercase tracking-widest text-neutral-450 block sm:hidden">
                                 Birthday
                               </span>
                               <p className="text-xs font-bold text-blue-600 font-sans mt-0.5">
@@ -1580,7 +1401,7 @@ export default function Home() {
                         disabled={currentPage === 1}
                         className="w-9 h-9 flex items-center justify-center rounded-xl bg-white border border-neutral-200 text-neutral-700 font-bold hover:border-amber-500 hover:text-amber-600 disabled:opacity-40 disabled:hover:text-neutral-700 disabled:hover:border-neutral-200 transition pointer cursor-pointer text-sm"
                       >
-                        ‹
+                        &lsaquo;
                       </button>
 
                       {Array.from({ length: totalPages }, (_, index) => {
@@ -1592,7 +1413,7 @@ export default function Home() {
                             onClick={() => setCurrentPage(pageNumber)}
                             className={`w-9 h-9 flex items-center justify-center rounded-xl text-xs font-black tracking-wide uppercase transition border ${
                               currentPage === pageNumber
-                                ? 'bg-amber-55 border-amber-500 text-black shadow-md shadow-amber-500/20'
+                                ? 'bg-amber-50 border-amber-500 text-black shadow-md shadow-amber-500/20'
                                 : 'bg-white border-neutral-200 text-neutral-600 hover:border-amber-500 hover:text-amber-600'
                             } cursor-pointer`}
                           >
@@ -1607,7 +1428,7 @@ export default function Home() {
                         disabled={currentPage === totalPages}
                         className="w-9 h-9 flex items-center justify-center rounded-xl bg-white border border-neutral-200 text-neutral-700 font-bold hover:border-amber-500 hover:text-amber-600 disabled:opacity-40 disabled:hover:text-neutral-700 disabled:hover:border-neutral-200 transition pointer cursor-pointer text-sm"
                       >
-                        ›
+                        &rsaquo;
                       </button>
                     </div>
                   </div>
@@ -1616,7 +1437,6 @@ export default function Home() {
             </div>
           </section>
 
-          {/* 6. PROJECTS & NEWS */}
           <section id="projects-and-news" className="py-24 bg-white px-4 sm:px-6 border-b border-neutral-200 relative overflow-hidden">
             <div className="max-w-7xl mx-auto space-y-10 relative">
               
@@ -1647,7 +1467,7 @@ export default function Home() {
                   </div>
 
                   <div className="flex bg-neutral-100/80 rounded-xl border border-neutral-200/60 p-0.5 shadow-sm overflow-x-auto shrink-0">
-                    {(['All', 'Project', 'News'] as const).map((filterOpt) => (
+                    {([ 'All', 'Project', 'News' ] as const).map((filterOpt) => (
                       <button 
                         suppressHydrationWarning 
                         key={filterOpt} 
@@ -1700,7 +1520,7 @@ export default function Home() {
                     <div>
                       <div className="flex flex-col sm:flex-row gap-2 justify-between sm:items-center mb-4">
                         <span className={`text-[10px] uppercase font-extrabold tracking-wider px-3 py-1 rounded-full w-max ${
-                          activity.type === 'Project' ? 'bg-amber-500/10 text-amber-700 border border-amber-500/20' : 'bg-blue-50 text-blue-700 border border-blue-100'
+                          activity.type === 'Project' ? 'bg-amber-500/10 text-amber-700 border border-amber-500/20' : 'bg-blue-55 text-blue-700 border border-blue-100'
                         }`}>
                           {activity.type}
                         </span>
@@ -1756,7 +1576,7 @@ export default function Home() {
                       disabled={activityPage === 1}
                       className="w-9 h-9 flex items-center justify-center rounded-xl bg-neutral-50 border border-neutral-200 text-neutral-700 font-bold hover:border-amber-500 hover:text-amber-600 disabled:opacity-30 disabled:pointer-events-none transition cursor-pointer text-xs"
                     >
-                      ‹
+                      &lsaquo;
                     </button>
                     {Array.from({ length: totalActivityPages }, (_, index) => (
                       <button
@@ -1776,7 +1596,7 @@ export default function Home() {
                       disabled={activityPage === totalActivityPages}
                       className="w-9 h-9 flex items-center justify-center rounded-xl bg-neutral-50 border border-neutral-200 text-neutral-700 font-bold hover:border-amber-500 hover:text-amber-600 disabled:opacity-30 disabled:pointer-events-none transition cursor-pointer text-xs"
                     >
-                      ›
+                      &rsaquo;
                     </button>
                   </div>
                 </div>
@@ -1784,8 +1604,8 @@ export default function Home() {
             </div>
           </section>
 
-          {/* 6.5 FLIPPING MASONRY GRID MODULE */}
-          <section id="action-showcase" className="py-24 bg-neutral-900 border-b border-neutral-950 overflow-hidden relative text-center">
+          <section 
+            id="action-showcase" className="py-24 bg-neutral-900 border-b border-neutral-955 overflow-hidden relative text-center">
             <div className="absolute top-0 left-1/3 w-80 h-80 bg-amber-500/5 rounded-full blur-3xl pointer-events-none" />
             <div className="max-w-7xl mx-auto px-4 sm:px-6 space-y-12 relative z-10">
               
@@ -1815,7 +1635,6 @@ export default function Home() {
             </div>
           </section>
 
-          {/* 7. CONTACT HUB */}
           <section id="contactus" className="py-20 sm:py-28 bg-slate-950 px-4 sm:px-6 border-t border-slate-900 relative">
             <div className="max-w-4xl mx-auto">
               <div className="text-center mb-8 sm:mb-12 space-y-1">
@@ -1838,16 +1657,16 @@ export default function Home() {
                     <div className="grid sm:grid-cols-2 gap-4">
                       <div>
                         <label className="block text-xs font-bold text-slate-400 uppercase mb-1.5 tracking-wider">Full Name</label>
-                        <input suppressHydrationWarning type="text" name="name" required className="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-3 text-xs text-white focus:outline-none focus:border-amber-500 transition" placeholder="Juan dela Cruz" />
+                        <input suppressHydrationWarning type="text" name="name" required className="w-full bg-slate-955 border border-slate-800 rounded-lg px-4 py-3 text-xs text-white focus:outline-none focus:border-amber-500 transition" placeholder="Juan dela Cruz" />
                       </div>
                       <div>
                         <label className="block text-xs font-bold text-slate-400 uppercase mb-1.5 tracking-wider">Email Address</label>
-                        <input suppressHydrationWarning type="email" name="email" required className="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-3 text-xs text-white focus:outline-none focus:border-amber-500 transition" placeholder="juan@example.com" />
+                        <input suppressHydrationWarning type="email" name="email" required className="w-full bg-slate-955 border border-slate-800 rounded-lg px-4 py-3 text-xs text-white focus:outline-none focus:border-amber-500 transition" placeholder="juan@example.com" />
                       </div>
                     </div>
                     <div>
                       <label className="block text-xs font-bold text-slate-400 uppercase mb-1.5 tracking-wider">Message or Question</label>
-                      <textarea name="message" rows={4} required className="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-3 text-xs text-white focus:outline-none focus:border-amber-500 transition" placeholder="How can our organization collaborate with the club?"></textarea>
+                      <textarea name="message" rows={4} required className="w-full bg-slate-955 border border-slate-800 rounded-lg px-4 py-3 text-xs text-white focus:outline-none focus:border-amber-500 transition" placeholder="How can our organization collaborate with the club?"></textarea>
                     </div>
                     <div className="w-full block">
                       <button suppressHydrationWarning type="submit" className="w-full bg-amber-500 hover:bg-amber-600 text-black font-black py-4 rounded-xl shadow-lg transition border-none cursor-pointer text-xs uppercase tracking-wider">Submit General Inquiry</button>
@@ -1861,22 +1680,22 @@ export default function Home() {
                     <div className="grid sm:grid-cols-2 gap-4">
                       <div>
                         <label className="block text-xs font-bold text-slate-400 uppercase mb-1.5 tracking-wider">Full Name</label>
-                        <input suppressHydrationWarning type="text" name="name" required className="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-3 text-xs text-white focus:outline-none focus:border-amber-500 transition" placeholder="Juan dela Cruz" />
+                        <input suppressHydrationWarning type="text" name="name" required className="w-full bg-slate-955 border border-slate-800 rounded-lg px-4 py-3 text-xs text-white focus:outline-none focus:border-amber-500 transition" placeholder="Juan dela Cruz" />
                       </div>
                       <div>
                         <label className="block text-xs font-bold text-slate-400 uppercase mb-1.5 tracking-wider">Contact Number</label>
-                        <input suppressHydrationWarning type="tel" name="phone" required className="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-3 text-xs text-white focus:outline-none focus:border-amber-500 transition" placeholder="+63 912 345 6789" />
+                        <input suppressHydrationWarning type="tel" name="phone" required className="w-full bg-slate-955 border border-slate-800 rounded-lg px-4 py-3 text-xs text-white focus:outline-none focus:border-amber-500 transition" placeholder="+63 912 345 6789" />
                       </div>
                     </div>
                     <div className="grid sm:grid-cols-1 gap-4">
                       <div>
                         <label className="block text-xs font-bold text-slate-400 uppercase mb-1.5 tracking-wider">Occupation</label>
-                        <input suppressHydrationWarning type="text" name="occupation" required className="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-3 text-xs text-white focus:outline-none focus:border-amber-500 transition" placeholder="Software Engineer / Business Owner" />
+                        <input suppressHydrationWarning type="text" name="occupation" required className="w-full bg-slate-955 border border-slate-800 rounded-lg px-4 py-3 text-xs text-white focus:outline-none focus:border-amber-500 transition" placeholder="Software Engineer / Business Owner" />
                       </div>
                     </div>
                     <div>
                       <label className="block text-xs font-bold text-slate-400 uppercase mb-1.5 tracking-wider">Why do you want to join us?</label>
-                      <textarea name="reason_to_join" rows={4} required className="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-3 text-xs text-white focus:outline-none focus:border-amber-500 transition" placeholder="Tell us about your motivation to service the community..."></textarea>
+                      <textarea name="reason_to_join" rows={4} required className="w-full bg-slate-955 border border-slate-800 rounded-lg px-4 py-3 text-xs text-white focus:outline-none focus:border-amber-500 transition" placeholder="Tell us about your motivation to service the community..."></textarea>
                     </div>
                     <div className="w-full block">
                       <button suppressHydrationWarning type="submit" className="w-full bg-amber-500 hover:bg-amber-600 text-black font-black py-4 rounded-xl shadow-lg transition border-none cursor-pointer text-xs uppercase tracking-wider">Submit Membership Request</button>
@@ -1890,7 +1709,7 @@ export default function Home() {
                     <div className="grid sm:grid-cols-2 gap-4">
                       <div>
                         <label className="block text-xs font-bold text-slate-400 uppercase mb-1.5 tracking-wider">Donor Name</label>
-                        <input suppressHydrationWarning type="text" name="donor" required className="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-3 text-xs text-white focus:outline-none focus:border-amber-500 transition" placeholder="Anonymous" />
+                        <input suppressHydrationWarning type="text" name="donor" required className="w-full bg-slate-955 border border-slate-800 rounded-lg px-4 py-3 text-xs text-white focus:outline-none focus:border-amber-500 transition" placeholder="Anonymous" />
                       </div>
                       <div>
                         <label className="block text-xs font-bold text-slate-400 uppercase mb-1.5 tracking-wider">Target Project Cause</label>
@@ -1899,7 +1718,7 @@ export default function Home() {
                           name="cause" 
                           value={selectedCause}
                           onChange={(e) => setSelectedCause(e.target.value)}
-                          className="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-3 text-xs text-slate-300 focus:outline-none focus:border-amber-500 transition bg-transparent"
+                          className="w-full bg-slate-955 border border-slate-800 rounded-lg px-4 py-3 text-xs text-slate-300 focus:outline-none focus:border-amber-500 transition bg-transparent"
                         >
                           <option value="disease-prevention">Disease Prevention & Treatment</option>
                           <option value="water-sanitation">Water, Sanitation, & Hygiene</option>
@@ -1920,7 +1739,7 @@ export default function Home() {
                           type="text" 
                           name="custom_cause" 
                           required 
-                          className="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-3 text-xs text-white focus:outline-none focus:border-amber-500 transition" 
+                          className="w-full bg-slate-955 border border-slate-800 rounded-lg px-4 py-3 text-xs text-white focus:outline-none focus:border-amber-500 transition" 
                           placeholder="Enter the custom project or initiative name..." 
                         />
                       </div>
@@ -1948,7 +1767,7 @@ export default function Home() {
                         name="receipt_attachment" 
                         required 
                         accept="image/png, image/jpeg, image/jpg"
-                        className="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-2.5 text-xs text-slate-400 focus:outline-none focus:border-amber-500 transition file:mr-4 file:py-1 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-bold file:bg-amber-50 file:text-black hover:file:bg-amber-600 file:cursor-pointer"
+                        className="w-full bg-slate-955 border border-slate-800 rounded-lg px-4 py-2.5 text-xs text-slate-400 focus:outline-none focus:border-amber-500 transition file:mr-4 file:py-1 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-bold file:bg-amber-50 file:text-black hover:file:bg-amber-600 file:cursor-pointer"
                       />
                     </div>
 
@@ -1961,8 +1780,7 @@ export default function Home() {
             </div>
           </section>
 
-          {/* 8. FOOTER */}
-          <footer className="bg-black text-white py-12 px-6 border-t border-neutral-800 text-xs sm:text-sm">
+          <section id="footer-details" className="bg-black text-white py-12 px-6 border-t border-neutral-800 text-xs sm:text-sm">
             <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6 text-center md:text-left">
               <div>
                 <h4 className="font-bold text-base text-white">Rotary Club of Meycauayan Metro</h4>
@@ -1980,15 +1798,13 @@ export default function Home() {
               </div>
               <div className="text-neutral-400">© {new Date().getFullYear()} All Rights Reserved. Service Above Self.</div>
             </div>
-          </footer>
+          </section>
 
-          {/* 9. FLOATING BACK TO TOP */}
-          <a href="#top" onClick={(e) => scrollToSection(e, 'top')} className={`fixed bottom-4 right-4 sm:bottom-6 sm:right-6 bg-amber-500 text-black w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center shadow-xl z-50 transition-all duration-300 transform font-bold text-lg sm:text-xl select-none ${showScrollButton ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-4 scale-75 pointer-events-none'}`} title="Scroll to Top">↑</a>
+          <a href="#top" onClick={(e) => scrollToSection(e, 'top')} className={`fixed bottom-4 right-4 sm:bottom-6 sm:right-6 bg-amber-500 text-black w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center shadow-xl z-50 transition-all duration-300 transform font-bold text-lg sm:text-xl select-none ${showScrollButton ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-4 scale-75 pointer-events-none'}`} title="Scroll to Top">&uarr;</a>
 
-          {/* DOCUMENT PORTAL LIGHTBOXES */}
           {selectedActivity && (
             <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 overflow-hidden animate-fadeIn">
-              <div onClick={() => setSelectedActivity(null)} className="absolute inset-0 bg-black/75 backdrop-blur-md cursor-pointer transition-opacity duration-300" />
+              <div onClick={() => setSelectedActivity(null)} className="absolute inset-0 bg-black/77 backdrop-blur-md cursor-pointer transition-opacity duration-300" />
               <div className="bg-white text-neutral-800 rounded-[32px] w-full max-w-6xl h-[85vh] shadow-2xl relative z-10 border border-neutral-200 flex flex-col animate-scaleUp overflow-hidden">
                 <div className="bg-white border-b border-neutral-100 px-6 sm:px-10 py-6 flex justify-between items-center shrink-0">
                   <div className="space-y-0.5">
@@ -2012,7 +1828,7 @@ export default function Home() {
                       </div>
                       <div className="pt-4 border-t border-neutral-100 space-y-4 bg-white relative">
                         <div className="flex items-center justify-between gap-3">
-                          <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-neutral-400">📤 Distribute This Document Ledger Node:</span>
+                          <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-neutral-450">📤 Distribute This Document Ledger Node:</span>
                           <div className="relative inline-block text-left w-full sm:w-auto" ref={shareMenuRef}>
                             <button onClick={() => setIsShareMenuOpen(!isShareMenuOpen)} className="w-full sm:w-48 px-5 py-2.5 bg-amber-500 hover:bg-amber-600 text-black font-black uppercase tracking-wider rounded-xl transition duration-200 border-none cursor-pointer shadow-md flex items-center justify-center gap-2 select-none relative">
                               <span className="flex-1 text-center pl-4">Share</span>
@@ -2031,7 +1847,7 @@ export default function Home() {
                           <div>
                             <span className="text-[9px] font-mono font-bold text-neutral-400 uppercase tracking-widest block mb-0.5">Operations State</span>
                             {selectedActivity.type === 'News' ? (
-                              <span className="text-xs font-extrabold uppercase tracking-wide border border-blue-200 bg-blue-500/5 text-blue-700 px-2.5 py-1 rounded-md inline-block">Published</span>
+                              <span className="text-xs font-extrabold uppercase tracking-wide border border-blue-200 bg-blue-55 text-blue-700 px-2.5 py-1 rounded-md inline-block">Published</span>
                             ) : (
                               <span className={`text-xs font-extrabold uppercase tracking-wide border px-2.5 py-1 rounded-md inline-block ${selectedActivity.status === 'Completed' ? 'text-emerald-700 bg-emerald-500/5 border-emerald-500/20' : 'text-amber-700 bg-amber-500/5 border-amber-500/20'}`}>{selectedActivity.status}</span>
                             )}
@@ -2081,8 +1897,8 @@ export default function Home() {
               <div className="absolute bottom-6 bg-black/60 backdrop-blur-md px-6 py-2.5 border border-white/10 rounded-full text-white/80 text-xs font-mono tracking-wider shadow-md select-none pointer-events-none">{selectedActivity.title} • Media File View</div>
             </div>
           )}
-        </>
-      )}
+        {/* )} */}
+      </>
 
     </main>
   );
